@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.WebApi", "Less.WebApi\Less.WebApi.csproj", "{FC09753B-0880-4826-B7A2-018B258343B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.DalCore", "Less.DalCore\Less.DalCore.csproj", "{A7EE9425-CBAC-4930-892B-0147B75F62C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FC09753B-0880-4826-B7A2-018B258343B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC09753B-0880-4826-B7A2-018B258343B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC09753B-0880-4826-B7A2-018B258343B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7EE9425-CBAC-4930-892B-0147B75F62C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7EE9425-CBAC-4930-892B-0147B75F62C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7EE9425-CBAC-4930-892B-0147B75F62C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7EE9425-CBAC-4930-892B-0147B75F62C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

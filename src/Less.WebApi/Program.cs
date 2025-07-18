@@ -2,10 +2,6 @@ using Serilog;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .WriteTo.File("./logs/log-.txt", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
-    .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", Serilog.Events.LogEventLevel.Warning)
-    .MinimumLevel.Override("Microsoft.AspNetCore.Routing", Serilog.Events.LogEventLevel.Warning)
-    .MinimumLevel.Override("EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Warning)
     .CreateLogger();
 
 try
@@ -14,10 +10,10 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSerilog();
-    //builder.Services.AddSerilog((services, lc) => lc
-    //    .ReadFrom.Configuration(builder.Configuration)
-    //    .ReadFrom.Services(services)
-    //    .Enrich.FromLogContext());
+    builder.Services.AddSerilog((services, lc) => lc
+        .ReadFrom.Configuration(builder.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext());
 
     // Add services to the container.
     builder.Services.AddControllers();
