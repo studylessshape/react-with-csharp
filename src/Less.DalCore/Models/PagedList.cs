@@ -17,11 +17,11 @@ namespace Less.DalCore.Models
 
         public bool HasNextPage => PageIndex < TotalPages;
 
-        public PagedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
+        public PagedList(IEnumerable<T> items, int total, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
-            TotalCounts = count;
-            TotalPages = (int)Math.Ceiling((double)count / (double)pageSize);
+            TotalCounts = total;
+            TotalPages = (int)Math.Ceiling((double)total / (double)pageSize);
             PageSize = pageSize;
             AddRange(items);
         }

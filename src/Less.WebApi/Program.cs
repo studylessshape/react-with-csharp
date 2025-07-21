@@ -1,8 +1,6 @@
+using Less.DalCore;
+using Less.WebApi.Dal;
 using Serilog;
-
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateLogger();
 
 try
 {
@@ -13,29 +11,37 @@ try
     builder.Services.AddSerilog((services, lc) => lc
         .ReadFrom.Configuration(builder.Configuration)
         .ReadFrom.Services(services)
-        .Enrich.FromLogContext());
+        .Enrich.FromLogContext()
+        .WriteTo.Console());
 
     // Add services to the container.
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.AddCoreDal(builder.Configuration);
+    builder.Services.AddCors();
 
     var app = builder.Build();
-    app.UseSerilogRequestLogging(); // <-- Add this line
+    app.Services.EnsureDbContextCreate<CoreDbContext>();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseDeveloperExceptionPage();
     }
 
-    app.UseHttpsRedirection();
+    app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
-    app.UseAuthorization();
+    //app.UseHttpsRedirection();
+    app.UseRouting();
 
     app.MapControllers();
+
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
     app.Run();
 }
