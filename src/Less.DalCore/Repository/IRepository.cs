@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Less.DalCore.Repository
 {
-    public interface IBaseRepository<TEntity, TKey>
+    public interface IRepository<TEntity, TKey>
         where TEntity : class
     {
         Task<TEntity> AddAsync(TEntity entity, bool save);
@@ -16,6 +16,7 @@ namespace Less.DalCore.Repository
         Task<int> UpdateAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, Expression<Func<TEntity, TEntity>> updateExpresion, bool save);
         Task DeleteAsync(TEntity entity, bool save);
         Task DeleteRangeAsync(IEnumerable<TEntity> entities, bool save);
+        Task<TEntity?> FirstOrDefaultAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryMap);
         /// <summary>
         /// 根据 <paramref name="id"/> 查找
         /// </summary>

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFrameworks>netstandard2.0;netstandard2.1;net6;net8</TargetFrameworks>
+      <LangVersion>8.0</LangVersion>
+      <Nullable>enable</Nullable>
+      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+      <Title>Less.Auth</Title>
+      <Authors>studylessshape</Authors>
+      <RepositoryUrl>https://github.com/studylessshape/react-with-csharp/tree/master/src/Less.Auth</RepositoryUrl>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+  </ItemGroup>
+
+</Project>

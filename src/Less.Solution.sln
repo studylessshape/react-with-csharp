@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.WebApi", "Less.WebApi\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.DalCore", "Less.DalCore\Less.DalCore.csproj", "{A7EE9425-CBAC-4930-892B-0147B75F62C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.Auth", "Less.Auth\Less.Auth.csproj", "{5BB09C52-6F31-89FE-7837-B2AD11F37ABD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.Auth.Dal", "Less.Auth.Dal\Less.Auth.Dal.csproj", "{2DD5E73B-E13C-4945-AEB2-614EB314B89F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{A7EE9425-CBAC-4930-892B-0147B75F62C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7EE9425-CBAC-4930-892B-0147B75F62C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7EE9425-CBAC-4930-892B-0147B75F62C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB09C52-6F31-89FE-7837-B2AD11F37ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB09C52-6F31-89FE-7837-B2AD11F37ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB09C52-6F31-89FE-7837-B2AD11F37ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB09C52-6F31-89FE-7837-B2AD11F37ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD5E73B-E13C-4945-AEB2-614EB314B89F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD5E73B-E13C-4945-AEB2-614EB314B89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD5E73B-E13C-4945-AEB2-614EB314B89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD5E73B-E13C-4945-AEB2-614EB314B89F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

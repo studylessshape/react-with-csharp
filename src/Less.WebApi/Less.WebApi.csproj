@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+    <Folder Include="TestDb\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestDb\" />
+    <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,13 +9,13 @@ using Z.EntityFramework.Plus;
 
 namespace Less.DalCore.Repository
 {
-    public class BaseRepository<TDbContext, TEntity, TKey> : IBaseRepository<TEntity, TKey>
+    public class BaseRepository<TDbContext, TEntity, TKey> : IRepository<TEntity, TKey>
         where TEntity : class
         where TDbContext : DbContext
     {
         private readonly TDbContext dbContext;
         private DbSet<TEntity>? _dbsetPrv;
-        private DbSet<TEntity> EntitySet => _dbsetPrv ??= dbContext.Set<TEntity>();
+        protected DbSet<TEntity> EntitySet => _dbsetPrv ??= dbContext.Set<TEntity>();
 
         public BaseRepository(TDbContext dbContext)
         {
@@ -61,6 +61,11 @@ namespace Less.DalCore.Repository
         {
             EntitySet.RemoveRange(entities);
             if (save) await SaveChangesAsync();
+        }
+
+        public async Task<TEntity?> FirstOrDefaultAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryMap)
+        {
+            return await queryMap(EntitySet).FirstOrDefaultAsync();
         }
 
         public async Task<TEntity?> FindAsync(TKey id)
