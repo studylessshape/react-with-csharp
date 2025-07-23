@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Less.Auth.Claims;
+using Less.Auth.UserClaims;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Less.Auth.Users
@@ -27,7 +30,8 @@ namespace Less.Auth.Users
         public int Status { get; set; }
         [Description("备注")]
         public string? Remark { get; set; }
-
         public string Salt { get; set; } = "";
+
+        public virtual IList<UserClaim> UserClaims { get; } = new List<UserClaim>();
     }
 }

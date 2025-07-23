@@ -1,7 +1,6 @@
 ﻿using Less.Auth.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace Less.Auth.Dal.Users
 {
@@ -14,7 +13,7 @@ namespace Less.Auth.Dal.Users
             builder.HasIndex(u => u.Code).IsUnique();
             builder.HasData(new User()
             {
-                Id = Guid.NewGuid(),
+                Id = UserDefines.SYSTEM_GUID.ToGuid(),
                 Name = "系统管理员",
                 Code = "systemcode",
                 Account = "system",
@@ -23,7 +22,7 @@ namespace Less.Auth.Dal.Users
             },
             new User()
             {
-                Id = Guid.NewGuid(),
+                Id = UserDefines.ADMIN_GUID.ToGuid(),
                 Name = "管理员",
                 Code = "admincode",
                 Account = "admin",
@@ -32,7 +31,7 @@ namespace Less.Auth.Dal.Users
             },
             new User()
             {
-                Id = Guid.NewGuid(),
+                Id = UserDefines.OPERATOR_GUID.ToGuid(),
                 Name = "操作员",
                 Code = "operatorcode",
                 Account = "operator",

@@ -9,20 +9,38 @@ using Z.EntityFramework.Plus;
 
 namespace Less.DalCore.Repository
 {
+    /// <summary>
+    /// <para>Provide the basic implement for <see cref="IRepository{TEntity, TKey}"/>.</para>
+    /// <para>And provide <see cref="dbContext"/> and <see cref="EntitySet"/></para>
+    /// </summary>
+    /// <typeparam name="TDbContext"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
     public class BaseRepository<TDbContext, TEntity, TKey> : IRepository<TEntity, TKey>
         where TEntity : class
         where TDbContext : DbContext
     {
-        private readonly TDbContext dbContext;
+        /// <summary>
+        /// DbContext for this repo
+        /// </summary>
+        protected readonly TDbContext dbContext;
         private DbSet<TEntity>? _dbsetPrv;
+        /// <summary>
+        /// which entity this repo serve
+        /// </summary>
         protected DbSet<TEntity> EntitySet => _dbsetPrv ??= dbContext.Set<TEntity>();
 
+        /// <summary>
+        /// initialize by dbContext
+        /// </summary>
+        /// <param name="dbContext"></param>
         public BaseRepository(TDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity, bool save)
+        /// <inheritdoc />
+        public async Task<TEntity> AddAsync(TEntity entity, bool save = true)
         {
             var addEntity = EntitySet.Add(entity);
             if (save) await SaveChangesAsync();
@@ -30,19 +48,28 @@ namespace Less.DalCore.Repository
             return addEntity.Entity;
         }
 
-        public async Task AddRangeAsync(IEnumerable<TEntity> entities, bool save)
+        /// <inheritdoc />
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities, bool save = true)
         {
             EntitySet.AddRange(entities);
             if (save) await SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(TEntity entity, bool save)
+        /// <inheritdoc />
+        public async Task UpdateAsync(TEntity entity, bool save = true)
         {
             EntitySet.Update(entity);
             if (save) await SaveChangesAsync();
         }
 
-        public async Task<int> UpdateAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, Expression<Func<TEntity, TEntity>> updateExpresion, bool save)
+        /// <summary>
+        /// update from query by <see cref="Z.EntityFramework.Plus.BatchUpdateExtensions.UpdateAsync{T}(IQueryable{T}, Expression{Func{T, T}}, System.Threading.CancellationToken)"/>
+        /// </summary>
+        /// <param name="mapQuery"></param>
+        /// <param name="updateExpresion"></param>
+        /// <param name="save"></param>
+        /// <returns></returns>
+        public async Task<int> UpdateAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, Expression<Func<TEntity, TEntity>> updateExpresion, bool save = true)
         {
             var query = mapQuery(EntitySet);
             var affect = await query.UpdateAsync(updateExpresion);
@@ -51,28 +78,48 @@ namespace Less.DalCore.Repository
             return affect;
         }
 
-        public async Task DeleteAsync(TEntity entity, bool save)
+        /// <inheritdoc />
+        public async Task DeleteAsync(TEntity entity, bool save = true)
         {
             EntitySet.Remove(entity);
             if (save) await SaveChangesAsync();
         }
 
-        public async Task DeleteRangeAsync(IEnumerable<TEntity> entities, bool save)
+        /// <inheritdoc />
+        public async Task DeleteRangeAsync(IEnumerable<TEntity> entities, bool save = true)
         {
             EntitySet.RemoveRange(entities);
             if (save) await SaveChangesAsync();
         }
 
+        /// <summary>
+        /// delete query result by <see cref="Z.EntityFramework.Plus.BatchDeleteExtensions.DeleteAsync{T}(IQueryable{T}, System.Threading.CancellationToken)"/>
+        /// </summary>
+        /// <param name="mapQuery"></param>
+        /// <param name="save"></param>
+        /// <returns></returns>
+        public async Task<int> DeleteAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, bool save = true)
+        {
+            var query = mapQuery(EntitySet);
+            var affect = await query.DeleteAsync();
+            if (save) await SaveChangesAsync();
+
+            return affect;
+        }
+
+        /// <inheritdoc />
         public async Task<TEntity?> FirstOrDefaultAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryMap)
         {
             return await queryMap(EntitySet).FirstOrDefaultAsync();
         }
 
+        /// <inheritdoc />
         public async Task<TEntity?> FindAsync(TKey id)
         {
             return await EntitySet.FindAsync(id);
         }
 
+        /// <inheritdoc />
         public async Task<IList<TEntity>> ListAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map = null)
         {
             var query = EntitySet.AsQueryable();
@@ -83,6 +130,7 @@ namespace Less.DalCore.Repository
             return await query.ToListAsync();
         }
 
+        /// <inheritdoc />
         public async Task<PagedList<TEntity>> PaginateAsync(int pageIndex, int pageSize, Func<IQueryable<TEntity>, IQueryable<TEntity>>? mapQuery = null, Func<IQueryable<TEntity>, Task<int>>? countRowsAsync = null)
         {
             if (pageIndex <= 0) throw new ArgumentException("pageIndex must be greater than zero!", nameof(pageIndex));
@@ -96,6 +144,7 @@ namespace Less.DalCore.Repository
             return new PagedList<TEntity>(result, total, pageIndex, pageSize);
         }
 
+        /// <inheritdoc />
         public async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();

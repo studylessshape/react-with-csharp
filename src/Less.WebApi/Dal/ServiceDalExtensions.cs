@@ -1,4 +1,5 @@
-﻿using Less.DalCore;
+﻿using Less.Auth.Dal;
+using Less.DalCore;
 using Less.DalCore.EntityConfiguration;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ namespace Less.WebApi.Dal
                     sqliteOpts.MigrationsAssembly(typeof(ServiceDalExtensions).Assembly.GetName().Name);
                 });
             });
+            services.AddAuthDal<CoreDbContext>();
             services.AddEntityConfiguration<CoreDbContext, TestEntity>(new TestEntityConfiguration(), 100);
             services.AddScoped<TestEntityRepo>();
 

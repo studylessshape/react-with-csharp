@@ -23,5 +23,19 @@ namespace Less.DalCore.EntityConfiguration
             services.AddSingleton(holder);
             return services;
         }
+
+        public static IServiceCollection AddEntityConfiguration<TDbContext, TEntity, TEntityConfiguration>(this IServiceCollection services, int priority)
+            where TDbContext : DbContext
+            where TEntity : class
+            where TEntityConfiguration : class, IEntityTypeConfiguration<TEntity>
+        {
+            services.AddTransient<TEntityConfiguration>();
+            services.AddSingleton(provider =>
+            {
+                var configuration = provider.GetRequiredService<TEntityConfiguration>();
+                return EntityConfigurationHolderFactory.Create<TDbContext, TEntity>(configuration, priority);
+            });
+            return services;
+        }
     }
 }

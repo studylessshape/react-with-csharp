@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+    <ProjectReference Include="..\Core\Less.Auth.Dal\Less.Auth.Dal.csproj" />
   </ItemGroup>
 
 </Project>

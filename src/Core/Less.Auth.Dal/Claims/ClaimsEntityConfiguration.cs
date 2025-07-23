@@ -7,31 +7,38 @@ namespace Less.Auth.Dal.Claims
 {
     public class ClaimsEntityConfiguration : IEntityTypeConfiguration<ClaimEntity>
     {
+        public const string SYSTEM_ROLE = "System";
         public void Configure(EntityTypeBuilder<ClaimEntity> builder)
         {
             builder.ToTable("less_claims");
             builder.HasIndex(c => new { c.ClaimType, c.ClaimValue });
-
+            var idInc = 1;
             ClaimEntity[] claims = new ClaimEntity[]
             {
                 new ClaimEntity()
                 {
-                    Id = 1,
+                    Id = idInc ++,
                     ClaimType = ClaimTypes.Role,
-                    ClaimValue = "System"
+                    ClaimValue = ClaimDefines.ROLE_ALL,
                 },
                 new ClaimEntity()
                 {
-                    Id = 2,
+                    Id = idInc ++,
                     ClaimType = ClaimTypes.Role,
-                    ClaimValue = "Admin"
+                    ClaimValue = ClaimDefines.ROLE_SYSTEM
                 },
                 new ClaimEntity()
                 {
-                    Id = 3,
+                    Id = idInc ++,
                     ClaimType = ClaimTypes.Role,
-                    ClaimValue = "Operator"
-                }
+                    ClaimValue = ClaimDefines.ROLE_ADMIN
+                },
+                new ClaimEntity()
+                {
+                    Id = idInc ++,
+                    ClaimType = ClaimTypes.Role,
+                    ClaimValue = ClaimDefines.ROLE_OPERATOR
+                },
             };
         }
     }

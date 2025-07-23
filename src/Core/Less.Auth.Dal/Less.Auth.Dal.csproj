@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6;net8</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Less.Auth.Dal</Title>
+    <Authors>studylessshape</Authors>
+    <RepositoryUrl>https://github.com/studylessshape/react-with-csharp/tree/master/src/Less.Auth.Dal</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Less.Auth\Less.Auth.csproj" />
+    <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Claims\ClaimDefines.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClaimDefines.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Users\UserDefines.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UserDefines.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Claims\ClaimDefines.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ClaimDefines.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Users\UserDefines.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserDefines.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
