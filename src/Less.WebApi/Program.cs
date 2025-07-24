@@ -7,7 +7,6 @@ try
     Log.Information("Starting web application");
 
     var builder = WebApplication.CreateBuilder(args);
-    builder.Services.AddSerilog();
     builder.Services.AddSerilog((services, lc) => lc
         .ReadFrom.Configuration(builder.Configuration)
         .ReadFrom.Services(services)

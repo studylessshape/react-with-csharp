@@ -11,7 +11,7 @@ namespace Less.Auth.Users
         public const int ENABLE_STATUS = 0;
         public const int DISABLE_STATUS = -1;
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Description("账号")]
         public string Account { get; set; } = "";
         [Description("账号代码")]
@@ -23,7 +23,7 @@ namespace Less.Auth.Users
         [Description("邮箱")]
         public string? Email { get; set; }
         [Description("电话")]
-        public string? Phone { get; set; }
+        public string? PhoneNum { get; set; }
         [Description("性别")]
         public int Sex { get; set; }
         [Description("用户状态")]

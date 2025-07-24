@@ -28,6 +28,20 @@ namespace Less.Auth.Dal.Users
             });
         }
 
+        public Task<User?> FirstByAccountAsync(string account, string password, bool includeDisableUser = false)
+        {
+            return FirstOrDefaultAsync(query =>
+            {
+                var resQuery = query.Where(u => u.Account == account && u.Password == password);
+                if (!includeDisableUser)
+                {
+                    resQuery = resQuery.Where(u => u.Status == User.ENABLE_STATUS);
+                }
+
+                return resQuery;
+            });
+        }
+
         public Task<User?> FirstByCodeAsync(string code, bool includeDisableUser = false)
         {
             return FirstOrDefaultAsync(query =>

@@ -61,6 +61,30 @@ namespace Less.DalCore.Repository
         /// <returns></returns>
         Task<int> DeleteAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, bool save = true);
         /// <summary>
+        /// Same as Any
+        /// </summary>
+        /// <param name="mapQuery"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> condition);
+        /// <summary>
+        /// Same as Any
+        /// </summary>
+        /// <param name="mapQuery"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery);
+        /// <summary>
+        /// Same as All
+        /// </summary>
+        /// <param name="mapQuery"></param>
+        /// <returns></returns>
+        Task<bool> AllAsync(Expression<Func<TEntity, bool>> condition);
+        /// <summary>
+        /// find first entity. it will return <see langword="null"/> if not have
+        /// </summary>
+        /// <param name="queryMap"></param>
+        /// <returns></returns>
+        Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> condition);
+        /// <summary>
         /// find first entity. it will return <see langword="null"/> if not have
         /// </summary>
         /// <param name="queryMap"></param>

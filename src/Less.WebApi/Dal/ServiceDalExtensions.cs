@@ -18,7 +18,7 @@ namespace Less.WebApi.Dal
                     sqliteOpts.MigrationsAssembly(typeof(ServiceDalExtensions).Assembly.GetName().Name);
                 });
             });
-            services.AddAuthDal<CoreDbContext>();
+            services.AddAuthDalWithDefault<CoreDbContext>();
             services.AddEntityConfiguration<CoreDbContext, TestEntity>(new TestEntityConfiguration(), 100);
             services.AddScoped<TestEntityRepo>();
 

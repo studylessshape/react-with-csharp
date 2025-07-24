@@ -11,7 +11,9 @@
   </PropertyGroup>
     
   <ItemGroup>
+    <ProjectReference Include="..\..\Less.Api.Core\Less.Api.Core.csproj" />
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+    <PackageReference Include="Less.Utils" Version="1.0.3" />
   </ItemGroup>
 
 </Project>

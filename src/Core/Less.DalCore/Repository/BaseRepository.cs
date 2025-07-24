@@ -108,6 +108,12 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
+        public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> condition)
+        {
+            return await EntitySet.FirstOrDefaultAsync(condition);
+        }
+
+        /// <inheritdoc />
         public async Task<TEntity?> FirstOrDefaultAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryMap)
         {
             return await queryMap(EntitySet).FirstOrDefaultAsync();
@@ -148,6 +154,25 @@ namespace Less.DalCore.Repository
         public async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();
+        }
+
+        /// <inheritdoc />
+        public Task<bool> AnyAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery)
+        {
+            var query = mapQuery(EntitySet);
+            return query.AnyAsync();
+        }
+
+        /// <inheritdoc />
+        public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> condition)
+        {
+            return EntitySet.AnyAsync(condition);
+        }
+
+        /// <inheritdoc />
+        public Task<bool> AllAsync(Expression<Func<TEntity, bool>> condition)
+        {
+            return EntitySet.AllAsync(condition);
         }
     }
 }

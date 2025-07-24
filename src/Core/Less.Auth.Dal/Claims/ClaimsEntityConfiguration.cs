@@ -40,6 +40,7 @@ namespace Less.Auth.Dal.Claims
                     ClaimValue = ClaimDefines.ROLE_OPERATOR
                 },
             };
+            builder.HasData(claims);
         }
     }
 }

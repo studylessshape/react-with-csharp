@@ -6,11 +6,14 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <AppLayout
-        menu={[{ key: 1, path: "/", name: "Home" }, {
-          key: 2,
-          path: "/about",
-          name: "About",
-        }]}
+        menu={[
+          { key: 1, path: "/", name: "Home" },
+          {
+            key: 2,
+            path: "/about",
+            name: "About",
+          },
+        ]}
       >
         <Outlet />
       </AppLayout>

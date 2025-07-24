@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>netstandard2.0;netstandard2.1;net6;net8</TargetFrameworks>
+	  <LangVersion>9.0</LangVersion>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Less.Utils" Version="1.0.3" />
+  </ItemGroup>
+
+</Project>
