@@ -1,9 +1,7 @@
-﻿using Less.Auth.Claims;
-using Less.Auth.Users;
+﻿using Less.Auth.Users;
 using Less.DalCore.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +14,7 @@ namespace Less.Auth.Dal.Users
         {
         }
 
-        public Task<User?> FirstByAccountAsync(string account, bool includeDisableUser = false)
+        public Task<User?> FirstByAccountAsync(string account, bool includeDisableUser = false, bool includeClaims = false)
         {
             return FirstOrDefaultAsync(query =>
             {
@@ -24,6 +22,11 @@ namespace Less.Auth.Dal.Users
                 if (!includeDisableUser)
                 {
                     resQuery = resQuery.Where(u => u.Status == User.ENABLE_STATUS);
+                }
+
+                if (includeClaims)
+                {
+                    resQuery = resQuery.Include(u => u.UserClaims);
                 }
 
                 return resQuery;

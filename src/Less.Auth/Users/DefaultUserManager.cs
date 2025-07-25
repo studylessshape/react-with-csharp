@@ -133,12 +133,17 @@ namespace Less.Auth.Users
             return None.Ok<string>();
         }
 
-        public async Task<IList<Claim>> LoadClaimsAsync(string account)
+        public async Task<IList<Claim>?> LoadClaimsAsync(string account)
         {
+            var user = await userRepo.FirstByAccountAsync(account, includeClaims: true);
+            if (user == null)
+            {
+                return null;
+            }
+
             var claims = new List<Claim>();
-            claims.AddRange((await claimRepo.GetClaimsAsync(account)).Select(c => new Claim(c.ClaimType, c.ClaimValue)));
+            claims.AddRange((await claimRepo.ListAsync(query => query.Where(c => user.UserClaims.Any(uc => uc.ClaimEntityId == c.Id)))).Select(c => new Claim(c.ClaimType, c.ClaimValue)));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, account));
-            claims.Add(new Claim(ClaimsIdentity.DefaultNameClaimType, account));
             var claimRole = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
             claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, claimRole?.Value ?? "All"));
             return claims;

@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filter\" />
+  </ItemGroup>
+
 </Project>
