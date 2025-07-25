@@ -1,11 +1,10 @@
-﻿using Less.Auth.FeatResources;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Less.Auth.Dal.FeatResources
+namespace Less.Auth.FeatResources
 {
     internal class DefaultFeatResourceClaimParser : IFeatResourceClaimParser
     {

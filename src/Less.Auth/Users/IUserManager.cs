@@ -1,6 +1,9 @@
 ﻿using Less.Api.Core;
 using Less.Utils;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -11,7 +14,9 @@ namespace Less.Auth.Users
         public string Accout { get; } = "";
         public string? Name { get; }
         public string? Code { get; }
+        [EmailAddress]
         public string? Email { get; }
+        [Phone]
         public string? PhoneNum { get; }
         public string? Remark { get; }
     }

@@ -9,11 +9,16 @@
       <Authors>studylessshape</Authors>
       <RepositoryUrl>https://github.com/studylessshape/react-with-csharp/tree/master/src/Less.Auth</RepositoryUrl>
   </PropertyGroup>
-    
+	
+    <ItemGroup>
+		<PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.1" />
+		<PackageReference Include="Less.Utils.ResultExtensions" Version="1.0.4" />
+	</ItemGroup>
+	
   <ItemGroup>
-    <ProjectReference Include="..\..\Less.Api.Core\Less.Api.Core.csproj" />
+    <ProjectReference Include="..\Less.Api.Core\Less.Api.Core.csproj" />
+    <ProjectReference Include="..\Less.Api.Core\Less.Api.Core.csproj" />
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
-    <PackageReference Include="Less.Utils" Version="1.0.3" />
   </ItemGroup>
 
 </Project>

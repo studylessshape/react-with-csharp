@@ -20,24 +20,27 @@ namespace Less.Auth.Dal.Claims
                     Id = idInc ++,
                     ClaimType = ClaimTypes.Role,
                     ClaimValue = ClaimDefines.ROLE_ALL,
+                    CanBeDeleted = false,
                 },
                 new ClaimEntity()
                 {
                     Id = idInc ++,
                     ClaimType = ClaimTypes.Role,
-                    ClaimValue = ClaimDefines.ROLE_SYSTEM
+                    ClaimValue = ClaimDefines.ROLE_SYSTEM,
+                    CanBeDeleted = false,
                 },
                 new ClaimEntity()
                 {
                     Id = idInc ++,
                     ClaimType = ClaimTypes.Role,
-                    ClaimValue = ClaimDefines.ROLE_ADMIN
+                    ClaimValue = ClaimDefines.ROLE_ADMIN,
+                    CanBeDeleted = false,
                 },
                 new ClaimEntity()
                 {
                     Id = idInc ++,
                     ClaimType = ClaimTypes.Role,
-                    ClaimValue = ClaimDefines.ROLE_OPERATOR
+                    ClaimValue = ClaimDefines.ROLE_OPERATOR,
                 },
             };
             builder.HasData(claims);

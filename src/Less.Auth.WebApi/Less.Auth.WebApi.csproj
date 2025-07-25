@@ -4,11 +4,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Less.Auth\Less.Auth.csproj" />
     <ProjectReference Include="..\Less.Api.Core\Less.Api.Core.csproj" />
+    <ProjectReference Include="..\Less.Auth.Dal\Less.Auth.Dal.csproj" />
+    <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,9 @@
+using Less.Auth.WebApi;
 using Less.DalCore;
 using Less.WebApi.Dal;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
+using System.Text.Json.Serialization;
 
 try
 {
@@ -14,10 +17,17 @@ try
         .WriteTo.Console());
 
     // Add services to the container.
-    builder.Services.AddControllers();
+    builder.Services.AddControllers()
+        .AddJsonOptions(opts =>
+        {
+            opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        })
+        .AddLessAuthControllerWithCookies();
+
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
     builder.Services.AddCoreDal(builder.Configuration);
     builder.Services.AddCors();
 
@@ -36,6 +46,9 @@ try
 
     //app.UseHttpsRedirection();
     app.UseRouting();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     app.MapControllers();
 

@@ -1,6 +1,5 @@
 ﻿using Less.Auth.Dal;
 using Less.DalCore;
-using Less.DalCore.EntityConfiguration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Less.WebApi.Dal
@@ -19,8 +18,6 @@ namespace Less.WebApi.Dal
                 });
             });
             services.AddAuthDalWithDefault<CoreDbContext>();
-            services.AddEntityConfiguration<CoreDbContext, TestEntity>(new TestEntityConfiguration(), 100);
-            services.AddScoped<TestEntityRepo>();
 
             return services;
         }

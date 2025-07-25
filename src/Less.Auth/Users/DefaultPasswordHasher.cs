@@ -1,9 +1,8 @@
 ﻿using Konscious.Security.Cryptography;
-using Less.Auth.Users;
 using System;
 using System.Text;
 
-namespace Less.Auth.Dal.Users
+namespace Less.Auth.Users
 {
     /// <summary>
     /// Hash password by Argon2
@@ -30,7 +29,11 @@ namespace Less.Auth.Dal.Users
         {
             var argon2 = BuildArgon(password, salt);
 
-            return Encoding.UTF8.GetString(argon2.GetBytes(128)); // get bytes of length 128
+#if NET6_0_OR_GREATER
+            return Convert.ToHexString(argon2.GetBytes(128)); // get bytes of length 128
+#else
+            return BitConverter.ToString(argon2.GetBytes(128)).Replace("-", ""); // get bytes of length 128
+#endif
         }
 
         /// <inheritdoc />

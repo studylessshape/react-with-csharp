@@ -2,7 +2,6 @@
 using Less.Auth.Users;
 using Less.DalCore.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,14 +15,17 @@ namespace Less.Auth.Dal.Claims
         {
         }
 
-        public async Task<IList<ClaimEntity>> GetClaimsAsync(Guid userId)
+        public Task<IList<ClaimEntity>> GetClaimsAsync(string accout)
         {
-            return await ListAsync(query => query.Include(c => c.UserClaims).Where(c => c.UserClaims.Any(uc => uc.UserId == userId)));
+            return ListAsync(query => query.Include(c => c.UserClaims)
+                                           .ThenInclude(uc => uc.User)
+                                           .Where(c => c.UserClaims.Any(uc => uc.User!.Account == accout)));
         }
 
         public Task<IList<ClaimEntity>> GetClaimsAsync(User user)
         {
-            return GetClaimsAsync(user.Id);
+            return ListAsync(query => query.Include(c => c.UserClaims)
+                                           .Where(c => c.UserClaims.Any(uc => uc.UserId == user.Id)));
         }
     }
 }

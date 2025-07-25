@@ -1,6 +1,10 @@
 ﻿using Less.Auth.FeatResources;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Less.Auth.Dal.FeatResources
@@ -19,7 +23,8 @@ namespace Less.Auth.Dal.FeatResources
             builder.ToTable("less_feat_resources");
             builder.HasIndex(f => f.Name).IsUnique();
             builder.Property(f => f.AllowClaims)
-                .HasConversion(claims => claimParser.ClaimsToString(claims), provider => claimParser.StringToClaims(provider));
+                   .HasConversion(claims => claimParser.ClaimsToString(claims),
+                                  provider => claimParser.StringToClaims(provider));
             var resources = new FeatResource[]
             {
                 new FeatResource()
