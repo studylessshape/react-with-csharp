@@ -1,6 +1,7 @@
 ﻿using Less.Auth.FeatResources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 
 namespace Less.Auth.Dal.FeatResources
 {

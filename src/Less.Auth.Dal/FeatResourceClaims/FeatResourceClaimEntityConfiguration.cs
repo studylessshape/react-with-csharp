@@ -23,7 +23,7 @@ namespace Less.Auth.Dal.FeatResourceClaims
                                                 ClaimEntityId = claimEntity.Id,
                                                 FeatResourceId = featResource.Id,
                                             };
-            var featResourceNormalClaims = from featResource in featResources
+            var featResourceNormalClaims = from featResource in featResources.Take(2)
                                            from claimEntity in claimEntities
                                            where claimEntity.ClaimType == ClaimTypes.Role && (claimEntity.ClaimValue == ClaimDefines.ROLE_ALL || claimEntity.ClaimValue == ClaimDefines.ROLE_OPERATOR)
                                            select new FeatResourceClaim()

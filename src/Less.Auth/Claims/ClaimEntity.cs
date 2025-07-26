@@ -11,6 +11,5 @@ namespace Less.Auth.Claims
         public string ClaimValue { get; set; } = "";
         public bool CanBeDeleted { get; set; } = true;
         public virtual ICollection<UserClaim> UserClaims { get; } = new List<UserClaim>();
-        public virtual ICollection<FeatResourceClaim> FeatResourceClaims { get; } = new List<FeatResourceClaim>();
     }
 }

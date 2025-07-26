@@ -20,7 +20,7 @@ try
     builder.Services.AddControllers()
         .AddJsonOptions(opts =>
         {
-            opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         })
         .AddLessAuthControllerWithCookies();
 
