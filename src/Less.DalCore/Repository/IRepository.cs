@@ -103,6 +103,12 @@ namespace Less.DalCore.Repository
         /// <returns></returns>
         Task<IList<TEntity>> ListAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map = null);
         /// <summary>
+        /// list all from query with selector
+        /// </summary>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        Task<IList<T>> ListAsync<T>(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map, Expression<Func<TEntity, T>> selector);
+        /// <summary>
         /// 从 1 开始的页查找
         /// </summary>
         /// <param name="pageIndex">one-based</param>

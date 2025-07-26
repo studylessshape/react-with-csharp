@@ -1,9 +1,8 @@
-﻿using Less.Auth.Users;
-using Less.DalCore.Repository;
+﻿using Less.DalCore.Repository;
 using System;
 using System.Threading.Tasks;
 
-namespace Less.Auth.Dal
+namespace Less.Auth.Users
 {
     public interface IUserRepo : IRepository<User, Guid>
     {

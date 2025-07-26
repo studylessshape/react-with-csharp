@@ -1,6 +1,5 @@
 ﻿using Less.Api.Core;
 using Less.Auth.Claims;
-using Less.Auth.Dal;
 using Less.Auth.UserClaims;
 using Less.Utils;
 using Less.Utils.ResultExtensions;
@@ -142,7 +141,7 @@ namespace Less.Auth.Users
             }
 
             var claims = new List<Claim>();
-            claims.AddRange((await claimRepo.ListAsync(query => query.Where(c => user.UserClaims.Any(uc => uc.ClaimEntityId == c.Id)))).Select(c => new Claim(c.ClaimType, c.ClaimValue)));
+            claims.AddRange(user.UserClaims.Select(uc => new Claim(uc.ClaimEntity!.ClaimType, uc.ClaimEntity.ClaimValue)));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, account));
             var claimRole = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
             claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, claimRole?.Value ?? "All"));

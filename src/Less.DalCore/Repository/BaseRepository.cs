@@ -137,6 +137,17 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
+        public async Task<IList<T>> ListAsync<T>(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map, Expression<Func<TEntity, T>> selector)
+        {
+            var query = EntitySet.AsQueryable();
+            if (map != null)
+            {
+                query = map(query);
+            }
+            return await query.Select(selector).ToListAsync();
+        }
+
+        /// <inheritdoc />
         public async Task<PagedList<TEntity>> PaginateAsync(int pageIndex, int pageSize, Func<IQueryable<TEntity>, IQueryable<TEntity>>? mapQuery = null, Func<IQueryable<TEntity>, Task<int>>? countRowsAsync = null)
         {
             if (pageIndex <= 0) throw new ArgumentException("pageIndex must be greater than zero!", nameof(pageIndex));

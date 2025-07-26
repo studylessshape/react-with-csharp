@@ -26,7 +26,7 @@ namespace Less.Auth.Dal.Users
 
                 if (includeClaims)
                 {
-                    resQuery = resQuery.Include(u => u.UserClaims);
+                    resQuery = resQuery.Include(u => u.UserClaims).ThenInclude(uc => uc.ClaimEntity);
                 }
 
                 return resQuery;

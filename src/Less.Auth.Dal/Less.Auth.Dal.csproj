@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Less.Api.Core\Less.Api.Core.csproj" />
     <ProjectReference Include="..\Less.Auth\Less.Auth.csproj" />
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+    <ProjectReference Include="..\Less.EntityFramework.Plus\Less.EntityFramework.Plus.csproj" />
   </ItemGroup>
 
   <ItemGroup>

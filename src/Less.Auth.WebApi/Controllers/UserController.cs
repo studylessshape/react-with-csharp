@@ -25,22 +25,6 @@ namespace Less.Auth.WebApi.Controllers
             this.userManager = userManager;
         }
 
-        [EndpointName("ChangePassword")]
-        [EndpointSummary("change password by user")]
-        [HttpPost]
-        [Authorize]
-        public async Task<Resp<None>> ChangePassword([Required] string newPassword)
-        {
-            var account = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (account == null)
-            {
-                return Resp.Err<None>("用户登录状态错误！");
-            }
-
-            var changeRes = await userManager.ChangePasswordAsync(account, newPassword);
-            return Resp.FromResult(changeRes);
-        }
-
         [EndpointName("ChangeUserState")]
         [EndpointSummary("change user state (need admin)")]
         [HttpPost]

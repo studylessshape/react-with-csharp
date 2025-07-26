@@ -1,5 +1,7 @@
-﻿using Less.Auth.WebApi.Controllers;
+﻿using Less.Api.Core;
+using Less.Auth.WebApi.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net.Http.Headers;
 
 namespace Less.Auth.WebApi
 {
@@ -17,6 +19,16 @@ namespace Less.Auth.WebApi
                 {
                     opts.LoginPath = "/api/auth/Account/Login";
                     opts.LogoutPath = "/api/auth/Account/Logout";
+                    opts.Events.OnRedirectToAccessDenied = async (context) =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        await context.Response.WriteAsJsonAsync(new Resp<None>("无操作权限", context.Response.StatusCode));
+                    };
+                    opts.Events.OnRedirectToLogin = async (context) =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        await context.Response.WriteAsJsonAsync(new Resp<None>("用户未登录", context.Response.StatusCode));
+                    };
                 });
             builder.Services.AddAuthorization();
             builder.AddApplicationPart(typeof(UserController).Assembly);
