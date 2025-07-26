@@ -1,5 +1,4 @@
-﻿using Less.Auth.FeatResources;
-using Less.Auth.Users;
+﻿using Less.Auth.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,17 +6,6 @@ namespace Less.Auth
 {
     public static class DefaultServiceRegistExtensions
     {
-        /// <summary>
-        /// Add default <see cref="IFeatResourceClaimParser"/> (format: t=&lt;t&gt;,v=&lt;t&gt;[;])
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddDefaultFeatResourceClaimParser(this IServiceCollection services)
-        {
-            services.AddTransient<IFeatResourceClaimParser, DefaultFeatResourceClaimParser>();
-            return services;
-        }
-
         /// <summary>
         /// Add default <see cref="IPasswordHasher"/> (argon2)
         /// </summary>
@@ -50,8 +38,7 @@ namespace Less.Auth
         public static IServiceCollection AddDefaultAuthService<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext
         {
-            return services.AddDefaultFeatResourceClaimParser()
-                .AddDefaultPasswordHasher()
+            return services.AddDefaultPasswordHasher()
                 .AddDefaultUserManager<TDbContext>();
         }
     }

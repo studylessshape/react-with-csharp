@@ -1,8 +1,10 @@
 ﻿using Less.Auth.Claims;
 using Less.Auth.Dal.Claims;
+using Less.Auth.Dal.FeatResourceClaims;
 using Less.Auth.Dal.FeatResources;
 using Less.Auth.Dal.UserClaims;
 using Less.Auth.Dal.Users;
+using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.Auth.UserClaims;
 using Less.Auth.Users;
@@ -40,6 +42,9 @@ namespace Less.Auth.Dal
             services.AddEntityConfiguration<TDbContext, UserClaim, UserClaimEntityConfiguration>(101);
             services.AddScoped<IUserClaimRepo, UserClaimRepo<TDbContext>>();
 
+            services.AddEntityConfiguration<TDbContext, FeatResourceClaim, FeatResourceClaimEntityConfiguration>(101);
+            services.AddScoped<IFeatResourceClaimRepo, FeatResourceClaimRepo<TDbContext>>();
+
             return services;
         }
 
@@ -54,17 +59,7 @@ namespace Less.Auth.Dal
         {
             services.AddDefaultAuthService<TDbContext>();
 
-            services.AddEntityConfiguration<TDbContext, User, UserEntityConfiguration>(100);
-            services.AddScoped<IUserRepo, UserRepo<TDbContext>>();
-
-            services.AddEntityConfiguration<TDbContext, ClaimEntity, ClaimsEntityConfiguration>(100);
-            services.AddScoped<IClaimEntityRepo, ClaimEntityRepo<TDbContext>>();
-
-            services.AddEntityConfiguration<TDbContext, FeatResource, FeatResourceEntityConfiguration>(100);
-            services.AddScoped<IFeatResourceRepo, FeatResourceRepo<TDbContext>>();
-
-            services.AddEntityConfiguration<TDbContext, UserClaim, UserClaimEntityConfiguration>(101);
-            services.AddScoped<IUserClaimRepo, UserClaimRepo<TDbContext>>();
+            services.AddAuthDal<TDbContext>();
 
             return services;
         }

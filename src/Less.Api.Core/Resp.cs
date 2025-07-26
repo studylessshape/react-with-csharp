@@ -6,7 +6,7 @@ namespace Less.Api.Core
     {
         public int Code { get; }
         public bool Success { get; }
-        public string? Message { get; }
+        public virtual string? Message { get; }
         public TError? ErrorContent { get; }
         public T? Result { get; }
 
@@ -17,6 +17,14 @@ namespace Less.Api.Core
             Result = result;
         }
 
+        public Resp(T result, string? message)
+        {
+            Code = 200;
+            Success = true;
+            Result = result;
+            Message = message;
+        }
+
         public Resp(TError? error, string? message, int code = 500)
         {
             Success = false;
@@ -25,19 +33,28 @@ namespace Less.Api.Core
             Code = code;
         }
 
-        public Resp(Result<T, TError> result)
+        public Resp(Result<T, TError> result) : this(result, "操作成功", "操作失败")
+        {
+        }
+
+        public Resp(Result<T, TError> result, string? okMessage, string? errMessage) : this(result, 500, okMessage, errMessage)
+        {
+        }
+
+        public Resp(Result<T, TError> result, int errCode, string? okMessage, string? errMessage)
         {
             if (result.IsOk)
             {
                 Code = 200;
                 Success = true;
-                Message = "操作成功";
+                Message = okMessage;
                 Result = result.ResultValue;
             }
             else
             {
-                Code = 500;
+                Code = errCode;
                 Success = false;
+                Message = errMessage;
                 ErrorContent = result.ErrorValue;
             }
         }

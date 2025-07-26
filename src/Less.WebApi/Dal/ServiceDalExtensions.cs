@@ -10,12 +10,19 @@ namespace Less.WebApi.Dal
         {
             services.AddDbContext<CoreDbContext>(opts =>
             {
-                var cs = configuration.GetConnectionString("TestConnectSqlite")
-                    ?? throw new ArgumentNullException("TestConnectSqlite", "No connection string named \"TestConnectSqlite\"");
-                opts.UseSqlite(cs, sqliteOpts =>
+                var cs = configuration.GetConnectionString("TestConnectPG")
+                    ?? throw new ArgumentNullException("TestConnectPG", "No connection string named \"TestConnectPG\"");
+                //opts.UseSqlite(cs, sqliteOpts =>
+                //{
+                //    sqliteOpts.MigrationsAssembly(typeof(ServiceDalExtensions).Assembly.GetName().Name);
+                //});
+                opts.UseNpgsql(cs, npgsqlOpts =>
                 {
-                    sqliteOpts.MigrationsAssembly(typeof(ServiceDalExtensions).Assembly.GetName().Name);
+                    npgsqlOpts.MigrationsAssembly(typeof(ServiceDalExtensions).Assembly);
                 });
+#if DEBUG
+                opts.EnableSensitiveDataLogging();
+#endif
             });
             services.AddAuthDalWithDefault<CoreDbContext>();
 

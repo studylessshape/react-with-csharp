@@ -4,6 +4,9 @@ using System;
 
 namespace Less.Auth.UserClaims
 {
+    /// <summary>
+    /// 用户和 Claim 的关系表
+    /// </summary>
     public class UserClaim
     {
         public Guid Id { get; set; } = Guid.NewGuid();

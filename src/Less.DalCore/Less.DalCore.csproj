@@ -29,4 +29,8 @@
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="9.103.9.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Less.Api.Core\Less.Api.Core.csproj" />
+  </ItemGroup>
+
 </Project>

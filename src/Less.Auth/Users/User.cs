@@ -1,8 +1,7 @@
-﻿using Less.Auth.Claims;
-using Less.Auth.UserClaims;
+﻿using Less.Auth.UserClaims;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Less.Auth.Users
 {
@@ -12,23 +11,41 @@ namespace Less.Auth.Users
         public const int DISABLE_STATUS = -1;
 
         public Guid Id { get; set; } = Guid.NewGuid();
-        [Description("账号")]
+        /// <summary>
+        /// 账号
+        /// </summary>
         public string Account { get; set; } = "";
-        [Description("账号代码")]
+        /// <summary>
+        /// 账号代码
+        /// </summary>
         public string Code { get; set; } = "";
-        [Description("用户名")]
+        /// <summary>
+        /// 用户名
+        /// </summary>
         public string Name { get; set; } = "";
-        [Description("密码")]
+        /// <summary>
+        /// 密码
+        /// </summary>
         public string Password { get; set; } = "";
-        [Description("邮箱")]
+        /// <summary>
+        /// 邮箱
+        /// </summary>
         public string? Email { get; set; }
-        [Description("电话")]
+        /// <summary>
+        /// 电话
+        /// </summary>
         public string? PhoneNum { get; set; }
-        [Description("性别")]
+        /// <summary>
+        /// 性别
+        /// </summary>
         public int Sex { get; set; }
-        [Description("用户状态")]
+        /// <summary>
+        /// 用户状态
+        /// </summary>
         public int Status { get; set; }
-        [Description("备注")]
+        /// <summary>
+        /// 备注
+        /// </summary>
         public string? Remark { get; set; }
         public string Salt { get; set; } = "";
 

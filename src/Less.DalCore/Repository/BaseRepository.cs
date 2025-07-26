@@ -1,4 +1,4 @@
-﻿using Less.DalCore.Models;
+﻿using Less.Api.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

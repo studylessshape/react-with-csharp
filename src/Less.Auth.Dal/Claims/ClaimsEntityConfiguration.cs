@@ -7,43 +7,50 @@ namespace Less.Auth.Dal.Claims
 {
     public class ClaimsEntityConfiguration : IEntityTypeConfiguration<ClaimEntity>
     {
-        public const string SYSTEM_ROLE = "System";
+        private static ClaimEntity[]? claimEntities;
+        internal static ClaimEntity[] InitClaimEntities
+        {
+            get
+            {
+                claimEntities ??= new ClaimEntity[]
+                {
+                    new ClaimEntity()
+                    {
+                        Id = 1,
+                        ClaimType = ClaimTypes.Role,
+                        ClaimValue = ClaimDefines.ROLE_ALL,
+                        CanBeDeleted = false,
+                    },
+                    new ClaimEntity()
+                    {
+                        Id = 2,
+                        ClaimType = ClaimTypes.Role,
+                        ClaimValue = ClaimDefines.ROLE_SYSTEM,
+                        CanBeDeleted = false,
+                    },
+                    new ClaimEntity()
+                    {
+                        Id = 3,
+                        ClaimType = ClaimTypes.Role,
+                        ClaimValue = ClaimDefines.ROLE_ADMIN,
+                        CanBeDeleted = false,
+                    },
+                    new ClaimEntity()
+                    {
+                        Id = 4,
+                        ClaimType = ClaimTypes.Role,
+                        ClaimValue = ClaimDefines.ROLE_OPERATOR,
+                    },
+                };
+                return claimEntities;
+            }
+        }
+
         public void Configure(EntityTypeBuilder<ClaimEntity> builder)
         {
             builder.ToTable("less_claims");
             builder.HasIndex(c => new { c.ClaimType, c.ClaimValue });
-            var idInc = 1;
-            ClaimEntity[] claims = new ClaimEntity[]
-            {
-                new ClaimEntity()
-                {
-                    Id = idInc ++,
-                    ClaimType = ClaimTypes.Role,
-                    ClaimValue = ClaimDefines.ROLE_ALL,
-                    CanBeDeleted = false,
-                },
-                new ClaimEntity()
-                {
-                    Id = idInc ++,
-                    ClaimType = ClaimTypes.Role,
-                    ClaimValue = ClaimDefines.ROLE_SYSTEM,
-                    CanBeDeleted = false,
-                },
-                new ClaimEntity()
-                {
-                    Id = idInc ++,
-                    ClaimType = ClaimTypes.Role,
-                    ClaimValue = ClaimDefines.ROLE_ADMIN,
-                    CanBeDeleted = false,
-                },
-                new ClaimEntity()
-                {
-                    Id = idInc ++,
-                    ClaimType = ClaimTypes.Role,
-                    ClaimValue = ClaimDefines.ROLE_OPERATOR,
-                },
-            };
-            builder.HasData(claims);
+            builder.HasData(InitClaimEntities);
         }
     }
 }
