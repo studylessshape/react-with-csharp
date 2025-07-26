@@ -1,7 +1,6 @@
 ﻿using Less.Api.Core;
 using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
-using Less.DalCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,13 +13,11 @@ namespace Less.Auth.WebApi.Controllers
     {
         private readonly IFeatResourceRepo resourceRepo;
         private readonly IFeatResourceClaimRepo featResourceClaimRepo;
-        private readonly CoreDbContext dbContext;
 
-        public FeatResourceController(IFeatResourceRepo resourceRepo, IFeatResourceClaimRepo featResourceClaimRepo, CoreDbContext dbContext)
+        public FeatResourceController(IFeatResourceRepo resourceRepo, IFeatResourceClaimRepo featResourceClaimRepo)
         {
             this.resourceRepo = resourceRepo;
             this.featResourceClaimRepo = featResourceClaimRepo;
-            this.dbContext = dbContext;
         }
 
         [EndpointName(nameof(GetAccessResource))]
