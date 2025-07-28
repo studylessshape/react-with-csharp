@@ -7,28 +7,35 @@ namespace Less.Api.Core
         public int Code { get; }
         public bool Success { get; }
         public virtual string? Message { get; }
-        public TError? ErrorContent { get; }
-        public T? Result { get; }
+        public TError? Error { get; }
+        public T? Data { get; }
+
+        public Resp()
+        {
+            Code = 200;
+            Success = true;
+            Data = default;
+        }
 
         public Resp(T result)
         {
             Code = 200;
             Success = true;
-            Result = result;
+            Data = result;
         }
 
         public Resp(T result, string? message)
         {
             Code = 200;
             Success = true;
-            Result = result;
+            Data = result;
             Message = message;
         }
 
         public Resp(TError? error, string? message, int code = 500)
         {
             Success = false;
-            ErrorContent = error;
+            Error = error;
             Message = message;
             Code = code;
         }
@@ -48,14 +55,14 @@ namespace Less.Api.Core
                 Code = 200;
                 Success = true;
                 Message = okMessage;
-                Result = result.ResultValue;
+                Data = result.ResultValue;
             }
             else
             {
                 Code = errCode;
                 Success = false;
                 Message = errMessage;
-                ErrorContent = result.ErrorValue;
+                Error = result.ErrorValue;
             }
         }
 
@@ -66,13 +73,13 @@ namespace Less.Api.Core
                 Code = 200;
                 Success = true;
                 Message = "操作成功";
-                Result = result.ResultValue;
+                Data = result.ResultValue;
             }
             else
             {
                 Code = 500;
                 Success = false;
-                ErrorContent = result.ErrorValue;
+                Error = result.ErrorValue;
                 Message = errMessage;
             }
         }
@@ -80,6 +87,11 @@ namespace Less.Api.Core
 
     public class Resp<T> : Resp<T, string>
     {
+        public Resp() : base()
+        {
+
+        }
+
         public Resp(T result) : base(result)
         {
         }

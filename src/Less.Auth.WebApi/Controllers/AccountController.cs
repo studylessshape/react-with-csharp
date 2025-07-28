@@ -13,8 +13,11 @@ namespace Less.Auth.WebApi.Controllers
     {
         private readonly IUserManager userManager = userManager;
 
-        [EndpointName("ChangePassword")]
-        [EndpointSummary("change password by user")]
+        /// <summary>
+        /// change password by user
+        /// </summary>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<Resp<None>> ChangePassword([Required] string newPassword)

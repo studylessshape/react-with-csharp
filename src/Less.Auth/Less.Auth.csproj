@@ -17,7 +17,6 @@
 	
   <ItemGroup>
     <ProjectReference Include="..\Less.Api.Core\Less.Api.Core.csproj" />
-    <ProjectReference Include="..\Less.Api.Core\Less.Api.Core.csproj" />
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
   </ItemGroup>
 

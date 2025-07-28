@@ -20,8 +20,10 @@ namespace Less.Auth.WebApi.Controllers
             this.featResourceClaimRepo = featResourceClaimRepo;
         }
 
-        [EndpointName(nameof(GetAccessResource))]
-        [EndpointSummary("Get resource can be accessed by current user")]
+        /// <summary>
+        /// Get resource can be accessed by current user
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         public async Task<Resp<IList<FeatResource>>> GetAccessResource()

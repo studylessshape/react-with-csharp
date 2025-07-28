@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 
 namespace Less.Auth.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/auth/[action]")]
+    [Route("api/auth")]
     public class LoginController : ControllerBase
     {
         private readonly IUserManager userManager;
@@ -20,11 +21,14 @@ namespace Less.Auth.WebApi.Controllers
             this.userManager = userManager;
         }
 
-        [EndpointName("Login")]
-        [EndpointSummary("Login and set claims in Cookies")]
-        [HttpPost]
+        /// <summary>
+        /// Login and set claims
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<Resp<UserProfile>> Login([FromBody] LoginRequest request)
+        public async Task<Resp<UserProfile>> Login([FromBody] UserAccountPassword request)
         {
             var validateResult = await userManager.ValidateUserAsync(request.Account, request.Password);
             if (validateResult.IsError)
@@ -40,11 +44,15 @@ namespace Less.Auth.WebApi.Controllers
             return Resp.Ok<UserProfile>(user);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// Logout and remove claims
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("logout")]
         [Authorize]
         public async Task<Resp<None>> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Resp.Ok(None.New());
         }
     }

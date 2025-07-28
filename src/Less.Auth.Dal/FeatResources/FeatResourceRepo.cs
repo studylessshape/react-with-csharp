@@ -1,11 +1,6 @@
-﻿using Less.Auth.FeatResourceClaims;
-using Less.Auth.FeatResources;
+﻿using Less.Auth.FeatResources;
 using Less.DalCore.Repository;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Less.Auth.Dal.FeatResources
 {

@@ -1,7 +1,6 @@
 ﻿using Less.Auth.UserClaims;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Less.Auth.Users
 {

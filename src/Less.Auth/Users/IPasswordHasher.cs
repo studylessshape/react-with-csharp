@@ -27,7 +27,7 @@
         /// </summary>
         public string Salt { get; }
     }
-    
+
     /// <summary>
     /// Provide method to translate password to hash value
     /// </summary>

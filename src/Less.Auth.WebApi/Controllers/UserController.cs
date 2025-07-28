@@ -4,31 +4,36 @@ using Less.Auth.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 
 namespace Less.Auth.WebApi.Controllers
 {
     /// <summary>
-    /// Api about user
+    /// Api about the management of users
     /// </summary>
     [ApiController]
     [Route("api/auth/[controller]/[action]")]
+    [Authorize(Roles = "System, Admin")]
     public class UserController : ControllerBase
     {
         private readonly IUserManager userManager;
+        private readonly IUserRepo userRepo;
 
         /// <summary>
         /// initialize api
         /// </summary>
-        public UserController(IUserManager userManager)
+        public UserController(IUserManager userManager, IUserRepo userRepo)
         {
             this.userManager = userManager;
+            this.userRepo = userRepo;
         }
 
-        [EndpointName("ChangeUserState")]
-        [EndpointSummary("change user state (need admin)")]
-        [HttpPost]
-        [Authorize(Roles = "System, Admin")]
+        /// <summary>
+        /// change user state (need admin)
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="enable"></param>
+        /// <returns></returns>
+        [HttpPost("{account}")]
         public async Task<Resp<None>> ChangeUserState(
             [Required] string account,
             [Required] bool enable)
@@ -37,14 +42,25 @@ namespace Less.Auth.WebApi.Controllers
             return Resp.FromResult(res);
         }
 
-        [EndpointName("CreateUser")]
-        [EndpointSummary("create user (need admin)")]
+        /// <summary>
+        /// create user (need admin)
+        /// </summary>
+        /// <returns></returns>
         [HttpPut]
-        [Authorize(Roles = "System, Admin")]
-        public async Task<Resp<UserProfile>> CreateUserAsync(string accout, string password)
+        public async Task<Resp<UserProfile>> CreateUserAsync([FromBody] UserAccountPassword request)
         {
-            var user = await userManager.CreateUserAsync(accout, password, accout, accout, "All");
+            var user = await userManager.CreateUserAsync(request.Account, request.Password, request.Account, request.Account, "All");
             return Resp.FromResult(user.WrapOk<UserProfile>(u => u));
+        }
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<Resp<IList<User>>> GetAllAsync()
+        {
+            return Resp.Ok(await userRepo.ListAsync());
         }
     }
 }

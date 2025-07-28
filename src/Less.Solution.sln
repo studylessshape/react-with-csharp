@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.Auth.WebApi", "Less.Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.EntityFramework.Plus", "Less.EntityFramework.Plus\Less.EntityFramework.Plus.csproj", "{0E88C4B8-71E9-4BC4-B118-029BC39A6479}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.Auth.ControlFlow", "Less.Auth.ControlFlow\Less.Auth.ControlFlow.csproj", "{15104107-7BCF-4727-A8F0-21953FE6A161}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{0E88C4B8-71E9-4BC4-B118-029BC39A6479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E88C4B8-71E9-4BC4-B118-029BC39A6479}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E88C4B8-71E9-4BC4-B118-029BC39A6479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15104107-7BCF-4727-A8F0-21953FE6A161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15104107-7BCF-4727-A8F0-21953FE6A161}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15104107-7BCF-4727-A8F0-21953FE6A161}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15104107-7BCF-4727-A8F0-21953FE6A161}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{0F450132-4E96-68B8-41CE-9D3C3B5EFC60} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{C093540F-39A3-245A-4C07-C097EB3A2834} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{0E88C4B8-71E9-4BC4-B118-029BC39A6479} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{15104107-7BCF-4727-A8F0-21953FE6A161} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F44E65B-A2D7-4119-9468-9C25E69B3EB3}

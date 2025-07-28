@@ -2,7 +2,7 @@
 
 namespace Less.Auth.WebApi.Models
 {
-    public class LoginRequest
+    public class UserAccountPassword
     {
         [Required]
         [MinLength(1)]

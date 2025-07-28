@@ -1,9 +1,8 @@
 ﻿using Less.Auth.Claims;
-using Less.Auth.Users;
 using Less.DalCore.Repository;
+using Less.Utils;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Less.Auth.Dal.Claims
@@ -15,17 +14,25 @@ namespace Less.Auth.Dal.Claims
         {
         }
 
-        public Task<IList<ClaimEntity>> GetClaimsAsync(string accout)
+        public async Task<Result<ClaimEntity, string>> AddClaimAsync(string type, string value)
         {
-            return ListAsync(query => query.Include(c => c.UserClaims)
-                                           .ThenInclude(uc => uc.User)
-                                           .Where(c => c.UserClaims.Any(uc => uc.User!.Account == accout)));
+            if (await FirstOrDefaultAsync(c => c.ClaimType == type && c.ClaimValue == value) != null)
+            {
+                return "Claim 已存在".ToErr<ClaimEntity, string>();
+            }
+
+            var added = await AddAsync(new ClaimEntity()
+            {
+                ClaimType = type,
+                ClaimValue = value
+            });
+
+            return added.ToOk<ClaimEntity, string>();
         }
 
-        public Task<IList<ClaimEntity>> GetClaimsAsync(User user)
+        public async Task<Result<ClaimEntity, string>> AddRoleAsync(string role)
         {
-            return ListAsync(query => query.Include(c => c.UserClaims)
-                                           .Where(c => c.UserClaims.Any(uc => uc.UserId == user.Id)));
+            return await AddClaimAsync(ClaimTypes.Role, role);
         }
     }
 }

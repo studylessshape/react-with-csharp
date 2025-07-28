@@ -1,7 +1,6 @@
 ﻿using Less.Api.Core;
 using Less.Auth.WebApi.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Net.Http.Headers;
 
 namespace Less.Auth.WebApi
 {

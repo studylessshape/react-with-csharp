@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.SwaggerUI.Themes" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
@@ -19,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Less.Auth.Dal\Less.Auth.Dal.csproj" />
     <ProjectReference Include="..\Less.Auth.WebApi\Less.Auth.WebApi.csproj" />
+    <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
   </ItemGroup>
 
 </Project>

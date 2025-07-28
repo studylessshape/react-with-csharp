@@ -1,7 +1,9 @@
 using Less.Auth.WebApi;
+using Less.Auth.WebApi.Controllers;
 using Less.DalCore;
 using Less.WebApi.Dal;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Less.WebApi.Filters;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text.Json.Serialization;
 
@@ -14,19 +16,36 @@ try
         .ReadFrom.Configuration(builder.Configuration)
         .ReadFrom.Services(services)
         .Enrich.FromLogContext()
-        .WriteTo.Console());
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} ({SourceContext})] {Message:lj}{NewLine}{Exception}"));
 
     // Add services to the container.
-    builder.Services.AddControllers()
-        .AddJsonOptions(opts =>
-        {
-            opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        })
-        .AddLessAuthControllerWithCookies();
+    builder.Services.AddControllers(opts =>
+    {
+        opts.Filters.Add<ExceptionFilter>();
+        opts.Filters.Add<ResultFilter>();
+    })
+    .AddJsonOptions(opts =>
+    {
+        opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        opts.JsonSerializerOptions.ReadCommentHandling = System.Text.Json.JsonCommentHandling.Skip;
+        opts.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    })
+    .AddLessAuthControllerWithCookies();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(opts =>
+    {
+        opts.OperationFilter<AuthOperationFilter>();
+        opts.AddSecurityDefinition("cookies", new OpenApiSecurityScheme
+        {
+            Description = "Standard Authorization header using the cookies",
+            In = ParameterLocation.Cookie,
+            Name = "Cookies",
+            Type = SecuritySchemeType.ApiKey,
+        });
+        opts.IncludeXmlComments(typeof(LoginController).Assembly);
+    });
 
     builder.Services.AddCoreDal(builder.Configuration);
     builder.Services.AddCors();
@@ -53,7 +72,7 @@ try
     app.MapControllers();
 
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(AspNetCore.Swagger.Themes.ModernStyle.Dark);
 
     app.Run();
 }
