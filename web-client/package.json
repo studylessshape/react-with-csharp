@@ -16,7 +16,8 @@
     "@tanstack/react-router": "^1.128.0",
     "@tanstack/react-router-devtools": "^1.128.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@arco-plugins/unplugin-react": "^2.0.0-beta.5",

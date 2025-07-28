@@ -28,6 +28,7 @@ export interface MenuItemProps {
 export interface LayoutProps {
   title?: string;
   menu?: MenuItemProps[];
+  sidebar?: boolean;
 }
 
 export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
@@ -45,28 +46,32 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
   });
 
   return (
-    <Layout>
-      <Sider>
-        <Menu
-          defaultSelectedKeys={props.menu
-            ?.filter((m) => m.path == document.location.pathname)
-            .map((m) => m.key.toString())}
-          onClickMenuItem={(key) => {
-            if (props.menu) {
-              const keyIndex = props.menu?.findIndex(
-                (m) => m.key.toString() == key
-              );
-              if (keyIndex != -1) {
-                navigate({
-                  to: props.menu[keyIndex].path,
-                });
+    <Layout style={{ width: "100vw", height: "100vh" }}>
+      {props.sidebar != false ? (
+        <Sider>
+          <Menu
+            defaultSelectedKeys={props.menu
+              ?.filter((m) => m.path == document.location.pathname)
+              .map((m) => m.key.toString())}
+            onClickMenuItem={(key) => {
+              if (props.menu) {
+                const keyIndex = props.menu?.findIndex(
+                  (m) => m.key.toString() == key
+                );
+                if (keyIndex != -1) {
+                  navigate({
+                    to: props.menu[keyIndex].path,
+                  });
+                }
               }
-            }
-          }}
-        >
-          {menus}
-        </Menu>
-      </Sider>
+            }}
+          >
+            {menus}
+          </Menu>
+        </Sider>
+      ) : (
+        <></>
+      )}
       <Layout>
         <Header></Header>
         <Layout>

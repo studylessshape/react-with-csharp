@@ -22,7 +22,7 @@ try
     builder.Services.AddControllers(opts =>
     {
         opts.Filters.Add<ExceptionFilter>();
-        opts.Filters.Add<ResultFilter>();
+        opts.Filters.Add<ValidationProblemDetailsResultFilter>();
     })
     .AddJsonOptions(opts =>
     {

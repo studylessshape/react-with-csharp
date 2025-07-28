@@ -5,7 +5,7 @@ namespace Less.Api.Core
     /// <summary>
     /// Empty object
     /// </summary>
-    public struct None
+    public class None
     {
         public static None New()
         {

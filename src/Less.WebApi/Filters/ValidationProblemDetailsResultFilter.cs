@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Less.WebApi.Filters
 {
-    public class ResultFilter : IResultFilter
+    public class ValidationProblemDetailsResultFilter : IResultFilter
     {
         public void OnResultExecuted(ResultExecutedContext context)
         {
@@ -13,7 +13,8 @@ namespace Less.WebApi.Filters
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-            if (context.Result is BadRequestObjectResult badRequest && badRequest.Value is ValidationProblemDetails problemDetails)
+            if (context.Result is BadRequestObjectResult badRequest
+                && badRequest.Value is ValidationProblemDetails problemDetails)
             {
                 context.Result = new ObjectResult(new Resp<None, IDictionary<string, string[]>>(problemDetails.Errors, problemDetails.Title, StatusCodes.Status400BadRequest))
                 {
