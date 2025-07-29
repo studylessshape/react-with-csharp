@@ -4,7 +4,7 @@ import {
   useNavigate,
   type ParsedLocation,
 } from "@tanstack/react-router";
-import React, { Children, type PropsWithChildren } from "react";
+import React, { type PropsWithChildren } from "react";
 
 const Sider = Layout.Sider;
 const Header = Layout.Header;

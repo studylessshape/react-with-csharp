@@ -1,5 +1,6 @@
 import type { MenuItemProps } from "../components/Layout";
 import type { FeatResource } from "../services";
+import * as Icon from "@douyinfe/semi-icons";
 
 function featResourceToMenuPropsIter(
   node: FeatResource,
@@ -11,6 +12,7 @@ function featResourceToMenuPropsIter(
     path: node.url,
     name: node.name,
     descprition: node.description,
+    icon: node.icon ? Icon[node.icon].render() : undefined,
   };
   if (children.length > 0) {
     menu.children = [];

@@ -13,9 +13,6 @@ export default defineConfig({
           target: "react",
           autoCodeSplitting: true,
         }),
-        // new ArcoDesignPlugin({
-        //   theme: "@arco-design/theme-line",
-        // }),
       ],
       module: {
         rules: [

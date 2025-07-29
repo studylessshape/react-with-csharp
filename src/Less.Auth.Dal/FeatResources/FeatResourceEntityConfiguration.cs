@@ -25,7 +25,8 @@ namespace Less.Auth.Dal.FeatResources
                         ParentId = 1,
                         Name = "index",
                         Description = "主页",
-                        Url = "/"
+                        Url = "/",
+                        Icon = "IconHome"
                     },
                     new FeatResource()
                     {
@@ -33,23 +34,27 @@ namespace Less.Auth.Dal.FeatResources
                         ParentId = 1,
                         Name = "system_manage",
                         Description = "系统管理",
-                        Url = "/manage"
+                        Url = "/manage",
+                        Icon = "IconMenu"
                     },
                     new FeatResource()
                     {
                         Id = 4,
                         ParentId = 3,
-                        Name = "user_manage",
-                        Description = "用户管理",
-                        Url = "/manage/user"
+                        Name = "module_manage",
+                        Description = "模块管理",
+                        Url = "/manage/module",
+                        Icon = "IconLayers"
                     },
                     new FeatResource()
                     {
                         Id = 5,
                         ParentId = 3,
-                        Name = "module_manage",
-                        Description = "模块管理",
-                        Url = "/manage/module"
+                        Name = "user_manage",
+                        Description = "用户管理",
+                        Url = "/manage/user",
+                        Icon = "IconUserSetting"
+
                     }
                 };
                 return featResources;
