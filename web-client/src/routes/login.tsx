@@ -24,21 +24,10 @@ function RouteComponent() {
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "Center",
-        alignItems: "center",
-      }}
-    >
+    <div className="w-full h-full flex justify-center items-center">
       <div
+        className="border border-solid border-rd px-15 py-10"
         style={{
-          borderStyle: "solid",
-          borderWidth: "1px",
-          borderRadius: "3px",
-          padding: "40px 60px",
           borderColor: "var(--semi-color-border)",
           boxShadow: "var(--semi-shadow-elevated)",
         }}

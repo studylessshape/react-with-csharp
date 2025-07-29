@@ -31,8 +31,10 @@ function RootComponent() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!isLogin && location.pathname != "/login") {
-      navigation({ to: "/login" });
+    if (!isLogin) {
+      if (location.pathname != "/login") {
+        navigation({ to: "/login" });
+      }
     } else if (!user) {
       handleResp(getUserProfile(), {
         handleOk: (data) => setUser(data),

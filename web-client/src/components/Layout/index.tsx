@@ -88,9 +88,11 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
   }
 
   return (
-    <Layout style={{ width: "100vw", height: "100vh" }}>
+    <Layout className="w-screen h-screen">
       <Sider>
-        <Nav defaultSelectedKeys={selectedKeys}>{menus}</Nav>
+        <Nav className="h-full" defaultSelectedKeys={selectedKeys}>
+          {menus}
+        </Nav>
       </Sider>
       <Layout>
         <Header></Header>
