@@ -1,6 +1,14 @@
 import api from "./api";
-import type { LoginRequest, ResError, UserProfile } from "./interfaces";
+import type { None, LoginRequest, NormalError, UserProfile } from "./interfaces";
 
 export function login(request: LoginRequest) {
-    return api<UserProfile, ResError>("/api/auth/login", "POST", request);
+    return api<UserProfile, NormalError>("/api/auth/Login", "POST", request);
+}
+
+export function logout() {
+    return api<None, NormalError>("/api/auth/Logout", "POST");
+}
+
+export function getUserProfile() {
+    return api<UserProfile, NormalError>("/api/auth/Logout", "GET");
 }

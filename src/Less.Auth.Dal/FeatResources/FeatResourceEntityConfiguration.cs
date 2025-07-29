@@ -24,28 +24,32 @@ namespace Less.Auth.Dal.FeatResources
                         Id = 2,
                         ParentId = 1,
                         Name = "index",
-                        Description = "主页"
+                        Description = "主页",
+                        Url = "/"
                     },
                     new FeatResource()
                     {
                         Id = 3,
                         ParentId = 1,
                         Name = "system_manage",
-                        Description = "系统管理"
+                        Description = "系统管理",
+                        Url = "/manage"
                     },
                     new FeatResource()
                     {
                         Id = 4,
                         ParentId = 3,
                         Name = "user_manage",
-                        Description = "用户管理"
+                        Description = "用户管理",
+                        Url = "/manage/user"
                     },
                     new FeatResource()
                     {
                         Id = 5,
                         ParentId = 3,
                         Name = "module_manage",
-                        Description = "模块管理"
+                        Description = "模块管理",
+                        Url = "/manage/module"
                     }
                 };
                 return featResources;

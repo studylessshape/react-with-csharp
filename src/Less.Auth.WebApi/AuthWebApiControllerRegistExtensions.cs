@@ -16,8 +16,8 @@ namespace Less.Auth.WebApi
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(opts =>
                 {
-                    opts.LoginPath = "/api/auth/Account/Login";
-                    opts.LogoutPath = "/api/auth/Account/Logout";
+                    opts.LoginPath = "/api/auth/Login";
+                    opts.LogoutPath = "/api/auth/Logout";
                     opts.Events.OnRedirectToAccessDenied = async (context) =>
                     {
                         context.Response.StatusCode = StatusCodes.Status403Forbidden;

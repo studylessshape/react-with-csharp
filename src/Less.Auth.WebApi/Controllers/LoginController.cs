@@ -14,10 +14,12 @@ namespace Less.Auth.WebApi.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IUserManager userManager;
+        private readonly IUserRepo userRepo;
 
-        public LoginController(IUserManager userManager)
+        public LoginController(IUserManager userManager, IUserRepo userRepo)
         {
             this.userManager = userManager;
+            this.userRepo = userRepo;
         }
 
         /// <summary>
@@ -25,7 +27,7 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("login")]
+        [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<Resp<UserProfile>> Login([FromBody] UserAccountPassword request)
         {
@@ -47,12 +49,31 @@ namespace Less.Auth.WebApi.Controllers
         /// Logout and remove claims
         /// </summary>
         /// <returns></returns>
-        [HttpPost("logout")]
+        [HttpPost("Logout")]
         [Authorize]
         public async Task<Resp<None>> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Resp.Ok(None.New());
+        }
+
+        [HttpGet("[action]")]
+        [Authorize]
+        public async Task<Resp<UserProfile>> GetProfile()
+        {
+            var account = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            if (account == null)
+            {
+                return Resp.Err<UserProfile>("获取用户信息失败", 403);
+            }
+
+            var user = await userRepo.FirstByAccountAsync(account.Value);
+            if (user == null)
+            {
+                return Resp.Err<UserProfile>("获取用户信息失败", 403);
+            }
+
+            return Resp.Ok<UserProfile>(user);
         }
     }
 }

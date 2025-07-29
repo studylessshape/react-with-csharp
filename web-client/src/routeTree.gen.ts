@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ManageUserRouteImport } from './routes/manage/user'
+import { Route as ManageModuleRouteImport } from './routes/manage/module'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -28,35 +30,53 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManageUserRoute = ManageUserRouteImport.update({
+  id: '/manage/user',
+  path: '/manage/user',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManageModuleRoute = ManageModuleRouteImport.update({
+  id: '/manage/module',
+  path: '/manage/module',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/manage/module': typeof ManageModuleRoute
+  '/manage/user': typeof ManageUserRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/manage/module': typeof ManageModuleRoute
+  '/manage/user': typeof ManageUserRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/manage/module': typeof ManageModuleRoute
+  '/manage/user': typeof ManageUserRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login'
+  fullPaths: '/' | '/about' | '/login' | '/manage/module' | '/manage/user'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login'
-  id: '__root__' | '/' | '/about' | '/login'
+  to: '/' | '/about' | '/login' | '/manage/module' | '/manage/user'
+  id: '__root__' | '/' | '/about' | '/login' | '/manage/module' | '/manage/user'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
+  ManageModuleRoute: typeof ManageModuleRoute
+  ManageUserRoute: typeof ManageUserRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +102,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manage/user': {
+      id: '/manage/user'
+      path: '/manage/user'
+      fullPath: '/manage/user'
+      preLoaderRoute: typeof ManageUserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manage/module': {
+      id: '/manage/module'
+      path: '/manage/module'
+      fullPath: '/manage/module'
+      preLoaderRoute: typeof ManageModuleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +123,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
+  ManageModuleRoute: ManageModuleRoute,
+  ManageUserRoute: ManageUserRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

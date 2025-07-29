@@ -1,77 +1,97 @@
-import React, { type PropsWithChildren } from "react";
+import { Layout, Nav } from "@douyinfe/semi-ui";
 import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  type MenuProps,
-  Message,
-} from "@arco-design/web-react";
-import { IconCalendar, IconHome } from "@arco-design/web-react/icon";
-import { useNavigate } from "@tanstack/react-router";
+  useLocation,
+  useNavigate,
+  type ParsedLocation,
+} from "@tanstack/react-router";
+import React, { Children, type PropsWithChildren } from "react";
 
-const MenuItem = Menu.Item;
-const SubMenu = Menu.SubMenu;
 const Sider = Layout.Sider;
 const Header = Layout.Header;
-const Footer = Layout.Footer;
 const Content = Layout.Content;
+
+const NavSub = Nav.Sub;
+const NavItem = Nav.Item;
 
 export interface MenuItemProps {
   // Id
   key: string | number;
   // route path
   path: string;
-  name?: string | null;
+  name?: string;
+  descprition?: string;
   icon?: React.ReactNode | null;
+  children?: MenuItemProps[];
 }
 
 export interface LayoutProps {
   title?: string;
   menu?: MenuItemProps[];
-  sidebar?: boolean;
+  layout?: boolean;
+}
+
+function getSelectedKeys(location: ParsedLocation<{}>, menu?: MenuItemProps[]) {
+  var keys = [] as (string | number)[];
+  if (menu) {
+    keys.push(
+      ...menu.filter((m) => m.path == location.pathname).map((m) => m.key)
+    );
+    menu
+      .filter((m) => m.children && m.children.length > 0)
+      .forEach((m) => {
+        keys.push(...getSelectedKeys(location, m.children));
+      });
+  }
+  return keys;
 }
 
 export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
   const navigate = useNavigate();
-
-  const menus = props.menu?.map((menu) => {
+  const location = useLocation();
+  if (props.layout == false) {
     return (
-      <MenuItem key={menu.key.toString()}>
-        <>
-          {menu.icon}
-          {menu.name ?? menu.path}
-        </>
-      </MenuItem>
+      <Layout style={{ width: "100vw", height: "100vh" }}>
+        <Content>{props.children}</Content>
+      </Layout>
     );
-  });
+  }
+
+  const menus = props.menu ? toNav(props.menu) : undefined;
+
+  const selectedKeys = getSelectedKeys(location, props.menu);
+
+  function toNav(items: MenuItemProps[]) {
+    return items.map((m) => {
+      if (m.children != null) {
+        return (
+          <NavSub
+            key={m.key}
+            itemKey={m.key}
+            text={m.descprition ?? m.name}
+            icon={m.icon}
+          >
+            {toNav(m.children)}
+          </NavSub>
+        );
+      } else {
+        return (
+          <NavItem
+            key={m.key}
+            itemKey={m.key}
+            text={m.descprition ?? m.name}
+            icon={m.icon}
+            onClick={() => navigate({ to: m.path })}
+          />
+        );
+      }
+    });
+  }
 
   return (
     <Layout style={{ width: "100vw", height: "100vh" }}>
-      {props.sidebar != false ? (
-        <Sider>
-          <Menu
-            defaultSelectedKeys={props.menu
-              ?.filter((m) => m.path == document.location.pathname)
-              .map((m) => m.key.toString())}
-            onClickMenuItem={(key) => {
-              if (props.menu) {
-                const keyIndex = props.menu?.findIndex(
-                  (m) => m.key.toString() == key
-                );
-                if (keyIndex != -1) {
-                  navigate({
-                    to: props.menu[keyIndex].path,
-                  });
-                }
-              }
-            }}
-          >
-            {menus}
-          </Menu>
-        </Sider>
-      ) : (
-        <></>
-      )}
+      <Sider>
+        <Nav defaultSelectedKeys={selectedKeys}>{menus}</Nav>
+      </Sider>
       <Layout>
         <Header></Header>
         <Layout>
