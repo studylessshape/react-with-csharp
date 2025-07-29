@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { titleAppend } from "../utils/title";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserState } from "../stores";
 import { Button, Form, Toast, Typography } from "@douyinfe/semi-ui";
 import { login } from "../services/login";
@@ -19,8 +19,8 @@ function RouteComponent() {
   const isLogin = useAuth();
 
   if (isLogin) {
-    Toast.warning({ content: "用户已登录", theme: "light" });
     navigate({ to: "/" });
+    return;
   }
 
   return (
