@@ -1,10 +1,12 @@
-import { Layout, Nav } from "@douyinfe/semi-ui";
+import { Avatar, Button, Layout, Nav, Space } from "@douyinfe/semi-ui";
 import {
   useLocation,
   useNavigate,
   type ParsedLocation,
 } from "@tanstack/react-router";
 import React, { type PropsWithChildren } from "react";
+import { IconMoon, IconSun } from "@douyinfe/semi-icons";
+import { useThemeState } from "../../stores";
 
 const Sider = Layout.Sider;
 const Header = Layout.Header;
@@ -48,17 +50,8 @@ function getSelectedKeys(location: ParsedLocation<{}>, menu?: MenuItemProps[]) {
 export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
   const navigate = useNavigate();
   const location = useLocation();
-  if (props.layout == false) {
-    return (
-      <Layout style={{ width: "100vw", height: "100vh" }}>
-        <Content>{props.children}</Content>
-      </Layout>
-    );
-  }
-
-  const menus = props.menu ? toNav(props.menu) : undefined;
-
-  const selectedKeys = getSelectedKeys(location, props.menu);
+  const currentTheme = useThemeState((state) => state.mode);
+  const setTheme = useThemeState((state) => state.setMode);
 
   function toNav(items: MenuItemProps[]) {
     return items.map((m) => {
@@ -87,15 +80,63 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
     });
   }
 
+  if (props.layout == false) {
+    return (
+      <Layout style={{ width: "100vw", height: "100vh" }}>
+        <Content>{props.children}</Content>
+      </Layout>
+    );
+  }
+
+  const menus = props.menu ? toNav(props.menu) : undefined;
+
+  const selectedKeys = getSelectedKeys(location, props.menu);
+
   return (
     <Layout className="w-screen h-screen">
       <Sider>
-        <Nav className="h-full" defaultSelectedKeys={selectedKeys}>
+        <Nav
+          className="h-full"
+          defaultSelectedKeys={selectedKeys}
+          header={{ text: import.meta.env.PUBLIC_APP_TITLE }}
+          footer={{ collapseButton: true }}
+        >
           {menus}
         </Nav>
       </Sider>
       <Layout>
-        <Header></Header>
+        <Header
+          style={{
+            backgroundColor: "var(--semi-color-bg-1)",
+            border: "1px solid var(--semi-color-border)",
+          }}
+        >
+          <Nav mode="horizontal">
+            <Nav.Footer>
+              <Space spacing="medium">
+                <Button
+                  icon={
+                    currentTheme == "light" ? (
+                      <IconSun size="large" />
+                    ) : (
+                      <IconMoon size="large" />
+                    )
+                  }
+                  onClick={() => {
+                    if (currentTheme == "light") {
+                      setTheme("dark");
+                    } else {
+                      setTheme("light");
+                    }
+                  }}
+                  theme="borderless"
+                  type="tertiary"
+                ></Button>
+                <Avatar size="small"></Avatar>
+              </Space>
+            </Nav.Footer>
+          </Nav>
+        </Header>
         <Layout>
           <Content>{props.children}</Content>
         </Layout>
