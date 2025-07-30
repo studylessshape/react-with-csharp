@@ -1,6 +1,7 @@
 using Less.Auth.WebApi;
 using Less.Auth.WebApi.Controllers;
 using Less.DalCore;
+using Less.Utils.Mapper.Services;
 using Less.WebApi.Dal;
 using Less.WebApi.Filters;
 using Microsoft.OpenApi.Models;
@@ -49,6 +50,7 @@ try
 
     builder.Services.AddCoreDal(builder.Configuration);
     builder.Services.AddCors();
+    builder.Services.AddMappers(typeof(Less.Auth.WebApi.Models.Mapper_FeatResourceDto_FeatResource).Assembly);
 
     var app = builder.Build();
     app.Services.EnsureDbContextCreate<CoreDbContext>();

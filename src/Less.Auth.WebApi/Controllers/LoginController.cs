@@ -29,8 +29,13 @@ namespace Less.Auth.WebApi.Controllers
         /// <returns></returns>
         [HttpPost("Login")]
         [AllowAnonymous]
-        public async Task<Resp<UserProfile>> Login([FromBody] UserAccountPassword request)
+        public async Task<Resp<UserProfile>> Login([FromBody] LoginRequest request)
         {
+            if (HttpContext.User.Identity?.IsAuthenticated == true)
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                return Resp.Err<UserProfile>("用户已登录", StatusCodes.Status400BadRequest);
+            }
             var validateResult = await userManager.ValidateUserAsync(request.Account, request.Password);
             if (validateResult.IsError)
             {
@@ -41,7 +46,7 @@ namespace Less.Auth.WebApi.Controllers
             var claimIdentity = new ClaimsIdentity(claims, ClaimsIdentity.DefaultIssuer);
             var principal = new ClaimsPrincipal([claimIdentity]);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties() { IsPersistent = true, ExpiresUtc = DateTime.UtcNow.AddDays(7) });
             return Resp.Ok<UserProfile>(user);
         }
 

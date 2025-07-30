@@ -2,6 +2,7 @@
 
 namespace Less.Auth.WebApi.Models
 {
+    [Less.Utils.Mapper.MapTo(typeof(FeatResource))]
     public class FeatResourceDto
     {
         public int Id { get; set; }
@@ -11,19 +12,6 @@ namespace Less.Auth.WebApi.Models
         public int Kind { get; set; }
         public string Tag { get; set; } = "";
         public string Url { get; set; } = "";
-
-        public static FeatResourceDto From(FeatResource resource)
-        {
-            return new FeatResourceDto
-            {
-                Id = resource.Id,
-                Name = resource.Name,
-                Description = resource.Description,
-                ParentId = resource.ParentId,
-                Kind = resource.Kind,
-                Tag = resource.Tag,
-                Url = resource.Url,
-            };
-        }
+        public string? Icon { get; set; }
     }
 }

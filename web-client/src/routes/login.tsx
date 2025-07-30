@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { titleAppend } from "../utils/title";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUserState } from "../stores";
 import { Button, Form, Toast, Typography } from "@douyinfe/semi-ui";
 import { login } from "../services/login";
@@ -26,11 +26,7 @@ function RouteComponent() {
   return (
     <div className="w-full h-full flex justify-center items-center">
       <div
-        className="border border-solid border-rd px-15 py-10"
-        style={{
-          borderColor: "var(--semi-color-border)",
-          boxShadow: "var(--semi-shadow-elevated)",
-        }}
+        className="border border-solid border-rd px-15 py-10 semi-border-color"
       >
         <Typography.Title heading={2}>
           登录 {import.meta.env.PUBLIC_APP_TITLE}

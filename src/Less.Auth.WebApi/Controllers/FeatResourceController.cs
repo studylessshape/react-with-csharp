@@ -1,6 +1,8 @@
 ﻿using Less.Api.Core;
 using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
+using Less.Auth.WebApi.Models;
+using Less.Utils.Mapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,11 +15,13 @@ namespace Less.Auth.WebApi.Controllers
     {
         private readonly IFeatResourceRepo resourceRepo;
         private readonly IFeatResourceClaimRepo featResourceClaimRepo;
+        private readonly IMapperFactory mapperFactory;
 
-        public FeatResourceController(IFeatResourceRepo resourceRepo, IFeatResourceClaimRepo featResourceClaimRepo)
+        public FeatResourceController(IFeatResourceRepo resourceRepo, IFeatResourceClaimRepo featResourceClaimRepo, IMapperFactory mapperFactory)
         {
             this.resourceRepo = resourceRepo;
             this.featResourceClaimRepo = featResourceClaimRepo;
+            this.mapperFactory = mapperFactory;
         }
 
         /// <summary>
@@ -26,14 +30,21 @@ namespace Less.Auth.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public async Task<Resp<IList<FeatResource>>> GetAccessResource()
+        public async Task<Resp<IList<FeatResourceDto>>> GetAccessResource()
         {
             var claims = HttpContext.User.Claims.ToArray();
+            var mapper = mapperFactory.GetMapper<FeatResource, FeatResourceDto>();
+            IList<FeatResourceDto> result;
+
             if (claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "System"))
             {
-                return Resp.Ok(await resourceRepo.ListAsync());
+                result = (await resourceRepo.ListAsync()).Select(mapper.MapTo).ToList();
+                return Resp.Ok(result);
             }
-            return Resp.Ok(await featResourceClaimRepo.GetAccessResource(claims));
+
+            result = (await featResourceClaimRepo.GetAccessResource(claims)).Select(mapper.MapTo).ToList();
+
+            return Resp.Ok(result);
         }
     }
 }
