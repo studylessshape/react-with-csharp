@@ -1,12 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { titleAppend } from "../utils/title";
 import { useState } from "react";
-import { useUserState } from "../stores";
-import { Button, Form, Icon, Toast, Typography } from "@douyinfe/semi-ui";
+import { useFeatResources, useUserState } from "../stores";
+import { Button, Form, Icon, Typography } from "@douyinfe/semi-ui";
 import { login } from "../services/account";
 import type { LoginRequest } from "../services/interfaces";
-import { useAuth } from "../hooks/useAuth";
 import Logo from "../assets/logo.svg?react";
+import { handleResp } from "../utils/resp_flow";
+import { getAndSetUser } from "../utils/user_resource";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
@@ -15,11 +16,12 @@ export const Route = createFileRoute("/login")({
 
 function RouteComponent() {
   const [submitLogin, setSubmiLogin] = useState(false);
-  const setStateLogin = useUserState((state) => state.login);
+  const isAuthenticated = useUserState((state) => state.isAuthenticated);
+  const setFeatResource = useFeatResources((state) => state.setResources);
+  const setUser = useUserState((state) => state.login);
   const navigate = useNavigate();
-  const isLogin = useAuth();
 
-  if (isLogin) {
+  if (isAuthenticated) {
     navigate({ to: "/" });
     return;
   }
@@ -38,19 +40,19 @@ function RouteComponent() {
           layout="vertical"
           onSubmit={async (value) => {
             setSubmiLogin(true);
-            var response = await login(value as LoginRequest).finally(() => {
+            handleResp(login(value as LoginRequest), {
+              handleOk: async (userProfile) => {
+                await getAndSetUser({
+                  userProfile: userProfile,
+                  setUser: setUser,
+                  setFeatResource: setFeatResource,
+                });
+              },
+              defaultMessage: "登录失败",
+            }).finally(() => {
               setSubmiLogin(false);
-            });
-            if (response.success && response.data) {
-              setStateLogin(response.data);
               navigate({ to: "/" });
-              Toast.success({ content: "登录成功！", theme: "light" });
-            } else {
-              Toast.error({
-                content: response.message ?? "登录失败",
-                theme: "light",
-              });
-            }
+            });
           }}
           disabled={submitLogin}
         >

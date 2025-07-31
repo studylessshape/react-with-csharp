@@ -1,33 +1,30 @@
 import { create } from "zustand";
 import type { UserProfile } from "../services/interfaces";
+import { getCookie, setCookie } from "typescript-cookie";
 
-export interface UserInfo extends UserProfile {}
+export interface UserInfo extends UserProfile {
+  routes?: string[];
+  permissions?: string[];
+}
 
 interface UserState {
+  isAuthenticated: boolean;
   user?: UserInfo;
   login: (user: UserInfo) => void;
   logout: () => void;
 }
 
-const STORE_KEY = "user_info";
-
-const userInfoFromLocalStorage = localStorage.getItem(STORE_KEY);
-
-function userInfoFromJson(json: string | null) {
-  if (json) {
-    return JSON.parse(json) as UserInfo;
+function isAuthenticatedCookie() {
+  const COOKIE = import.meta.env.PUBLIC_AUTH_COOKIE;
+  if (getCookie(COOKIE) || (setCookie(COOKIE, COOKIE) && !getCookie(COOKIE))) {
+    return true;
   }
-  return undefined;
+  return false;
 }
 
 export const useUserState = create<UserState>((set) => ({
-  user: userInfoFromJson(userInfoFromLocalStorage),
-  login: (user) => {
-    localStorage.setItem(STORE_KEY, JSON.stringify(user));
-    set({ user: user });
-  },
-  logout: () => {
-    localStorage.removeItem(STORE_KEY);
-    set({ user: undefined });
-  },
+  user: undefined,
+  isAuthenticated: isAuthenticatedCookie(),
+  login: (user) => set({ user: user, isAuthenticated: true }),
+  logout: () => set({ user: undefined, isAuthenticated: false }),
 }));

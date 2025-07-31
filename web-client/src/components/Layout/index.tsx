@@ -9,6 +9,10 @@ import {
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import type { NavHeaderProps } from "@douyinfe/semi-ui/lib/es/navigation";
 
+export * from "./NavMenu";
+export * from "./ThemeToggleButton";
+export * from "./UserAvatar";
+
 const Sider = Layout.Sider;
 const Header = Layout.Header;
 const Content = Layout.Content;

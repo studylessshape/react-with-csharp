@@ -1,5 +1,5 @@
 import {
-  createRootRoute,
+  createRootRouteWithContext,
   HeadContent,
   Outlet,
   useLocation,
@@ -9,14 +9,17 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import AppLayout from "../components/Layout";
 import { useFeatResources, useUserState } from "../stores";
 import { useEffect } from "react";
-import { getAccessResource, getUserProfile } from "../services";
-import { useAuth } from "../hooks/useAuth";
-import { handleResp } from "../utils/resp_flow";
+import { type FeatResource } from "../services";
 import { featResourceToMenuProps } from "../utils/feares_to_menu";
 import { Icon } from "@douyinfe/semi-ui";
 import Logo from "../assets/logo.svg?react";
+import { getAndSetUser } from "../utils/user_resource";
 
-export const Route = createRootRoute({
+export interface RouteContext {
+  featResources?: FeatResource[];
+}
+
+export const Route = createRootRouteWithContext<RouteContext>()({
   component: RootComponent,
   head: () => ({
     meta: [{ title: import.meta.env.PUBLIC_APP_TITLE }],
@@ -25,27 +28,24 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const user = useUserState((state) => state.user);
-  const setUser = useUserState((state) => state.login);
-  const isLogin = useAuth();
   const featResources = useFeatResources((state) => state.resources);
-  const setFeatResources = useFeatResources((state) => state.setResources);
+  const isAuthenticated = useUserState((state) => state.isAuthenticated);
+  const setFeatResource = useFeatResources((state) => state.setResources);
+  const setUser = useUserState((state) => state.login);
   const navigation = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!isAuthenticated) {
       if (location.pathname != "/login") {
         navigation({ to: "/login" });
       }
-    } else if (!user) {
-      handleResp(getUserProfile(), {
-        handleOk: (data) => setUser(data),
-        defaultMessage: "获取用户信息失败！",
-      });
-    } else if (user) {
-      handleResp(getAccessResource(), {
-        handleOk: (data) => setFeatResources(data),
-        defaultMessage: "获取功能资源失败！",
+    }
+    if (!user || !featResources) {
+      getAndSetUser({
+        userProfile: user,
+        setFeatResource: setFeatResource,
+        setUser: setUser,
       });
     }
   }, [user]);
@@ -57,7 +57,7 @@ function RootComponent() {
       <HeadContent />
       <AppLayout
         menu={menus}
-        layout={user != null && isLogin}
+        layout={user != null && isAuthenticated}
         header={{
           logo: (
             <Icon

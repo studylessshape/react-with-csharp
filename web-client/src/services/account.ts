@@ -10,5 +10,5 @@ export function logout() {
 }
 
 export function getUserProfile() {
-    return api<UserProfile, NormalError>("/api/auth/Logout", "GET");
+    return api<UserProfile, NormalError>("/api/auth/GetProfile", "GET");
 }
