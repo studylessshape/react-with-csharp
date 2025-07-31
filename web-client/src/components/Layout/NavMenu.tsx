@@ -5,6 +5,7 @@ import {
   useNavigate,
   type ParsedLocation,
 } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
 export interface MenuItemProps {
   // Id
@@ -17,9 +18,21 @@ export interface MenuItemProps {
   children?: MenuItemProps[];
 }
 
-export interface NavbarProps {
+export interface AutoCollapsedProps {
+  /**
+   * @summary auto set sidebar collapsed when window width is less than this value
+   */
+  minWidth?: number;
+  /**
+   * @summary auto set sidebar collasped when `window.width/window.height` is less than this value
+   */
+  radio?: number;
+}
+
+export interface NavMenuProps {
   header?: React.ReactNode | NavHeaderProps;
   menu?: MenuItemProps[];
+  autoCollapsed?: AutoCollapsedProps;
 }
 
 const NavSub = Nav.Sub;
@@ -40,7 +53,7 @@ function getSelectedKeys(location: ParsedLocation<{}>, menu?: MenuItemProps[]) {
   return keys;
 }
 
-export function Navbar(props: NavbarProps) {
+export function NavMenu(props: NavMenuProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -73,6 +86,32 @@ export function Navbar(props: NavbarProps) {
 
   const menus = props.menu ? toNav(props.menu) : undefined;
   const selectedKeys = getSelectedKeys(location, props.menu);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  function onDocumentResize(this: Window, _ev: UIEvent) {
+    if (props.autoCollapsed) {
+      const minWidth = props.autoCollapsed.minWidth;
+      if (minWidth && this.innerWidth < minWidth) {
+        setIsCollapsed(true);
+        return;
+      }
+      const radio = props.autoCollapsed.radio;
+      const currentRadio = this.innerWidth / this.innerHeight;
+      if (radio && currentRadio < radio) {
+        setIsCollapsed(true);
+        return;
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (props.autoCollapsed) {
+      window.addEventListener("resize", onDocumentResize);
+      return () => {
+        window.removeEventListener("resize", onDocumentResize);
+      };
+    }
+  }, []);
 
   return (
     <Nav
@@ -80,6 +119,8 @@ export function Navbar(props: NavbarProps) {
       defaultSelectedKeys={selectedKeys}
       header={props.header}
       footer={{ collapseButton: true }}
+      isCollapsed={isCollapsed}
+      onCollapseChange={(collapsed) => setIsCollapsed(collapsed)}
     >
       {menus}
     </Nav>

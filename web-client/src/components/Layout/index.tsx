@@ -1,46 +1,97 @@
 import { Layout, Nav, Space } from "@douyinfe/semi-ui";
 import { type PropsWithChildren } from "react";
 import { UserAvatar, type UserAvatarProps } from "./UserAvatar";
-import { Navbar, type NavbarProps } from "./Navbar";
+import {
+  NavMenu,
+  type AutoCollapsedProps,
+  type MenuItemProps,
+} from "./NavMenu";
 import { ThemeToggleButton } from "./ThemeToggleButton";
+import type { NavHeaderProps } from "@douyinfe/semi-ui/lib/es/navigation";
 
 const Sider = Layout.Sider;
 const Header = Layout.Header;
 const Content = Layout.Content;
 
-export interface LayoutProps extends NavbarProps, UserAvatarProps {
+export interface LayoutProps {
   layout?: boolean;
+  header?: React.ReactNode | NavHeaderProps;
+  menu?: MenuItemProps[];
+  userAvatar?: UserAvatarProps;
+  /**
+   * @summary Default header position is `navbar`
+   */
+  headerPosition?: "sidebar" | "navbar";
+  /**
+   * @summary Sets whether the navbar occupies the entire top
+   */
+  navbarFull?: boolean;
+  sidebarAutoCollapsed?: AutoCollapsedProps;
+}
+
+function LayoutRoot(props: PropsWithChildren) {
+  return <Layout className="w-screen h-screen">{props.children}</Layout>;
 }
 
 export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
   if (props.layout == false) {
     return (
-      <Layout style={{ width: "100vw", height: "100vh" }}>
+      <LayoutRoot>
         <Content>{props.children}</Content>
-      </Layout>
+      </LayoutRoot>
+    );
+  }
+
+  const headerPosition = props.headerPosition ?? "navbar";
+
+  const header = (
+    <Header className="semi-color-bg-1 semi-border-color border border-solid">
+      <Nav
+        mode="horizontal"
+        header={headerPosition == "navbar" ? props.header : undefined}
+      >
+        <Nav.Footer>
+          <Space spacing="medium">
+            <ThemeToggleButton />
+            <UserAvatar {...props.userAvatar} />
+          </Space>
+        </Nav.Footer>
+      </Nav>
+    </Header>
+  );
+  const sidebar = (
+    <Sider>
+      <NavMenu
+        menu={props.menu}
+        header={headerPosition == "sidebar" ? props.header : undefined}
+        autoCollapsed={props.sidebarAutoCollapsed}
+      ></NavMenu>
+    </Sider>
+  );
+
+  if (props.navbarFull == true) {
+    return (
+      <LayoutRoot>
+        {header}
+        <Layout>
+          {sidebar}
+          <Layout>
+            <Content>{props.children}</Content>
+          </Layout>
+        </Layout>
+      </LayoutRoot>
     );
   }
 
   return (
-    <Layout className="w-screen h-screen">
-      <Sider>
-        <Navbar {...(props as NavbarProps)}></Navbar>
-      </Sider>
+    <LayoutRoot>
+      {sidebar}
       <Layout>
-        <Header className="semi-color-bg-1 semi-border-color border border-solid">
-          <Nav mode="horizontal">
-            <Nav.Footer>
-              <Space spacing="medium">
-                <ThemeToggleButton />
-                <UserAvatar {...(props as UserAvatarProps)} />
-              </Space>
-            </Nav.Footer>
-          </Nav>
-        </Header>
+        {header}
         <Layout>
           <Content>{props.children}</Content>
         </Layout>
       </Layout>
-    </Layout>
+    </LayoutRoot>
   );
 }

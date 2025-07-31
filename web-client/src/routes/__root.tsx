@@ -68,6 +68,7 @@ function RootComponent() {
           text: import.meta.env.PUBLIC_APP_TITLE,
           link: "/",
         }}
+        sidebarAutoCollapsed={{ radio: 2.0 / 3.0 }}
       >
         <Outlet />
       </AppLayout>
