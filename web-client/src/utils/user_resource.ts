@@ -36,7 +36,7 @@ export async function getAndSetUser(input: UserResourceIn) {
       setUser({
         routes: feats.filter((f) => f.kind == 0 && f.url).map((f) => f.url),
         permissions: feats.filter((f) => f.kind == 1).map((f) => f.name),
-        ...userProfile,
+        ...userProfile!,
       });
     },
     defaultMessage: "获取资源失败",
