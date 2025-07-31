@@ -2,9 +2,13 @@
 @unocss default;
 
 body {
-    padding: 0;
-    margin: 0;
-    /* see https://semi.design/zh-CN/start/dark-mode */
-    color: var(--semi-color-text-0);
-    background-color: var( --semi-color-bg-0); 
+  padding: 0;
+  margin: 0;
+  /* see https://semi.design/zh-CN/start/dark-mode */
+  color: var(--semi-color-text-0);
+  background-color: var(--semi-color-bg-0);
+}
+
+.background-svg {
+  background-image: url("./assets/background.svg");
 }

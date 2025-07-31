@@ -20,6 +20,14 @@ export default async function <T, TError>(
   } as RequestInit;
 
   const response = await fetch(url, requestInfo);
-  const result = await response.json();
-  return result as Resp<T, TError>;
+
+  try {
+    const result = await response.json();
+    return result as Resp<T, TError>;
+  } catch {
+    return {
+      code: response.status,
+      message: response.statusText,
+    } as Resp<T, TError>;
+  }
 }

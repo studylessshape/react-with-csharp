@@ -2,7 +2,6 @@
 using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.Auth.WebApi.Models;
-using Less.Utils.Mapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -15,13 +14,12 @@ namespace Less.Auth.WebApi.Controllers
     {
         private readonly IFeatResourceRepo resourceRepo;
         private readonly IFeatResourceClaimRepo featResourceClaimRepo;
-        private readonly IMapperFactory mapperFactory;
 
-        public FeatResourceController(IFeatResourceRepo resourceRepo, IFeatResourceClaimRepo featResourceClaimRepo, IMapperFactory mapperFactory)
+        public FeatResourceController(IFeatResourceRepo resourceRepo,
+                                      IFeatResourceClaimRepo featResourceClaimRepo)
         {
             this.resourceRepo = resourceRepo;
             this.featResourceClaimRepo = featResourceClaimRepo;
-            this.mapperFactory = mapperFactory;
         }
 
         /// <summary>
@@ -33,16 +31,15 @@ namespace Less.Auth.WebApi.Controllers
         public async Task<Resp<IList<FeatResourceDto>>> GetAccessResource()
         {
             var claims = HttpContext.User.Claims.ToArray();
-            var mapper = mapperFactory.GetMapper<FeatResource, FeatResourceDto>();
             IList<FeatResourceDto> result;
 
             if (claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "System"))
             {
-                result = (await resourceRepo.ListAsync()).Select(mapper.MapTo).ToList();
+                result = (await resourceRepo.ListAsync()).Select(FeatResourceDto.FromData).ToList();
                 return Resp.Ok(result);
             }
 
-            result = (await featResourceClaimRepo.GetAccessResource(claims)).Select(mapper.MapTo).ToList();
+            result = (await featResourceClaimRepo.GetAccessResource(claims)).Select(FeatResourceDto.FromData).ToList();
 
             return Resp.Ok(result);
         }

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <!-- 大点阵图案 -->
+    <pattern id="dotPattern" patternUnits="userSpaceOnUse" width="30" height="30">
+      <circle cx="15" cy="15" r="3" fill="#888" fill-opacity="0.25" />
+    </pattern>
+    
+    <!-- 颜色定义 -->
+    <style type="text/css">
+      .decor-1 { fill: #6366F1; fill-opacity: 0.5; }
+      .decor-2 { fill: #A855F7; fill-opacity: 0.5; }
+      .decor-3 { fill: #EC4899; fill-opacity: 0.5; }
+      .decor-4 { fill: #3B82F6; fill-opacity: 0.5; }
+      .decor-5 { fill: #10B981; fill-opacity: 0.5; }
+      .decor-6 { fill: #F59E0B; fill-opacity: 0.5; }
+    </style>
+  </defs>
+  
+  <!-- 透明背景 -->
+  <rect width="100%" height="100%" fill="transparent" />
+  
+  <!-- 大点阵层 -->
+  <rect width="100%" height="100%" fill="url(#dotPattern)" />
+  
+  <!-- 随机分布的装饰元素 -->
+  <circle cx="150" cy="120" r="45" class="decor-1" />
+  <rect x="350" y="70" width="60" height="60" transform="rotate(45 350 70)" class="decor-2" />
+  <polygon points="550,50 600,150 500,150" class="decor-3" />
+  <circle cx="800" cy="100" r="50" class="decor-4" />
+  
+  <rect x="100" y="300" width="80" height="80" rx="15" class="decor-5" />
+  <circle cx="400" cy="350" r="40" class="decor-6" />
+  <polygon points="700,300 750,400 650,400" class="decor-1" />
+  <rect x="900" y="320" width="70" height="70" transform="rotate(30 900 320)" class="decor-2" />
+  
+  <circle cx="200" cy="550" r="55" class="decor-3" />
+  <rect x="450" y="500" width="90" height="90" rx="20" class="decor-4" />
+  <polygon points="750,550 800,650 700,650" class="decor-5" />
+  <circle cx="1000" cy="600" r="60" class="decor-6" />
+  
+  <rect x="150" y="700" width="75" height="75" transform="rotate(15 150 700)" class="decor-1" />
+  <circle cx="500" cy="750" r="45" class="decor-2" />
+  <polygon points="850,700 900,800 800,800" class="decor-3" />
+  <rect x="1100" y="720" width="65" height="65" rx="10" class="decor-4" />
+  
+  <!-- 一些额外的随机小元素 -->
+  <circle cx="250" cy="200" r="15" class="decor-5" />
+  <circle cx="950" cy="180" r="20" class="decor-6" />
+  <rect x="600" y="200" width="30" height="30" transform="rotate(20 600 200)" class="decor-1" />
+  <circle cx="300" cy="450" r="25" class="decor-2" />
+  <rect x="700" y="450" width="40" height="40" rx="5" class="decor-3" />
+  <circle cx="1050" cy="400" r="20" class="decor-4" />
+</svg>

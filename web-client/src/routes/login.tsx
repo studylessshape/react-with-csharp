@@ -2,10 +2,11 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { titleAppend } from "../utils/title";
 import { useState } from "react";
 import { useUserState } from "../stores";
-import { Button, Form, Toast, Typography } from "@douyinfe/semi-ui";
-import { login } from "../services/login";
+import { Button, Form, Icon, Toast, Typography } from "@douyinfe/semi-ui";
+import { login } from "../services/account";
 import type { LoginRequest } from "../services/interfaces";
 import { useAuth } from "../hooks/useAuth";
+import Logo from "../assets/logo.svg?react";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
@@ -24,13 +25,14 @@ function RouteComponent() {
   }
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      <div
-        className="border border-solid border-rd px-15 py-10 semi-border-color"
-      >
-        <Typography.Title heading={2}>
-          登录 {import.meta.env.PUBLIC_APP_TITLE}
-        </Typography.Title>
+    <div className="w-full h-full flex justify-center items-center background-svg">
+      <div className="border border-solid border-rd px-15 py-10 semi-border-color semi-shadow-elevated semi-color-bg-1">
+        <div className="flex items-center">
+          <Icon svg={<Logo height={100} width={100} />} />
+          <Typography.Title heading={2} className="select-none m-auto">
+            {import.meta.env.PUBLIC_APP_TITLE}
+          </Typography.Title>
+        </div>
         <Form
           // @ts-ignore
           layout="vertical"

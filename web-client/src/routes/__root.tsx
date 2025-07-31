@@ -13,6 +13,8 @@ import { getAccessResource, getUserProfile } from "../services";
 import { useAuth } from "../hooks/useAuth";
 import { handleResp } from "../utils/resp_flow";
 import { featResourceToMenuProps } from "../utils/feares_to_menu";
+import { Icon } from "@douyinfe/semi-ui";
+import Logo from "../assets/logo.svg?react";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -53,7 +55,20 @@ function RootComponent() {
   return (
     <>
       <HeadContent />
-      <AppLayout menu={menus} layout={user != null && isLogin}>
+      <AppLayout
+        menu={menus}
+        layout={user != null && isLogin}
+        header={{
+          logo: (
+            <Icon
+              svg={<Logo height={36} width={36} />}
+              className="font-size-9"
+            />
+          ),
+          text: import.meta.env.PUBLIC_APP_TITLE,
+          link: "/",
+        }}
+      >
         <Outlet />
       </AppLayout>
       <TanStackRouterDevtools position="bottom-right" />

@@ -1,0 +1,52 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 霓虹光晕效果 -->
+    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    
+    <!-- 渐变色彩 -->
+    <linearGradient id="neon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F5FF"/>
+      <stop offset="50%" stop-color="#FF00FF"/>
+      <stop offset="100%" stop-color="#FF00AA"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 复杂几何图形中心 -->
+  <g transform="translate(100,100)">
+    <!-- 外层光环 -->
+    <circle cx="0" cy="0" r="70" fill="none" 
+            stroke="url(#neon-gradient)" stroke-width="2" 
+            stroke-dasharray="5,3" filter="url(#neon-glow)" opacity="0.8"/>
+    
+    <!-- 核心复杂图形 -->
+    <g filter="url(#neon-glow)">
+      <!-- 齿轮状环 -->
+      <path d="M0 -50 C10 -50 15 -60 25 -55 C30 -50 35 -55 45 -50
+               C50 -55 55 -50 60 -55 C65 -50 70 -55 75 -50
+               C80 -55 85 -50 90 -55 C95 -50 100 -55 105 -50
+               L105 50 C100 55 95 50 90 55
+               C85 50 80 55 75 50 C70 55 65 50 60 55
+               C55 50 50 55 45 50 C35 55 30 50 25 55
+               C15 60 10 50 0 50 Z" 
+            fill="none" stroke="url(#neon-gradient)" stroke-width="2"/>
+      
+      <!-- 内部电路板纹样 -->
+      <path d="M-30 -30 L30 -30 M-30 0 L30 0 M-30 30 L30 30
+               M0 -30 L0 30 M-30 -15 L-15 -15 L-15 15 L15 15 L15 -15 L30 -15" 
+            stroke="#00F5FF" stroke-width="1.5"/>
+      
+      <!-- 中心脉冲点 -->
+      <circle cx="0" cy="0" r="8" fill="#FF00FF"/>
+      <circle cx="0" cy="0" r="5" fill="white"/>
+    </g>
+    
+    <!-- 动态光点 -->
+    <circle cx="-60" cy="-60" r="3" fill="#00F5FF" filter="url(#neon-glow)"/>
+    <circle cx="60" cy="-60" r="3" fill="#FF00FF" filter="url(#neon-glow)"/>
+    <circle cx="60" cy="60" r="3" fill="#FF00AA" filter="url(#neon-glow)"/>
+    <circle cx="-60" cy="60" r="3" fill="#00F5FF" filter="url(#neon-glow)"/>
+  </g>
+</svg>
