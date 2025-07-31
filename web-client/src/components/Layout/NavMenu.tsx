@@ -27,6 +27,11 @@ export interface AutoCollapsedProps {
    * @summary auto set sidebar collasped when `window.width/window.height` is less than this value
    */
   radio?: number;
+  /**
+   * @summary whether expand sidebar when width or radio is larger than target
+   * @default false
+   */
+  expand?: boolean;
 }
 
 export interface NavMenuProps {
@@ -91,15 +96,16 @@ export function NavMenu(props: NavMenuProps) {
   function onDocumentResize(this: Window, _ev: UIEvent) {
     if (props.autoCollapsed) {
       const minWidth = props.autoCollapsed.minWidth;
-      if (minWidth && this.innerWidth < minWidth) {
-        setIsCollapsed(true);
-        return;
-      }
       const radio = props.autoCollapsed.radio;
       const currentRadio = this.innerWidth / this.innerHeight;
-      if (radio && currentRadio < radio) {
+      if (
+        (minWidth && this.innerWidth < minWidth) ||
+        (radio && currentRadio < radio)
+      ) {
         setIsCollapsed(true);
         return;
+      } else {
+        setIsCollapsed(false);
       }
     }
   }
