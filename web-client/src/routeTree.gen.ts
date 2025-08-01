@@ -9,12 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserAccountRouteImport } from './routes/user/$account'
 import { Route as ManageUserRouteImport } from './routes/manage/user'
 import { Route as ManageModuleRouteImport } from './routes/manage/module'
 
+const UnauthorizedRoute = UnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -25,9 +33,19 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const R404Route = R404RouteImport.update({
+  id: '/404',
+  path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserAccountRoute = UserAccountRouteImport.update({
+  id: '/user/$account',
+  path: '/user/$account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ManageUserRoute = ManageUserRouteImport.update({
@@ -43,44 +61,88 @@ const ManageModuleRoute = ManageModuleRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/manage/module': typeof ManageModuleRoute
   '/manage/user': typeof ManageUserRoute
+  '/user/$account': typeof UserAccountRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/manage/module': typeof ManageModuleRoute
   '/manage/user': typeof ManageUserRoute
+  '/user/$account': typeof UserAccountRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/manage/module': typeof ManageModuleRoute
   '/manage/user': typeof ManageUserRoute
+  '/user/$account': typeof UserAccountRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login' | '/manage/module' | '/manage/user'
+  fullPaths:
+    | '/'
+    | '/404'
+    | '/about'
+    | '/login'
+    | '/unauthorized'
+    | '/manage/module'
+    | '/manage/user'
+    | '/user/$account'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/manage/module' | '/manage/user'
-  id: '__root__' | '/' | '/about' | '/login' | '/manage/module' | '/manage/user'
+  to:
+    | '/'
+    | '/404'
+    | '/about'
+    | '/login'
+    | '/unauthorized'
+    | '/manage/module'
+    | '/manage/user'
+    | '/user/$account'
+  id:
+    | '__root__'
+    | '/'
+    | '/404'
+    | '/about'
+    | '/login'
+    | '/unauthorized'
+    | '/manage/module'
+    | '/manage/user'
+    | '/user/$account'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R404Route: typeof R404Route
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
+  UnauthorizedRoute: typeof UnauthorizedRoute
   ManageModuleRoute: typeof ManageModuleRoute
   ManageUserRoute: typeof ManageUserRoute
+  UserAccountRoute: typeof UserAccountRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unauthorized': {
+      id: '/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -95,11 +157,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/$account': {
+      id: '/user/$account'
+      path: '/user/$account'
+      fullPath: '/user/$account'
+      preLoaderRoute: typeof UserAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/manage/user': {
@@ -121,10 +197,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R404Route: R404Route,
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
+  UnauthorizedRoute: UnauthorizedRoute,
   ManageModuleRoute: ManageModuleRoute,
   ManageUserRoute: ManageUserRoute,
+  UserAccountRoute: UserAccountRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

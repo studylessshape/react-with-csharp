@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@douyinfe/semi-icons": "^2.84.0",
+    "@douyinfe/semi-illustrations": "^2.84.0",
     "@douyinfe/semi-ui": "^2.83.0",
     "@tanstack/react-router": "^1.130.2",
     "@tanstack/react-router-devtools": "^1.130.2",

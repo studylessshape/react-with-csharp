@@ -5,6 +5,7 @@
       "name": "web-client",
       "dependencies": {
         "@douyinfe/semi-icons": "^2.84.0",
+        "@douyinfe/semi-illustrations": "^2.84.0",
         "@douyinfe/semi-ui": "^2.83.0",
         "@tanstack/react-router": "^1.130.2",
         "@tanstack/react-router-devtools": "^1.130.2",
@@ -135,7 +136,7 @@
 
     "@douyinfe/semi-icons": ["@douyinfe/semi-icons@2.84.0", "https://registry.npmmirror.com/@douyinfe/semi-icons/-/semi-icons-2.84.0.tgz", { "dependencies": { "classnames": "^2.2.6" }, "peerDependencies": { "react": ">=16.0.0" } }, "sha512-EShiV2TgviUvhRB7vBAewO7C+75p9s/9BlRA5G9c/TXBkdyzU4U4hN+d7pY5ScVS6H4+rf2Gu/RMnXRH5dKhSg=="],
 
-    "@douyinfe/semi-illustrations": ["@douyinfe/semi-illustrations@2.83.0", "https://registry.npmmirror.com/@douyinfe/semi-illustrations/-/semi-illustrations-2.83.0.tgz", { "peerDependencies": { "react": ">=16.0.0" } }, "sha512-hgK1wuCXAncSEVdBg8EtdItI5Mck+nZPUe+eLt51oSQjZbkxa3x/pGFM3FYVKvxbMuOMy9gJqF0JgLg32WG+Eg=="],
+    "@douyinfe/semi-illustrations": ["@douyinfe/semi-illustrations@2.84.0", "", { "peerDependencies": { "react": ">=16.0.0" } }, "sha512-t6CLMHTvR3N5c27U3i3iYHiUbJb4i96E6N3++w1VCGielPly9mM5WHvQdHc9mbfjM7lMfjsvo1LGbUyxO+BQ8g=="],
 
     "@douyinfe/semi-json-viewer-core": ["@douyinfe/semi-json-viewer-core@2.83.0", "https://registry.npmmirror.com/@douyinfe/semi-json-viewer-core/-/semi-json-viewer-core-2.83.0.tgz", { "dependencies": { "jsonc-parser": "^3.3.1" } }, "sha512-hqDDsmpu/FUiRm3OVDEzbW3w4akHjbsRqBUHdGlpLGMha5xB0BV00JR1c4iI5UBkIIi6xT3zCCeNeBTBaDpnSQ=="],
 
@@ -1172,6 +1173,8 @@
     "zwitch": ["zwitch@2.0.4", "https://registry.npmmirror.com/zwitch/-/zwitch-2.0.4.tgz", {}, "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="],
 
     "@douyinfe/semi-ui/@douyinfe/semi-icons": ["@douyinfe/semi-icons@2.83.0", "https://registry.npmmirror.com/@douyinfe/semi-icons/-/semi-icons-2.83.0.tgz", { "dependencies": { "classnames": "^2.2.6" }, "peerDependencies": { "react": ">=16.0.0" } }, "sha512-zWC1uwjJwHT/YTVIQ46O35WU6hi+T+Q1Sk6otgjc7fKymQR4BKDAkG9lOSttN5LmzljBUlQqbNym2NwahtQfwA=="],
+
+    "@douyinfe/semi-ui/@douyinfe/semi-illustrations": ["@douyinfe/semi-illustrations@2.83.0", "https://registry.npmmirror.com/@douyinfe/semi-illustrations/-/semi-illustrations-2.83.0.tgz", { "peerDependencies": { "react": ">=16.0.0" } }, "sha512-hgK1wuCXAncSEVdBg8EtdItI5Mck+nZPUe+eLt51oSQjZbkxa3x/pGFM3FYVKvxbMuOMy9gJqF0JgLg32WG+Eg=="],
 
     "@mdx-js/mdx/source-map": ["source-map@0.7.4", "https://registry.npmmirror.com/source-map/-/source-map-0.7.4.tgz", {}, "sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA=="],
 

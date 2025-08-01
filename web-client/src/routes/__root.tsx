@@ -14,6 +14,7 @@ import { featResourceToMenuProps } from "../utils/feares_to_menu";
 import { Icon } from "@douyinfe/semi-ui";
 import Logo from "../assets/logo.svg?react";
 import { getAndSetUser } from "../utils/user_resource";
+import { NotFound } from "../components/NotFoundPage";
 
 export interface RouteContext {
   featResources?: FeatResource[];
@@ -21,6 +22,7 @@ export interface RouteContext {
 
 export const Route = createRootRouteWithContext<RouteContext>()({
   component: RootComponent,
+  notFoundComponent: NotFound,
   head: () => ({
     meta: [{ title: import.meta.env.PUBLIC_APP_TITLE }],
   }),
@@ -40,8 +42,7 @@ function RootComponent() {
       if (location.pathname != "/login") {
         navigation({ to: "/login" });
       }
-    }
-    else if (!user || !featResources) {
+    } else if (!user || !featResources) {
       getAndSetUser({
         userProfile: user,
         setFeatResource: setFeatResource,
