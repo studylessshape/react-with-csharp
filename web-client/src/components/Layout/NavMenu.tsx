@@ -103,9 +103,6 @@ export function NavMenu(props: NavMenuProps) {
         (radio && currentRadio < radio)
       ) {
         setIsCollapsed(true);
-        return;
-      } else {
-        setIsCollapsed(false);
       }
     }
   }

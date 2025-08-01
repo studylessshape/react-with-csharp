@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { UserProfile } from "../services/interfaces";
-import { getCookie, setCookie } from "typescript-cookie";
+import { getCookie, removeCookie, setCookie } from "typescript-cookie";
 
 export interface UserInfo extends UserProfile {
   routes?: string[];
@@ -16,10 +16,12 @@ interface UserState {
 
 function isAuthenticatedCookie() {
   const COOKIE = import.meta.env.PUBLIC_AUTH_COOKIE;
+  var result = false;
   if (getCookie(COOKIE) || (setCookie(COOKIE, COOKIE) && !getCookie(COOKIE))) {
-    return true;
+    result = true;
   }
-  return false;
+  removeCookie(COOKIE);
+  return result;
 }
 
 export const useUserState = create<UserState>((set) => ({

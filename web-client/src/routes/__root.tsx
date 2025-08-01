@@ -41,7 +41,7 @@ function RootComponent() {
         navigation({ to: "/login" });
       }
     }
-    if (!user || !featResources) {
+    else if (!user || !featResources) {
       getAndSetUser({
         userProfile: user,
         setFeatResource: setFeatResource,
