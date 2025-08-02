@@ -93,13 +93,17 @@ export function NavMenu(props: NavMenuProps) {
   const selectedKeys = getSelectedKeys(location, props.menu);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  function onDocumentResize(this: Window, _ev: UIEvent) {
+  function onWindowResize(this: Window, _ev: UIEvent) {
+    handleWindowSize(this);
+  }
+
+  function handleWindowSize(win: Window) {
     if (props.autoCollapsed) {
       const minWidth = props.autoCollapsed.minWidth;
       const radio = props.autoCollapsed.radio;
-      const currentRadio = this.innerWidth / this.innerHeight;
+      const currentRadio = win.innerWidth / win.innerHeight;
       if (
-        (minWidth && this.innerWidth < minWidth) ||
+        (minWidth && win.innerWidth < minWidth) ||
         (radio && currentRadio < radio)
       ) {
         setIsCollapsed(true);
@@ -109,9 +113,11 @@ export function NavMenu(props: NavMenuProps) {
 
   useEffect(() => {
     if (props.autoCollapsed) {
-      window.addEventListener("resize", onDocumentResize);
+      window.addEventListener("resize", onWindowResize);
+      // ensure size when initialize component
+      handleWindowSize(window);
       return () => {
-        window.removeEventListener("resize", onDocumentResize);
+        window.removeEventListener("resize", onWindowResize);
       };
     }
   }, []);

@@ -16,9 +16,9 @@ export function UserAvatar(props: UserAvatarProps) {
   const navigate = useNavigate();
 
   function onLogoutClick() {
-    logout(() => Toast.success("登出成功！")).finally(() =>
-      setMenus(undefined)
-    );
+    logout(() => Toast.success("登出成功！")).finally(() => {
+      setMenus(undefined);
+    });
   }
 
   function onUserCenterClick() {

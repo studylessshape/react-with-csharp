@@ -14,6 +14,7 @@ export function canAccessPage(
     redirect({
       to: redirectTo,
       throw: true,
+      replace: true,
     });
   }
 }

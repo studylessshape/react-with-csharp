@@ -9,6 +9,8 @@ export const Route = createFileRoute("/unauthorized")({
   component: RouteComponent,
 });
 
+export class UnauthorizedError extends Error {}
+
 function RouteComponent() {
   return (
     <div className="flex items-center justify-center w-full h-full">
