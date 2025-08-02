@@ -16,8 +16,9 @@ import { Icon } from "@douyinfe/semi-ui";
 import Logo from "../assets/logo.svg?react";
 import { NotFound } from "../components/NotFoundPage";
 import { featResourceToMenuProps } from "../utils/feats_to_menu";
-import { ErrorRoutePage } from "../components/ErrorRoutePage";
 import { useEffect } from "react";
+import { ErrorRoutePage } from "../components/ErrorRoutePage";
+
 export interface RouteContext {
   user: UserState;
   menus: MenuResourceState;
@@ -37,7 +38,7 @@ function RootComponent() {
   const isAuthenticated = useUserState((state) => state.isAuthenticated);
   const menuResources = useMenus((state) => state.menus);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate({ to: "/login", replace: true });
