@@ -1,30 +1,15 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { titleAppend } from "../utils/title";
 import { useState } from "react";
-import { useFeatResources, useUserState } from "../stores";
-import { Button, Form, Icon, Typography } from "@douyinfe/semi-ui";
-import { login } from "../services/account";
-import type { LoginRequest } from "../services/interfaces";
-import Logo from "../assets/logo.svg?react";
-import { handleResp } from "../utils/resp_flow";
-import { getAndSetUser } from "../utils/user_resource";
+import { Button, Form, Icon, Toast, Typography } from "@douyinfe/semi-ui";
+import Logo from "../../assets/logo.svg?react";
+import { useUserState } from "../../stores";
 
-export const Route = createFileRoute("/login")({
-  component: RouteComponent,
-  head: () => ({ meta: [{ title: titleAppend("登录") }] }),
-});
+export interface LoginProps {
+  onSuccessLogin: () => void;
+}
 
-function RouteComponent() {
+export function LoginPage(props: LoginProps) {
   const [submitLogin, setSubmiLogin] = useState(false);
-  const isAuthenticated = useUserState((state) => state.isAuthenticated);
-  const setFeatResource = useFeatResources((state) => state.setResources);
-  const setUser = useUserState((state) => state.login);
-  const navigate = useNavigate();
-
-  if (isAuthenticated) {
-    navigate({ to: "/" });
-    return;
-  }
+  const login = useUserState((state) => state.login);
 
   return (
     <div className="w-full h-full flex justify-center items-center background-svg">
@@ -40,18 +25,13 @@ function RouteComponent() {
           layout="vertical"
           onSubmit={async (value) => {
             setSubmiLogin(true);
-            handleResp(login(value as LoginRequest), {
-              handleOk: async (userProfile) => {
-                await getAndSetUser({
-                  userProfile: userProfile,
-                  setUser: setUser,
-                  setFeatResource: setFeatResource,
-                });
-              },
-              defaultMessage: "登录失败",
-            }).finally(() => {
+            login(
+              value.account,
+              value.password,
+              () => props.onSuccessLogin(),
+              (_err, message) => Toast.error({ content: message ?? "登录失败" })
+            ).finally(() => {
               setSubmiLogin(false);
-              navigate({ to: "/" });
             });
           }}
           disabled={submitLogin}

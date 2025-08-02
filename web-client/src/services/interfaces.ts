@@ -3,7 +3,7 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface UserProfile {
+export interface UserState {
   account: string;
   code: string;
   name: string;
@@ -12,6 +12,8 @@ export interface UserProfile {
   sex: number;
   status: number;
   remark?: string;
+  permissions: string[];
+  roles: string[];
 }
 
 export type NormalError = string | { [key: string]: [[string]] };

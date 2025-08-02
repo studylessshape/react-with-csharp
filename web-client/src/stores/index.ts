@@ -1,3 +1,3 @@
 export * from "./user";
-export * from "./feat_resource";
+export * from "./menus";
 export * from "./theme";

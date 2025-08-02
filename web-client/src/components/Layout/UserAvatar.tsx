@@ -1,8 +1,6 @@
 import { IconExit, IconUser } from "@douyinfe/semi-icons";
 import { Avatar, Dropdown, Toast } from "@douyinfe/semi-ui";
-import { useUserState } from "../../stores";
-import { logout } from "../../services";
-import { handleResp } from "../../utils/resp_flow";
+import { useMenus, useUserState } from "../../stores";
 import { useNavigate } from "@tanstack/react-router";
 
 type DropdownPosition = typeof Dropdown.prototype.props.position;
@@ -13,14 +11,14 @@ export interface UserAvatarProps {
 
 export function UserAvatar(props: UserAvatarProps) {
   const user = useUserState((state) => state.user);
-  const removeUserState = useUserState((state) => state.logout);
+  const logout = useUserState((state) => state.logout);
+  const setMenus = useMenus((state) => state.setMenus);
   const navigate = useNavigate();
 
   function onLogoutClick() {
-    handleResp(logout(), {
-      handleOk: () => Toast.success("登出成功！"),
-      defaultMessage: "已从网页移除登录状态，但接受到服务器的失败响应",
-    }).finally(() => removeUserState());
+    logout(() => Toast.success("登出成功！")).finally(() =>
+      setMenus(undefined)
+    );
   }
 
   function onUserCenterClick() {

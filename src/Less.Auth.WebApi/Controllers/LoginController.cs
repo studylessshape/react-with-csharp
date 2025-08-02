@@ -1,4 +1,6 @@
 ﻿using Less.Api.Core;
+using Less.Auth.FeatResourceClaims;
+using Less.Auth.FeatResources;
 using Less.Auth.Users;
 using Less.Auth.WebApi.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -10,16 +12,18 @@ using System.Security.Claims;
 namespace Less.Auth.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/auth")]
+    [Route("api/auth/[action]")]
     public class LoginController : ControllerBase
     {
         private readonly IUserManager userManager;
         private readonly IUserRepo userRepo;
+        private readonly IFeatResourceClaimRepo featResourceClaimRepo;
 
-        public LoginController(IUserManager userManager, IUserRepo userRepo)
+        public LoginController(IUserManager userManager, IUserRepo userRepo, IFeatResourceClaimRepo featResourceClaimRepo)
         {
             this.userManager = userManager;
             this.userRepo = userRepo;
+            this.featResourceClaimRepo = featResourceClaimRepo;
         }
 
         /// <summary>
@@ -27,34 +31,41 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("Login")]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<Resp<UserProfile>> Login([FromBody] LoginRequest request)
+        public async Task<Resp<UserState>> Login([FromBody] LoginRequest request)
         {
             if (HttpContext.User.Identity?.IsAuthenticated == true)
             {
                 HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                return Resp.Err<UserProfile>("用户已登录", StatusCodes.Status400BadRequest);
+                return Resp.Err<UserState>("用户已登录", StatusCodes.Status400BadRequest);
             }
             var validateResult = await userManager.ValidateUserAsync(request.Account, request.Password);
             if (validateResult.IsError)
             {
-                return Resp.Err<UserProfile>(validateResult.ErrorValue);
+                return Resp.Err<UserState>(validateResult.ErrorValue);
             }
+
             var user = validateResult.ResultValue;
             var claims = await userManager.LoadClaimsAsync(user.Account);
             var claimIdentity = new ClaimsIdentity(claims, ClaimsIdentity.DefaultIssuer);
             var principal = new ClaimsPrincipal([claimIdentity]);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties() { IsPersistent = true, ExpiresUtc = DateTime.UtcNow.AddDays(7) });
-            return Resp.Ok<UserProfile>(user);
+
+            var featResources = await featResourceClaimRepo.GetPermissions(claims);
+            var userState = UserProfile.FromUser<UserState>(user);
+            userState.Roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray();
+            userState.Permissions = featResources.Where(fr => fr.Kind == FeatResource.PERMISSION_KIND).Select(fr => fr.Name).ToArray();
+
+            return Resp.Ok(userState);
         }
 
         /// <summary>
         /// Logout and remove claims
         /// </summary>
         /// <returns></returns>
-        [HttpPost("Logout")]
+        [HttpPost]
         [Authorize]
         public async Task<Resp<None>> Logout()
         {
@@ -62,7 +73,30 @@ namespace Less.Auth.WebApi.Controllers
             return Resp.Ok(None.New());
         }
 
-        [HttpGet("[action]")]
+        /// <summary>
+        /// Get login state
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public async Task<Resp<UserState>> GetLoginState()
+        {
+            var claims = HttpContext.User.Claims.ToList();
+            var user = await userRepo.FirstByAccountAsync(claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).First());
+            if (user == null)
+            {
+                return Resp.Err<UserState>("未能获取到当前登录的账户");
+            }
+
+            var featResources = await featResourceClaimRepo.GetPermissions(claims);
+            var userState = UserProfile.FromUser<UserState>(user);
+            userState.Roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray();
+            userState.Permissions = featResources.Where(fr => fr.Kind == FeatResource.PERMISSION_KIND).Select(fr => fr.Name).ToArray();
+
+            return Resp.Ok(userState);
+        }
+
+        [HttpGet]
         [Authorize]
         public async Task<Resp<UserProfile>> GetProfile()
         {

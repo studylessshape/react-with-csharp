@@ -1,0 +1,14 @@
+import { create } from "zustand";
+import type { FeatResource } from "../services/interfaces";
+
+export interface MenuResourceState {
+  menus?: FeatResource[];
+  setMenus: (menus?: FeatResource[]) => void;
+}
+
+export const useMenus = create<MenuResourceState>((set) => ({
+  menus: undefined,
+  setMenus: (resources?: FeatResource[]) => {
+    set({ menus: resources });
+  },
+}));

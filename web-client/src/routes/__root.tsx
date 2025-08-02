@@ -2,22 +2,24 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Outlet,
-  useLocation,
-  useNavigate,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import AppLayout from "../components/Layout";
-import { useFeatResources, useUserState } from "../stores";
-import { useEffect } from "react";
-import { type FeatResource } from "../services";
-import { featResourceToMenuProps } from "../utils/feares_to_menu";
+import {
+  useMenus,
+  useUserState,
+  type MenuResourceState,
+  type UserState,
+} from "../stores";
 import { Icon } from "@douyinfe/semi-ui";
 import Logo from "../assets/logo.svg?react";
-import { getAndSetUser } from "../utils/user_resource";
 import { NotFound } from "../components/NotFoundPage";
+import { featResourceToMenuProps } from "../utils/feats_to_menu";
+import { LoginPage } from "../components/LoginPage";
 
 export interface RouteContext {
-  featResources?: FeatResource[];
+  user: UserState;
+  menus: MenuResourceState;
 }
 
 export const Route = createRootRouteWithContext<RouteContext>()({
@@ -30,28 +32,18 @@ export const Route = createRootRouteWithContext<RouteContext>()({
 
 function RootComponent() {
   const user = useUserState((state) => state.user);
-  const featResources = useFeatResources((state) => state.resources);
   const isAuthenticated = useUserState((state) => state.isAuthenticated);
-  const setFeatResource = useFeatResources((state) => state.setResources);
-  const setUser = useUserState((state) => state.login);
-  const navigation = useNavigate();
-  const location = useLocation();
+  const menuResources = useMenus((state) => state.menus);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      if (location.pathname != "/login") {
-        navigation({ to: "/login" });
-      }
-    } else if (!user || !featResources) {
-      getAndSetUser({
-        userProfile: user,
-        setFeatResource: setFeatResource,
-        setUser: setUser,
-      });
-    }
-  }, [user]);
+  if (!isAuthenticated) {
+    return (
+      <div className="w-screen h-screen">
+        <LoginPage onSuccessLogin={() => {}}></LoginPage>
+      </div>
+    );
+  }
 
-  const menus = featResourceToMenuProps(true, featResources);
+  const menus = featResourceToMenuProps(true, menuResources);
 
   return (
     <>

@@ -1,9 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { canAccessPage } from "../../utils/auth_router";
 
-export const Route = createFileRoute('/manage/user')({
+export const Route = createFileRoute("/manage/user")({
   component: RouteComponent,
-})
+  beforeLoad: ({ context, location }) => {
+    canAccessPage(location, context.menus, "/unauthorized");
+  },
+});
 
 function RouteComponent() {
-  return <div>Hello "/manage/user"!</div>
+  return <div>Hello "/manage/user"!</div>;
 }

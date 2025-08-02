@@ -1,17 +1,36 @@
 import { create } from "zustand";
-import type { UserProfile } from "../services/interfaces";
+import type {
+  NormalError,
+  UserState as ServiceUserState,
+} from "../services/interfaces";
+import {
+  getLoginState,
+  login as loginApi,
+  logout as logoutApi,
+} from "../services";
 import { getCookie, removeCookie, setCookie } from "typescript-cookie";
 
-export interface UserInfo extends UserProfile {
-  routes?: string[];
-  permissions?: string[];
-}
-
-interface UserState {
+export interface UserState {
   isAuthenticated: boolean;
-  user?: UserInfo;
-  login: (user: UserInfo) => void;
-  logout: () => void;
+  user?: ServiceUserState;
+  hasRole: (role: string) => boolean;
+  hasAnyRole: (roles: string[]) => boolean;
+  hasPermission: (permission: string) => boolean;
+  hasAllPermissions: (permission: string[]) => boolean;
+  hasAnyPermission: (permissions: string[]) => boolean;
+  login: (
+    account: string,
+    password: string,
+    handleOk: () => void,
+    handleErr: (err?: NormalError, message?: string) => void
+  ) => Promise<void>;
+  getLoginState: (
+    handleErr: (err?: NormalError, message?: string) => void
+  ) => Promise<void>;
+  logout: (
+    handleOk?: () => void,
+    handleErr?: (err?: NormalError, message?: string) => void
+  ) => Promise<void>;
 }
 
 function isAuthenticatedCookie() {
@@ -24,9 +43,74 @@ function isAuthenticatedCookie() {
   return result;
 }
 
-export const useUserState = create<UserState>((set) => ({
+export const useUserState = create<UserState>((set, store) => ({
   user: undefined,
   isAuthenticated: isAuthenticatedCookie(),
-  login: (user) => set({ user: user, isAuthenticated: true }),
-  logout: () => set({ user: undefined, isAuthenticated: false }),
+  async login(
+    account,
+    password,
+    handleOk: () => void,
+    handleErr: (err?: NormalError, message?: string) => void
+  ) {
+    const response = await loginApi({ account: account, password: password });
+    if (response.success && response.data) {
+      set({ user: response.data, isAuthenticated: true });
+      handleOk();
+    } else {
+      handleErr(response.error, response.message);
+    }
+  },
+  async getLoginState(
+    handleErr: (err?: NormalError, message?: string) => void
+  ) {
+    const response = await getLoginState();
+
+    if (response.success && response.data) {
+      set({ user: response.data, isAuthenticated: true });
+    } else {
+      handleErr(response.error, response.message);
+    }
+  },
+  async logout(handleOk, handleErr) {
+    try {
+      const response = await logoutApi();
+      if (response.success) {
+        if (handleOk) handleOk();
+      } else {
+        if (handleErr) handleErr(response.error, response.message);
+      }
+    } finally {
+      set({ user: undefined, isAuthenticated: false });
+    }
+  },
+  hasRole(role) {
+    const user = store().user;
+    if (!user) return false;
+
+    return user.roles.some((r) => r == role);
+  },
+  hasAnyRole(roles) {
+    const user = store().user;
+    if (!user) return false;
+
+    return roles.some((r) => user.roles.some((ur) => ur == r));
+  },
+  hasPermission(permission) {
+    const user = store().user;
+    if (!user) return false;
+
+    return user.permissions.some((p) => p == permission);
+  },
+  hasAllPermissions(permissions) {
+    const user = store().user;
+    if (!user) return false;
+
+    return permissions.some((p) => !user.permissions.some((up) => up == p));
+  },
+  hasAnyPermission(permissions) {
+    const user = store().user;
+    if (!user) return false;
+
+    return permissions.some((p) => user.permissions.some((up) => up == p));
+  },
 }));

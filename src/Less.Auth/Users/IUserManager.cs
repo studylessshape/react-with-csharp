@@ -21,7 +21,7 @@ namespace Less.Auth.Users
 
     public interface IUserManager
     {
-        Task<IList<Claim>?> LoadClaimsAsync(string account);
+        Task<IList<Claim>> LoadClaimsAsync(string account);
         Task<Result<User, string>> ValidateUserAsync(string account, string password);
         Task<Result<User, string>> ValidateCodeAsync(string userCode);
         Task<Result<User, string>> CreateUserAsync(string accout, string password, string name, string code, string? role);

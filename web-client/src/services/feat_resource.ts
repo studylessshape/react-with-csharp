@@ -1,9 +1,9 @@
 import api from "./api";
 import type { FeatResource, NormalError } from "./interfaces";
 
-export function getAccessResource() {
+export function getAccessMenu() {
   return api<FeatResource[], NormalError>(
-    "/api/auth/FeatResource/GetAccessResource",
+    "/api/auth/FeatResource/GetAccessMenu",
     "GET"
   );
 }

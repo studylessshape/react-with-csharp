@@ -13,9 +13,10 @@ namespace Less.Auth.WebApi.Models
         public int Status { get; set; }
         public string? Remark { get; set; }
 
-        public static UserProfile FromUser(User user)
+        public static T FromUser<T>(User user)
+            where T : UserProfile, new()
         {
-            return new UserProfile()
+            return new T()
             {
                 Account = user.Account,
                 Code = user.Code,
@@ -30,7 +31,7 @@ namespace Less.Auth.WebApi.Models
 
         public static implicit operator UserProfile(User user)
         {
-            return FromUser(user);
+            return FromUser<UserProfile>(user);
         }
     }
 }

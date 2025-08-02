@@ -28,7 +28,7 @@ namespace Less.Auth.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public async Task<Resp<IList<FeatResourceDto>>> GetAccessResource()
+        public async Task<Resp<IList<FeatResourceDto>>> GetAccessMenu()
         {
             var claims = HttpContext.User.Claims.ToArray();
             IList<FeatResourceDto> result;
@@ -39,7 +39,7 @@ namespace Less.Auth.WebApi.Controllers
                 return Resp.Ok(result);
             }
 
-            result = (await featResourceClaimRepo.GetAccessResource(claims)).Select(FeatResourceDto.FromData).ToList();
+            result = (await featResourceClaimRepo.GetAccessMenu(claims)).Select(FeatResourceDto.FromData).ToList();
 
             return Resp.Ok(result);
         }
