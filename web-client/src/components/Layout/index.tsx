@@ -92,9 +92,7 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
       {sidebar}
       <Layout>
         {header}
-        <Layout>
-          <Content>{props.children}</Content>
-        </Layout>
+        <Content className="overflow-auto">{props.children}</Content>
       </Layout>
     </LayoutRoot>
   );
