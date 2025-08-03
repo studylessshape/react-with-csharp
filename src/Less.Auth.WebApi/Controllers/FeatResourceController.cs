@@ -1,15 +1,16 @@
 ﻿using Less.Api.Core;
+using Less.Auth.Dal.Claims;
 using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.Auth.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Less.Auth.WebApi.Controllers
 {
     [Route("api/auth/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = $"{ClaimDefines.ROLE_SYSTEM}, {ClaimDefines.ROLE_ADMIN}")]
     public class FeatResourceController : ControllerBase
     {
         private readonly IFeatResourceRepo resourceRepo;
@@ -23,25 +24,86 @@ namespace Less.Auth.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get resource can be accessed by current user
+        /// Get all menus
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
-        public async Task<Resp<IList<FeatResourceDto>>> GetAccessMenu()
+        public async Task<Resp<IList<FeatResource>>> GetMenus()
         {
-            var claims = HttpContext.User.Claims.ToArray();
-            IList<FeatResourceDto> result;
+            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.MENU_KIND));
+            return Resp.Ok(list);
+        }
 
-            if (claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "System"))
+        /// <summary>
+        /// Get all permissions
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<Resp<IList<FeatResource>>> GetPermissions()
+        {
+            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.PERMISSION_KIND));
+            return Resp.Ok(list);
+        }
+
+        /// <summary>
+        /// Get permissions belong to menu
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<Resp<IList<FeatResource>>> GetPermissionsBelongMenu(int menuId)
+        {
+            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.PERMISSION_KIND && f.ParentId == menuId));
+            return Resp.Ok(list);
+        }
+
+        /// <summary>
+        /// Create menu for sidebar
+        /// </summary>
+        /// <param name="detail"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<Resp<FeatResource>> CreateMenu(FeatResourceDetail detail)
+        {
+            if (await resourceRepo.HasMenu(detail.Name, detail.ParentId))
             {
-                result = (await resourceRepo.ListAsync()).Select(FeatResourceDto.FromData).ToList();
-                return Resp.Ok(result);
+                return Resp.Err<FeatResource>("资源名重复");
             }
 
-            result = (await featResourceClaimRepo.GetAccessMenu(claims)).Select(FeatResourceDto.FromData).ToList();
+            var resource = await resourceRepo.AddAsync(detail.ToMenuData());
+            return Resp.Ok(resource);
+        }
 
-            return Resp.Ok(result);
+        /// <summary>
+        /// Create permission
+        /// </summary>
+        /// <param name="detail"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<Resp<FeatResource>> CreatePermission(FeatResourceDetail detail)
+        {
+            if (await resourceRepo.HasPermission(detail.Name, detail.ParentId))
+            {
+                return Resp.Err<FeatResource>("资源名重复");
+            }
+
+            var resource = await resourceRepo.AddAsync(detail.ToPermissionData());
+            return Resp.Ok(resource);
+        }
+
+        /// <summary>
+        /// Delete resource
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<Resp<None>> DeleteResource(int id)
+        {
+            var deleteCount = await resourceRepo.DeleteAsync(query => query.Where(f => f.Id == id));
+            if (deleteCount == 0)
+            {
+                return Resp.Err<None>("删除失败，没有对应的资源");
+            }
+
+            return Resp.Ok(None.New());
         }
     }
 }

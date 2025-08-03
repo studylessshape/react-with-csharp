@@ -22,11 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Claims\ClaimDefines.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ClaimDefines.resx</DependentUpon>
-    </Compile>
     <Compile Update="Users\UserDefines.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -35,10 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Claims\ClaimDefines.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ClaimDefines.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Users\UserDefines.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UserDefines.Designer.cs</LastGenOutput>

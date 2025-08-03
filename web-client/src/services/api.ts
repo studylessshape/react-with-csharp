@@ -2,10 +2,23 @@ import type { Resp } from "./resp";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
+export class ApiOption {
+  /**
+   * @summary If set request to query parameters
+   * @default true
+   */
+  query: boolean;
+
+  constructor(query?: boolean) {
+    this.query = query ?? false;
+  }
+}
+
 export default async function <T, TError>(
   apiPath: string,
   method: HttpMethod,
-  request?: any
+  request?: any,
+  option?: ApiOption,
 ) {
   const url =
     document.location.origin + (apiPath.startsWith("/") ? "" : "/") + apiPath;

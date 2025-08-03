@@ -17,7 +17,7 @@ try
         .ReadFrom.Services(services)
         .Enrich.FromLogContext()
         .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} ({SourceContext})] {Message:lj}{NewLine}{Exception}"));
-
+    #region web
     // Add services to the container.
     builder.Services.AddControllers(opts =>
     {
@@ -31,6 +31,7 @@ try
         opts.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
     })
     .AddLessAuthControllerWithCookies();
+    builder.Services.AddCors();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -47,8 +48,10 @@ try
         opts.IncludeXmlComments(typeof(LoginController).Assembly);
     });
 
+    builder.Services.AddResponseCaching();
+    #endregion
+
     builder.Services.AddCoreDal(builder.Configuration);
-    builder.Services.AddCors();
 
     var app = builder.Build();
     app.Services.EnsureDbContextCreate<CoreDbContext>();
@@ -59,6 +62,7 @@ try
         app.UseDeveloperExceptionPage();
     }
 
+    app.UseResponseCaching();
     app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());

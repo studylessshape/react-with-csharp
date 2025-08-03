@@ -47,7 +47,7 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public async Task<Resp<UserProfile>> CreateUserAsync([FromBody] UserAccountPassword request)
+        public async Task<Resp<UserProfile>> CreateUser([FromBody] UserAccountPassword request)
         {
             var user = await userManager.CreateUserAsync(request.Account, request.Password, request.Account, request.Account, "All");
             return Resp.FromResult(user.WrapOk<UserProfile>(u => u));

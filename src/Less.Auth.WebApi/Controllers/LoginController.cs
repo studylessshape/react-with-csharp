@@ -1,4 +1,6 @@
 ﻿using Less.Api.Core;
+using Less.Auth.Dal.Claims;
+using Less.Auth.Extensions;
 using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.Auth.Users;
@@ -18,12 +20,14 @@ namespace Less.Auth.WebApi.Controllers
         private readonly IUserManager userManager;
         private readonly IUserRepo userRepo;
         private readonly IFeatResourceClaimRepo featResourceClaimRepo;
+        private readonly IFeatResourceRepo featResourceRepo;
 
-        public LoginController(IUserManager userManager, IUserRepo userRepo, IFeatResourceClaimRepo featResourceClaimRepo)
+        public LoginController(IUserManager userManager, IUserRepo userRepo, IFeatResourceClaimRepo featResourceClaimRepo, IFeatResourceRepo featResourceRepo)
         {
             this.userManager = userManager;
             this.userRepo = userRepo;
             this.featResourceClaimRepo = featResourceClaimRepo;
+            this.featResourceRepo = featResourceRepo;
         }
 
         /// <summary>
@@ -33,7 +37,7 @@ namespace Less.Auth.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<Resp<UserState>> Login([FromBody] LoginRequest request)
+        public async Task<Resp<UserState>> Login(LoginRequest request)
         {
             if (HttpContext.User.Identity?.IsAuthenticated == true)
             {
@@ -94,6 +98,28 @@ namespace Less.Auth.WebApi.Controllers
             userState.Permissions = featResources.Where(fr => fr.Kind == FeatResource.PERMISSION_KIND).Select(fr => fr.Name).ToArray();
 
             return Resp.Ok(userState);
+        }
+
+        /// <summary>
+        /// Get resource can be accessed by current user
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public async Task<Resp<IList<FeatResourceDto>>> GetAccessMenu()
+        {
+            var claims = HttpContext.User.Claims.ToArray();
+            IList<FeatResourceDto> result;
+
+            if (claims.HasRole(ClaimDefines.ROLE_SYSTEM))
+            {
+                result = (await featResourceRepo.ListAsync()).Select(FeatResourceDto.FromData).ToList();
+                return Resp.Ok(result);
+            }
+
+            result = (await featResourceClaimRepo.GetAccessMenu(claims)).Select(FeatResourceDto.FromData).ToList();
+
+            return Resp.Ok(result);
         }
 
         [HttpGet]

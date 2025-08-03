@@ -40,7 +40,7 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
-        public async Task<TEntity> AddAsync(TEntity entity, bool save = true)
+        public virtual async Task<TEntity> AddAsync(TEntity entity, bool save = true)
         {
             var addEntity = EntitySet.Add(entity);
             if (save) await SaveChangesAsync();
@@ -49,14 +49,14 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
-        public async Task AddRangeAsync(IEnumerable<TEntity> entities, bool save = true)
+        public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities, bool save = true)
         {
             EntitySet.AddRange(entities);
             if (save) await SaveChangesAsync();
         }
 
         /// <inheritdoc />
-        public async Task UpdateAsync(TEntity entity, bool save = true)
+        public virtual async Task UpdateAsync(TEntity entity, bool save = true)
         {
             EntitySet.Update(entity);
             if (save) await SaveChangesAsync();
@@ -69,7 +69,7 @@ namespace Less.DalCore.Repository
         /// <param name="updateExpresion"></param>
         /// <param name="save"></param>
         /// <returns></returns>
-        public async Task<int> UpdateAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, Expression<Func<TEntity, TEntity>> updateExpresion, bool save = true)
+        public virtual async Task<int> UpdateAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, Expression<Func<TEntity, TEntity>> updateExpresion, bool save = true)
         {
             var query = mapQuery(EntitySet);
             var affect = await query.UpdateAsync(updateExpresion);
@@ -79,14 +79,14 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
-        public async Task DeleteAsync(TEntity entity, bool save = true)
+        public virtual async Task DeleteAsync(TEntity entity, bool save = true)
         {
             EntitySet.Remove(entity);
             if (save) await SaveChangesAsync();
         }
 
         /// <inheritdoc />
-        public async Task DeleteRangeAsync(IEnumerable<TEntity> entities, bool save = true)
+        public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities, bool save = true)
         {
             EntitySet.RemoveRange(entities);
             if (save) await SaveChangesAsync();
@@ -98,7 +98,7 @@ namespace Less.DalCore.Repository
         /// <param name="mapQuery"></param>
         /// <param name="save"></param>
         /// <returns></returns>
-        public async Task<int> DeleteAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, bool save = true)
+        public virtual async Task<int> DeleteAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery, bool save = true)
         {
             var query = mapQuery(EntitySet);
             var affect = await query.DeleteAsync();
@@ -108,25 +108,25 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
-        public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> condition)
+        public virtual async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> condition)
         {
             return await EntitySet.FirstOrDefaultAsync(condition);
         }
 
         /// <inheritdoc />
-        public async Task<TEntity?> FirstOrDefaultAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryMap)
+        public virtual async Task<TEntity?> FirstOrDefaultAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> queryMap)
         {
             return await queryMap(EntitySet).FirstOrDefaultAsync();
         }
 
         /// <inheritdoc />
-        public async Task<TEntity?> FindAsync(TKey id)
+        public virtual async Task<TEntity?> FindAsync(TKey id)
         {
             return await EntitySet.FindAsync(id);
         }
 
         /// <inheritdoc />
-        public async Task<IList<TEntity>> ListAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map = null)
+        public virtual async Task<IList<TEntity>> ListAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map = null)
         {
             var query = EntitySet.AsQueryable();
             if (map != null)
@@ -137,7 +137,7 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
-        public async Task<IList<T>> ListAsync<T>(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map, Expression<Func<TEntity, T>> selector)
+        public virtual async Task<IList<T>> ListAsync<T>(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map, Expression<Func<TEntity, T>> selector)
         {
             var query = EntitySet.AsQueryable();
             if (map != null)
@@ -148,7 +148,7 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
-        public async Task<PagedList<TEntity>> PaginateAsync(int pageIndex, int pageSize, Func<IQueryable<TEntity>, IQueryable<TEntity>>? mapQuery = null, Func<IQueryable<TEntity>, Task<int>>? countRowsAsync = null)
+        public virtual async Task<PagedList<TEntity>> PaginateAsync(int pageIndex, int pageSize, Func<IQueryable<TEntity>, IQueryable<TEntity>>? mapQuery = null, Func<IQueryable<TEntity>, Task<int>>? countRowsAsync = null)
         {
             if (pageIndex <= 0) throw new ArgumentException("pageIndex must be greater than zero!", nameof(pageIndex));
 
@@ -162,26 +162,26 @@ namespace Less.DalCore.Repository
         }
 
         /// <inheritdoc />
-        public async Task SaveChangesAsync()
+        public virtual async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();
         }
 
         /// <inheritdoc />
-        public Task<bool> AnyAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery)
+        public virtual Task<bool> AnyAsync(Func<IQueryable<TEntity>, IQueryable<TEntity>> mapQuery)
         {
             var query = mapQuery(EntitySet);
             return query.AnyAsync();
         }
 
         /// <inheritdoc />
-        public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> condition)
+        public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> condition)
         {
             return EntitySet.AnyAsync(condition);
         }
 
         /// <inheritdoc />
-        public Task<bool> AllAsync(Expression<Func<TEntity, bool>> condition)
+        public virtual Task<bool> AllAsync(Expression<Func<TEntity, bool>> condition)
         {
             return EntitySet.AllAsync(condition);
         }

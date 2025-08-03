@@ -63,7 +63,7 @@ namespace Less.Auth.Dal.FeatResources
         public void Configure(EntityTypeBuilder<FeatResource> builder)
         {
             builder.ToTable("less_feat_resources");
-            builder.HasIndex(f => f.Name).IsUnique();
+            builder.HasIndex(f => new { f.Name, f.Kind, f.ParentId }).IsUnique();
             builder.HasData(InitFeatResources);
         }
     }
