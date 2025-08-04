@@ -64,7 +64,7 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
     </Header>
   );
   const sidebar = (
-    <Sider>
+    <Sider className="overflow-y-auto overflow-x-hidden rspress-scrollbar">
       <NavMenu
         menu={props.menu}
         header={headerPosition == "sidebar" ? props.header : undefined}

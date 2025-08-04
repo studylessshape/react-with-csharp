@@ -9,7 +9,7 @@ function featResourceLabel(node: FeatResource) {
   const urlNode =
     node.url == "" ? undefined : <Text type="secondary">({node.url})</Text>;
   return (
-    <Space>
+    <Space className="text-nowrap">
       <div className="inline">{node.description ?? node.name}</div>
       {urlNode}
     </Space>
@@ -18,7 +18,7 @@ function featResourceLabel(node: FeatResource) {
 
 function featResourceToTreeDataIter(
   node: FeatResource,
-  featResources: FeatResource[],
+  featResources: FeatResource[]
 ) {
   var children = featResources.filter((fr) => fr.parentId == node.id);
   var treeData: TreeNodeData = {
@@ -48,7 +48,9 @@ export function featResourceToTreeData(featResources?: FeatResource[]) {
   if (featResources && featResources.length > 0) {
     var orderedRes = featResources
       .filter((fr) => fr.kind == 0)
-      .sort((a, b) => (a.order == b.order ? a.id - b.id : a.order - b.order));
+      .sort((a, b) =>
+        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1
+      );
     while (orderedRes.length > 0) {
       var featRes = orderedRes.shift();
       if (featRes) {
@@ -61,7 +63,7 @@ export function featResourceToTreeData(featResources?: FeatResource[]) {
 
 export function filterNode(
   nodes: TreeNodeData[],
-  condition: (data: TreeNodeData) => boolean,
+  condition: (data: TreeNodeData) => boolean
 ) {
   return nodes.map((n) => {
     var children = n.children;
@@ -79,12 +81,12 @@ export function filterNode(
 
 export function findNode(
   nodes: TreeNodeData[],
-  condition: (data: TreeNodeData) => boolean,
+  condition: (data: TreeNodeData) => boolean
 ): TreeNodeData | undefined {
   var node = nodes.find(condition);
   if (node == undefined) {
     for (var n of nodes.filter(
-      (n) => n.children != undefined && n.children.length > 0,
+      (n) => n.children != undefined && n.children.length > 0
     )) {
       node = findNode(n.children!, condition);
     }

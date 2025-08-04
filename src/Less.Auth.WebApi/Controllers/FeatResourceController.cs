@@ -105,5 +105,17 @@ namespace Less.Auth.WebApi.Controllers
 
             return Resp.Ok(None.New());
         }
+
+        /// <summary>
+        /// Update menu resource
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<Resp<None>> UpdateMenu(FeatResource data)
+        {
+            var result = await resourceRepo.UpdateMenuAsync(data);
+            return Resp.FromResult(result);
+        }
     }
 }

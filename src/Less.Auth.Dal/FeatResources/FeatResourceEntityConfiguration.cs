@@ -60,10 +60,12 @@ namespace Less.Auth.Dal.FeatResources
                 return featResources;
             }
         }
+
         public void Configure(EntityTypeBuilder<FeatResource> builder)
         {
             builder.ToTable("less_feat_resources");
-            builder.HasIndex(f => new { f.Name, f.Kind, f.ParentId }).IsUnique();
+            builder.HasIndex(f => new { f.Name, f.Kind }).IsUnique();
+            builder.HasOne(f => f.Parent).WithMany().HasForeignKey(f => f.ParentId).OnDelete(DeleteBehavior.Cascade);
             builder.HasData(InitFeatResources);
         }
     }

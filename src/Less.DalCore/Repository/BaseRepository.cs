@@ -1,5 +1,7 @@
 ﻿using Less.Api.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +60,9 @@ namespace Less.DalCore.Repository
         /// <inheritdoc />
         public virtual async Task UpdateAsync(TEntity entity, bool save = true)
         {
+            var entry = dbContext.Entry(entity);
+            entry.State = EntityState.Modified;
+
             EntitySet.Update(entity);
             if (save) await SaveChangesAsync();
         }

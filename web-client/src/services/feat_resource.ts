@@ -2,6 +2,7 @@ import api from "./api";
 import type {
   FeatResource,
   FeatResourceDetail,
+  None,
   NormalError,
 } from "./interfaces";
 
@@ -43,8 +44,16 @@ export function createPermission(detail: FeatResourceDetail) {
 }
 
 export function deleteResource(id: number) {
-  return api<FeatResource, NormalError>(
+  return api<None, NormalError>(
     `/api/auth/FeatResource/DeleteResource?id=${id}`,
     "DELETE"
+  );
+}
+
+export function updateMenu(menu: FeatResource) {
+  return api<None, NormalError>(
+    `/api/auth/FeatResource/UpdateMenu`,
+    "POST",
+    menu
   );
 }

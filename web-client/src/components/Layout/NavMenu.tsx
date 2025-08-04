@@ -82,7 +82,11 @@ export function NavMenu(props: NavMenuProps) {
             itemKey={m.key}
             text={m.descprition ?? m.name}
             icon={m.icon}
-            onClick={() => navigate({ to: m.path })}
+            onClick={() => {
+              if (m.path.trim() != "") {
+                navigate({ to: m.path });
+              }
+            }}
           />
         );
       }
@@ -124,12 +128,14 @@ export function NavMenu(props: NavMenuProps) {
 
   return (
     <Nav
-      className="h-full"
       defaultSelectedKeys={selectedKeys}
       header={props.header}
       footer={{ collapseButton: true }}
       isCollapsed={isCollapsed}
       onCollapseChange={(collapsed) => setIsCollapsed(collapsed)}
+      style={{
+        height: "cal(100% - 60px)",
+      }}
     >
       {menus}
     </Nav>

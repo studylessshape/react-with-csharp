@@ -13,3 +13,33 @@ body {
 .background-svg {
   background-image: url("./assets/background.svg");
 }
+
+.rspress-scrollbar {
+  scrollbar-gutter: stable;
+}
+
+.rspress-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  transition: all 0.3s;
+  background-color: var(--semi-color-nav-bg);
+}
+
+.rspress-scrollbar::-webkit-scrollbar-track {
+  background: 0 0;
+  background-color: var(--semi-color-nav-bg);
+  width: fit-content;
+}
+
+.rspress-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+}
+
+.rspress-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--semi-color-fill-0);
+  background-clip: content-box;
+}
+
+.rspress-scrollbar::-webkit-scrollbar-corner {
+  background: 0 0;
+}

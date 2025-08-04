@@ -33,7 +33,7 @@
     "@unocss/postcss": "^66.3.3",
     "less": "^4.4.0",
     "less-loader": "^12.3.0",
-    "typescript": "^5.8.3",
+    "typescript": "^5.5.2",
     "unocss": "^66.3.3"
   },
   "trustedDependencies": [

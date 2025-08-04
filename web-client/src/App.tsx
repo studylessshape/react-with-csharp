@@ -1,7 +1,7 @@
 import { createRouter, Route, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { useMenus, useUserState } from "./stores";
-import { Toast } from "@douyinfe/semi-ui";
+import { ConfigProvider, Toast } from "@douyinfe/semi-ui";
 import { handleResp } from "./utils/resp_flow";
 import { getAccessMenu } from "./services";
 import { useEffect } from "react";
@@ -28,8 +28,7 @@ export default function (_props: AppProps) {
         user.getLoginState((_err, message) =>
           Toast.error(message ?? "获取用户信息失败")
         );
-      }
-      else if (!menu.menus) {
+      } else if (!menu.menus) {
         handleResp(getAccessMenu(), {
           handleOk: (data) => menu.setMenus(data),
           defaultMessage: "获取菜单失败",
@@ -43,7 +42,9 @@ export default function (_props: AppProps) {
     (user.isAuthenticated && user.user && menu.menus)
   ) {
     return (
-      <RouterProvider router={router} context={{ user: user, menus: menu }} />
+      <ConfigProvider>
+        <RouterProvider router={router} context={{ user: user, menus: menu }} />
+      </ConfigProvider>
     );
   }
 }

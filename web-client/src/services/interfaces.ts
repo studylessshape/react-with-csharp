@@ -16,7 +16,8 @@ export interface UserState {
   roles: string[];
 }
 
-export type NormalError = string | { [key: string]: [[string]] };
+export type ModeStateError = { [key: string]: [[string]] };
+export type NormalError = string | ModeStateError;
 export type ResError<T = any> = T | NormalError;
 export type None = {} | undefined | null;
 

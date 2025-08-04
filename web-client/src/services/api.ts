@@ -14,10 +14,10 @@ export class ApiOption {
   }
 }
 
-export default async function <T, TError>(
+export default async function <T, TError, R = any>(
   apiPath: string,
   method: HttpMethod,
-  request?: any,
+  request?: R,
   option?: ApiOption,
 ) {
   const url =

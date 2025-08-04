@@ -1,4 +1,6 @@
-﻿namespace Less.Auth.FeatResources
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Less.Auth.FeatResources
 {
     /// <summary>
     /// 功能资源

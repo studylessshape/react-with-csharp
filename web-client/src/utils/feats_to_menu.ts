@@ -33,7 +33,7 @@ export function featResourceToMenuProps(
   if (featResources && featResources.length > 0) {
     var orderedRes = featResources
       .filter((fr) => fr.kind == 0)
-      .filter((fr) => !skipRoot || (skipRoot && fr.name != "root"))
+      .filter((fr) => !skipRoot || (skipRoot && fr.parentId != undefined))
       .sort((a, b) => (a.order == b.order ? a.id - b.id : a.order - b.order));
     while (orderedRes.length > 0) {
       var featRes = orderedRes.shift();
