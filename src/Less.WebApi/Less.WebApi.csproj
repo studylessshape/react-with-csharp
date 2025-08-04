@@ -17,12 +17,19 @@
 
   <ItemGroup>
     <Folder Include="TestDb\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Less.Auth.Dal\Less.Auth.Dal.csproj" />
     <ProjectReference Include="..\Less.Auth.WebApi\Less.Auth.WebApi.csproj" />
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\.gitkeep">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
