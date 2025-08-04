@@ -53,7 +53,7 @@ function RouteComponent() {
   const loadMenus = Route.useLoaderData();
   const [menus, setMenus] = useState(loadMenus);
   const [selectedMenu, setSelectedMenu] = useState(
-    undefined as FeatResource | undefined
+    undefined as FeatResource | undefined,
   );
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [menuDialogVisible, setMenuDialogVisiable] = useState(false);
@@ -118,6 +118,7 @@ function RouteComponent() {
               handleResp(deleteResource(selectedMenu!.id), {
                 handleOk: (_data) => {
                   setMenus(menus?.filter((m) => m.id != selectedMenu?.id));
+                  setSelectedMenu(undefined);
                   Toast.success("删除成功");
                 },
               });
@@ -137,7 +138,7 @@ function RouteComponent() {
             onSelect={(
               _selectedKey: string,
               selected: boolean,
-              selectedNode
+              selectedNode,
             ) => {
               if (selected) {
                 setSelectedMenu(selectedNode["data"]);

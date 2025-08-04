@@ -64,7 +64,7 @@ namespace Less.Auth.WebApi.Controllers
         [HttpPut]
         public async Task<Resp<FeatResource>> CreateMenu(FeatResourceDetail detail)
         {
-            if (await resourceRepo.HasMenu(detail.Name, detail.ParentId))
+            if (await resourceRepo.HasMenu(detail.Name))
             {
                 return Resp.Err<FeatResource>("资源名重复");
             }
@@ -81,7 +81,7 @@ namespace Less.Auth.WebApi.Controllers
         [HttpPut]
         public async Task<Resp<FeatResource>> CreatePermission(FeatResourceDetail detail)
         {
-            if (await resourceRepo.HasPermission(detail.Name, detail.ParentId))
+            if (await resourceRepo.HasPermission(detail.Name))
             {
                 return Resp.Err<FeatResource>("资源名重复");
             }

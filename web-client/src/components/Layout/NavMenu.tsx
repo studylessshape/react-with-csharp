@@ -38,6 +38,7 @@ export interface NavMenuProps {
   header?: React.ReactNode | NavHeaderProps;
   menu?: MenuItemProps[];
   autoCollapsed?: AutoCollapsedProps;
+  className?: string;
 }
 
 const NavSub = Nav.Sub;
@@ -47,7 +48,7 @@ function getSelectedKeys(location: ParsedLocation<{}>, menu?: MenuItemProps[]) {
   var keys = [] as (string | number)[];
   if (menu) {
     keys.push(
-      ...menu.filter((m) => m.path == location.pathname).map((m) => m.key)
+      ...menu.filter((m) => m.path == location.pathname).map((m) => m.key),
     );
     menu
       .filter((m) => m.children && m.children.length > 0)
@@ -128,14 +129,12 @@ export function NavMenu(props: NavMenuProps) {
 
   return (
     <Nav
+      className={`flex-1 overflow-y-auto p-r-0 ${props.className}`}
       defaultSelectedKeys={selectedKeys}
       header={props.header}
-      footer={{ collapseButton: true }}
       isCollapsed={isCollapsed}
+      footer={{ collapseButton: true }}
       onCollapseChange={(collapsed) => setIsCollapsed(collapsed)}
-      style={{
-        height: "cal(100% - 60px)",
-      }}
     >
       {menus}
     </Nav>

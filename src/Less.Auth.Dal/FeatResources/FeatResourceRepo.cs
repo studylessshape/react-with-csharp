@@ -21,14 +21,14 @@ namespace Less.Auth.Dal.FeatResources
             return base.AddAsync(entity, save);
         }
 
-        public async Task<bool> HasMenu(string name, int? parentId)
+        public async Task<bool> HasMenu(string name)
         {
-            return await AnyAsync(f => f.Kind == FeatResource.MENU_KIND && f.Name == name && f.ParentId == parentId);
+            return await AnyAsync(f => f.Kind == FeatResource.MENU_KIND && f.Name == name);
         }
 
-        public async Task<bool> HasPermission(string name, int? parentId)
+        public async Task<bool> HasPermission(string name)
         {
-            return await AnyAsync(f => f.Kind == FeatResource.PERMISSION_KIND && f.Name == name && f.ParentId == parentId);
+            return await AnyAsync(f => f.Kind == FeatResource.PERMISSION_KIND && f.Name == name);
         }
 
         public async Task<Result<None, string>> UpdateMenuAsync(FeatResource featResource)

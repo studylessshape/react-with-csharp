@@ -34,7 +34,7 @@
     "less": "^4.4.0",
     "less-loader": "^12.3.0",
     "typescript": "^5.5.2",
-    "unocss": "^66.3.3"
+    "unocss": "^66.4.1"
   },
   "trustedDependencies": [
     "core-js",

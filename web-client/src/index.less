@@ -1,0 +1,63 @@
+@unocss preflights;
+@unocss default;
+
+body {
+  padding: 0;
+  margin: 0;
+  /* see https://semi.design/zh-CN/start/dark-mode */
+  color: var(--semi-color-text-0);
+  background-color: var(--semi-color-bg-0);
+  display: block;
+}
+
+.background-svg {
+  background-image: url("./assets/background.svg");
+}
+
+@scrollbar-preset: {
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    transition: all 0.3s;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: 0 0;
+    background-color: transparent;
+    width: fit-content;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.5rem;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--semi-color-fill-0);
+    background-clip: content-box;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: 0 0;
+  }
+};
+
+.scrollbar-default {
+  @scrollbar-preset();
+}
+
+.semi-navigation-vertical .semi-navigation-header-list-outer {
+  height: 100%;
+  overflow: auto;
+
+  @scrollbar-preset();
+}
+
+.semi-tree-option-list {
+  box-sizing: border-box;
+  flex: 1;
+  padding: 8px 0;
+  overflow: hidden auto;
+  @scrollbar-preset();
+}

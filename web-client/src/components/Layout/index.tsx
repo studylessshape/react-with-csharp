@@ -64,8 +64,9 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
     </Header>
   );
   const sidebar = (
-    <Sider className="overflow-y-auto overflow-x-hidden rspress-scrollbar">
+    <Sider className="overflow-y-auto overflow-x-hidden flex flex-col">
       <NavMenu
+        className="h-full"
         menu={props.menu}
         header={headerPosition == "sidebar" ? props.header : undefined}
         autoCollapsed={props.sidebarAutoCollapsed}
