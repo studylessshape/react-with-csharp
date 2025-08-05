@@ -39,7 +39,7 @@ function isAuthenticatedCookie() {
   
   if (!result) {
     setCookie(COOKIE, COOKIE);
-    console.log(document.cookie )
+
     if (!getCookie(COOKIE)) {
       result = true;
     }
