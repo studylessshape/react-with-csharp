@@ -2,6 +2,7 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Outlet,
+  redirect,
   useNavigate,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
@@ -12,12 +13,14 @@ import {
   type MenuResourceState,
   type UserState,
 } from "../stores";
-import { Icon } from "@douyinfe/semi-ui";
+import { Icon, Toast } from "@douyinfe/semi-ui";
 import Logo from "../assets/logo.svg?react";
 import { NotFound } from "../components/NotFoundPage";
 import { featResourceToMenuProps } from "../utils/feats_to_menu";
 import { useEffect, useMemo } from "react";
 import { ErrorRoutePage } from "../components/ErrorRoutePage";
+import { handleResp } from "../utils/resp_flow";
+import { getAccessMenu } from "../services";
 
 export interface RouteContext {
   user: UserState;
@@ -34,20 +37,39 @@ export const Route = createRootRouteWithContext<RouteContext>()({
 });
 
 function RootComponent() {
-  const user = useUserState((state) => state.user);
+  const user = useUserState((state) => state);
   const isAuthenticated = useUserState((state) => state.isAuthenticated);
-  const menuResources = useMenus((state) => state.menus);
+  const menu = useMenus((state) => state);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate({ to: "/login", replace: true });
+    } else {
+      if (!user.user) {
+        user.getLoginState((code, _err, message) => {
+          Toast.error(message ?? "获取用户信息失败");
+          if (code == 401) {
+            navigate({ to: "/login", replace: true });
+          }
+        });
+      } else if (!menu.menus) {
+        handleResp(getAccessMenu(), {
+          handleOk: (data) => menu.setMenus(data),
+          handleErr: (code, _err, message) => {
+            Toast.error(message ?? "获取菜单失败");
+            if (code == 401) {
+              navigate({ to: "/login", replace: true });
+            }
+          },
+        });
+      }
     }
   });
 
   const menus = useMemo(
-    () => featResourceToMenuProps(true, menuResources),
-    [menuResources]
+    () => featResourceToMenuProps(true, menu.menus),
+    [menu.menus]
   );
 
   return (
@@ -55,7 +77,7 @@ function RootComponent() {
       <HeadContent />
       <AppLayout
         menu={menus}
-        layout={user != null && isAuthenticated}
+        layout={user.user != null && isAuthenticated}
         header={{
           logo: (
             <Icon

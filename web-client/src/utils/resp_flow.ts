@@ -1,10 +1,15 @@
 import { Toast } from "@douyinfe/semi-ui";
 import type { Resp } from "../services";
 
-type HandleOkHandler<T> = (data: T) => any;
-type HandleOkAsyncHandler<T> = (data: T) => Promise<any>;
-type HandleErrHandler<TError> = (error?: TError, message?: string) => any;
-type HandleErrAsyncHandler<TError> = (
+export type HandleOkHandler<T> = (data: T) => any;
+export type HandleOkAsyncHandler<T> = (data: T) => Promise<any>;
+export type HandleErrHandler<TError> = (
+  code: number,
+  error?: TError,
+  message?: string
+) => any;
+export type HandleErrAsyncHandler<TError> = (
+  code: number,
   error?: TError,
   message?: string
 ) => Promise<any>;
@@ -25,7 +30,7 @@ export async function handleResp<T, TError>(
     if (res.success && res.data) {
       await Promise.resolve(handle.handleOk(res.data));
     } else if (handle.handleErr) {
-      await Promise.resolve(handle.handleErr(res.error, res.message));
+      await Promise.resolve(handle.handleErr(res.code, res.error, res.message));
     } else if (res.message || handle.defaultMessage) {
       Toast.error({
         content: `${res.code}: ${res.message ?? handle.defaultMessage}`,

@@ -29,7 +29,7 @@ export function LoginPage(props: LoginProps) {
               value.account,
               value.password,
               () => props.onSuccessLogin(),
-              (_err, message) => Toast.error({ content: message ?? "登录失败" })
+              (_code, _err, message) => Toast.error({ content: message ?? "登录失败" })
             ).finally(() => {
               setSubmiLogin(false);
             });

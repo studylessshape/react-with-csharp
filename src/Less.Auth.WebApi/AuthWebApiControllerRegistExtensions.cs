@@ -1,5 +1,6 @@
 ﻿using Less.Api.Core;
 using Less.Auth.WebApi.Controllers;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Less.Auth.WebApi
@@ -25,6 +26,7 @@ namespace Less.Auth.WebApi
                     };
                     opts.Events.OnRedirectToLogin = async (context) =>
                     {
+                        await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         await context.Response.WriteAsJsonAsync(new Resp<None>("用户未登录", context.Response.StatusCode));
                     };

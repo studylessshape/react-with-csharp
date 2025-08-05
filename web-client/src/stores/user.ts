@@ -8,7 +8,13 @@ import {
   login as loginApi,
   logout as logoutApi,
 } from "../services";
-import { getCookie, hasCookie, removeCookie, setCookie } from "../utils/docCookie";
+import {
+  getCookie,
+  hasCookie,
+  removeCookie,
+  setCookie,
+} from "../utils/docCookie";
+import type { HandleErrHandler } from "../utils/resp_flow";
 
 export interface UserState {
   isAuthenticated: boolean;
@@ -22,21 +28,19 @@ export interface UserState {
     account: string,
     password: string,
     handleOk: () => void,
-    handleErr: (err?: NormalError, message?: string) => void
+    handleErr: HandleErrHandler<NormalError>
   ) => Promise<void>;
-  getLoginState: (
-    handleErr: (err?: NormalError, message?: string) => void
-  ) => Promise<void>;
+  getLoginState: (handleErr: HandleErrHandler<NormalError>) => Promise<void>;
   logout: (
     handleOk?: () => void,
-    handleErr?: (err?: NormalError, message?: string) => void
+    handleErr?: HandleErrHandler<NormalError>
   ) => Promise<void>;
 }
 
 function isAuthenticatedCookie() {
   const COOKIE = import.meta.env.PUBLIC_AUTH_COOKIE;
   var result = hasCookie(COOKIE);
-  
+
   if (!result) {
     setCookie(COOKIE, COOKIE);
 
@@ -55,25 +59,23 @@ export const useUserState = create<UserState>((set, store) => ({
     account,
     password,
     handleOk: () => void,
-    handleErr: (err?: NormalError, message?: string) => void
+    handleErr: HandleErrHandler<NormalError>
   ) {
     const response = await loginApi({ account: account, password: password });
     if (response.success && response.data) {
       set({ user: response.data, isAuthenticated: true });
       handleOk();
     } else {
-      handleErr(response.error, response.message);
+      handleErr(response.code, response.error, response.message);
     }
   },
-  async getLoginState(
-    handleErr: (err?: NormalError, message?: string) => void
-  ) {
+  async getLoginState(handleErr: HandleErrHandler<NormalError>) {
     const response = await getLoginState();
 
     if (response.success && response.data) {
       set({ user: response.data, isAuthenticated: true });
     } else {
-      handleErr(response.error, response.message);
+      handleErr(response.code, response.error, response.message);
     }
   },
   async logout(handleOk, handleErr) {
@@ -82,7 +84,8 @@ export const useUserState = create<UserState>((set, store) => ({
       if (response.success) {
         if (handleOk) handleOk();
       } else {
-        if (handleErr) handleErr(response.error, response.message);
+        if (handleErr)
+          handleErr(response.code, response.error, response.message);
       }
     } finally {
       set({ user: undefined, isAuthenticated: false });

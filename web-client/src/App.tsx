@@ -1,16 +1,11 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { useMenus, useUserState } from "./stores";
-import {
-  ConfigProvider,
-  Space,
-  Spin,
-  Toast,
-  Typography,
-} from "@douyinfe/semi-ui";
+import { ConfigProvider, Toast } from "@douyinfe/semi-ui";
 import { handleResp } from "./utils/resp_flow";
 import { getAccessMenu } from "./services";
 import { useEffect, useState } from "react";
+import { LoadingFallback } from "./components/LoadingFallback";
 
 // Create a new router instance
 const router = createRouter({ routeTree, context: undefined! });
@@ -34,8 +29,8 @@ export default function (_props: AppProps) {
     if (user.isAuthenticated) {
       if (!user.user) {
         user
-          .getLoginState((_err, message) =>
-            Toast.error(message ?? "获取用户信息失败"),
+          .getLoginState((_code, _err, message) =>
+            Toast.error(message ?? "获取用户信息失败")
           )
           .finally(() => {
             setIsLoading(menu.menus == undefined);
@@ -59,14 +54,5 @@ export default function (_props: AppProps) {
         <RouterProvider router={router} context={{ user: user, menus: menu }} />
       )}
     </ConfigProvider>
-  );
-}
-
-function LoadingFallback() {
-  return (
-    <Space vertical className="w-screen h-screen justify-center">
-      <Spin size="large"></Spin>
-      <Typography.Text>加载页面中....</Typography.Text>
-    </Space>
   );
 }
