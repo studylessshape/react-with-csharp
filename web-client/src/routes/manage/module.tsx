@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLocation } from "@tanstack/react-router";
 import { canAccessPage } from "../../utils/auth_router";
 import {
+  Avatar,
   Button,
   Form,
   Popconfirm,
@@ -19,136 +20,42 @@ import {
   type FeatResourceDetail,
 } from "../../services";
 import { featResourceToTreeData, filterNode } from "../../utils/feats_to_tree";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FormModal } from "../../components/FormModal";
 import { handleResp } from "../../utils/resp_flow";
 import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
+import { featResourceToDataSource } from "../../utils/feat_to_data_source";
+import { useMenuState, useUserState } from "../../stores";
+import { useAuth } from "../../hooks/useAuth";
+import type { ColumnProps, TableProps } from "@douyinfe/semi-ui/lib/es/table";
+import { SemiIcon } from "../../components/SemiIcon";
 
 export const Route = createFileRoute("/manage/module")({
   component: RouteComponent,
-  beforeLoad: ({ context, location }) => {
-    if (!context.user.hasRole("System")) {
-      canAccessPage(location, context.menus, "/");
-    }
-  },
-  loader: async () => {
-    var response = await getMenus();
-    var menus: FeatResource[] | undefined = undefined;
-    if (response.success && response.data) {
-      menus = response.data;
-    } else {
-      Toast.error({
-        content: `${response.code}: ${response.message ?? "获取菜单资源失败"}`,
-        theme: "light",
-      });
-    }
-    return menus;
-  },
 });
 
 type DialogMode = "add" | "edit";
 type DataFrom = "menu" | "permission";
 
 function RouteComponent() {
-  const loadMenus = Route.useLoaderData();
-  const [menus, setMenus] = useState(loadMenus);
+  useAuth({ location: true });
+
+  const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
   const [selectedMenu, setSelectedMenu] = useState(
     undefined as FeatResource | undefined
   );
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [menuDialogVisible, setMenuDialogVisiable] = useState(false);
 
-  const treeData = useMemo(() => featResourceToTreeData(menus), [menus]);
-
-  function showDialog(dataFrom: DataFrom, mode: DialogMode) {
-    setDialogMode(mode);
-    if (dataFrom == "menu") {
-      setMenuDialogVisiable(true);
-    }
-  }
-
-  function submitAdd(request: FeatResourceDetail) {
-    handleResp(createMenu(request), {
-      handleOk: (data) => {
-        if (menus) {
-          setMenus(menus.concat([data]));
-        } else {
-          setMenus([data]);
-        }
-        Toast.success({ content: "添加成功", theme: "light" });
-        setMenuDialogVisiable(false);
-      },
-    });
-  }
-
-  function submitEdit(request: FeatResource) {
-    handleResp(updateMenu(request), {
-      handleOk: (_data) => {
-        handleResp(getMenus(), {
-          handleOk: (data) => {
-            setMenus(data);
-            if (selectedMenu) {
-              setSelectedMenu(data.find((v) => v.id == selectedMenu.id));
-            }
-          },
-        });
-        Toast.success({ content: "修改成功", theme: "light" });
-        setMenuDialogVisiable(false);
-      },
-    });
-  }
-
   return (
     <>
       <div className="w-full h-full flex flex-col">
-        <Space>
-          <Button theme="solid" onClick={() => showDialog("menu", "add")}>
-            添加
-          </Button>
-          <Button
-            disabled={selectedMenu == undefined}
-            onClick={() => showDialog("menu", "edit")}
-          >
-            编辑
-          </Button>
-          <Popconfirm
-            title="是否确认删除？"
-            content={`${selectedMenu?.name} - ${selectedMenu?.description} - ${selectedMenu?.url}`}
-            onConfirm={() => {
-              handleResp(deleteResource(selectedMenu!.id), {
-                handleOk: (_data) => {
-                  setMenus(menus?.filter((m) => m.id != selectedMenu?.id));
-                  setSelectedMenu(undefined);
-                  Toast.success("删除成功");
-                },
-              });
-            }}
-          >
-            <Button disabled={selectedMenu == undefined} type="danger">
-              删除
-            </Button>
-          </Popconfirm>
-        </Space>
+        <Space></Space>
         <div className="overflow-auto flex-1 flex">
-          <Tree
-            showLine
-            defaultExpandAll
-            className="overflow-auto min-w-80"
-            treeData={treeData}
-            onSelect={(
-              _selectedKey: string,
-              selected: boolean,
-              selectedNode
-            ) => {
-              if (selected) {
-                setSelectedMenu(selectedNode["data"]);
-              }
-            }}
-          ></Tree>
-          <Table></Table>
+          <MenuDataTable />
         </div>
       </div>
-      <MenuEditor
+      {/* <MenuEditor
         menu={selectedMenu}
         mode={dialogMode}
         onSubmit={(value) => {
@@ -161,8 +68,56 @@ function RouteComponent() {
         treeData={treeData}
         visible={menuDialogVisible}
         onCancel={() => setMenuDialogVisiable(false)}
-      ></MenuEditor>
+      ></MenuEditor> */}
     </>
+  );
+}
+
+function MenuDataTable() {
+  const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const tableData = useMemo(() => featResourceToDataSource(menus), [menus]);
+
+  useEffect(() => {
+    if (menus == undefined) {
+      setIsLoading(true);
+      handleResp(getMenus(), {
+        handleOk(data) {
+          setMenus(data);
+        },
+        defaultMessage: "获取菜单失败",
+      }).finally(() => {
+        setIsLoading(false);
+      });
+    }
+  }, [menus]);
+
+  const columns: ColumnProps[] = [
+    { title: "Id", dataIndex: "id" },
+    {
+      title: "名称",
+      dataIndex: "name",
+      render: (text, record) => {
+        return (
+          <div>
+            <SemiIcon name={record.icon} />
+            {text}
+          </div>
+        );
+      },
+    },
+    { title: "描述", dataIndex: "description" },
+    { title: "地址", dataIndex: "url" },
+  ];
+  return (
+    <Table
+      columns={columns}
+      dataSource={tableData}
+      loading={isLoading}
+      pagination={false}
+      sticky
+      scroll={{ x: 800, y: 500 }}
+    ></Table>
   );
 }
 

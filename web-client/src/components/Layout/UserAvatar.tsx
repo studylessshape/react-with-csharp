@@ -1,6 +1,6 @@
 import { IconExit, IconUser } from "@douyinfe/semi-icons";
 import { Avatar, Dropdown, Toast } from "@douyinfe/semi-ui";
-import { useMenus, useUserState } from "../../stores";
+import { useMenuState, useUserState } from "../../stores";
 import { useNavigate } from "@tanstack/react-router";
 
 type DropdownPosition = typeof Dropdown.prototype.props.position;
@@ -12,7 +12,7 @@ export interface UserAvatarProps {
 export function UserAvatar(props: UserAvatarProps) {
   const user = useUserState((state) => state.user);
   const logout = useUserState((state) => state.logout);
-  const setMenus = useMenus((state) => state.setMenus);
+  const setMenus = useMenuState((state) => state.setMenus);
   const navigate = useNavigate();
 
   function onLogoutClick() {

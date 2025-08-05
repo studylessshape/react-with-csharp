@@ -6,7 +6,7 @@ export interface MenuResourceState {
   setMenus: (menus?: FeatResource[]) => void;
 }
 
-export const useMenus = create<MenuResourceState>((set) => ({
+export const useMenuState = create<MenuResourceState>((set) => ({
   menus: undefined,
   setMenus: (resources?: FeatResource[]) => {
     set({ menus: resources });

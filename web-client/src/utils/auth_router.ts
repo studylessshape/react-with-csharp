@@ -13,6 +13,7 @@ export function canAccessPage(
 ) {
   const menus = menuState?.menus;
   if (!menus || !menus.some((m) => m.url == location.pathname)) {
-    throwError({ type: UnauthorizedErrorName });
+    // throwError({ type: UnauthorizedErrorName });
+    redirect({ to: redirectTo, throw: true });
   }
 }

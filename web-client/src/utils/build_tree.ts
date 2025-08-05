@@ -34,11 +34,12 @@ export function buildTree<T, R extends { children?: R[] }>(
   dataToR: TypeToTreeNode<T, R>
 ) {
   var nodes = [] as R[];
-  if (datas && datas.length > 0) {
-    while (datas.length > 0) {
-      var data = datas.shift();
+  var innerDatas = datas?.map((d) => d);
+  if (innerDatas && innerDatas.length > 0) {
+    while (innerDatas.length > 0) {
+      var data = innerDatas.shift();
       if (data) {
-        nodes.push(buildTreeIter(data, childrenFilter, dataToR, datas));
+        nodes.push(buildTreeIter(data, childrenFilter, dataToR, innerDatas));
       }
     }
   }

@@ -26,7 +26,7 @@ function featResourceLabel(node: FeatResource) {
  * @param featResources
  * @returns return TreeNodeData and the perporty `data` is FeatResource
  */
-export function featResourceToTreeData(featResources?: FeatResource[]) {
+export function featResourceToTreeData(featResources: FeatResource[] | undefined) {
   var filterResources = featResources;
   if (featResources) {
     filterResources = featResources

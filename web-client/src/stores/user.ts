@@ -42,7 +42,7 @@ function isAuthenticatedCookie() {
   var result = hasCookie(COOKIE);
 
   if (!result) {
-    setCookie(COOKIE, COOKIE);
+    setCookie(COOKIE, COOKIE, undefined, undefined, undefined, true);
 
     if (!getCookie(COOKIE)) {
       result = true;

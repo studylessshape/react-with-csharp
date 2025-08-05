@@ -5,7 +5,7 @@ import { buildTree } from "./build_tree";
 
 export function featResourceToMenuProps(
   skipRoot: boolean,
-  featResources?: FeatResource[]
+  featResources: FeatResource[] | undefined
 ) {
   var paramFeatResources = featResources;
   if (featResources) {
