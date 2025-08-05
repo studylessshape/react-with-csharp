@@ -13,7 +13,7 @@ import {
   hasCookie,
   removeCookie,
   setCookie,
-} from "../utils/docCookie";
+} from "../utils/doc_cookie";
 import type { HandleErrHandler } from "../utils/resp_flow";
 
 export interface UserState {

@@ -1,7 +1,7 @@
 import type { MenuItemProps } from "../components/Layout";
 import { SemiIcon } from "../components/SemiIcon";
 import type { FeatResource } from "../services";
-import { featResourceToTree } from "./feats_to";
+import { buildTree } from "./build_tree";
 
 export function featResourceToMenuProps(
   skipRoot: boolean,
@@ -15,11 +15,15 @@ export function featResourceToMenuProps(
       .sort((a, b) => (a.order == b.order ? a.id - b.id : a.order - b.order));
   }
 
-  return featResourceToTree<MenuItemProps>(paramFeatResources, (node) => ({
-    key: node.id,
-    path: node.url,
-    name: node.name,
-    descprition: node.description,
-    icon: new SemiIcon({ name: node.icon }).render(),
-  }));
+  return buildTree<FeatResource, MenuItemProps>(
+    paramFeatResources,
+    (node, data) => data.parentId == node.id,
+    (node) => ({
+      key: node.id,
+      path: node.url,
+      name: node.name,
+      descprition: node.description,
+      icon: new SemiIcon({ name: node.icon }).render(),
+    })
+  );
 }
