@@ -2,6 +2,11 @@ import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
 import type { FeatResource } from "../services";
 import * as Icon from "@douyinfe/semi-icons";
 import { Space, Typography } from "@douyinfe/semi-ui";
+import { featResourceToTree } from "./feats_to";
+
+export interface FeatResourceWithChildren extends FeatResource {
+  children?: FeatResourceWithChildren[];
+}
 
 const { Text } = Typography;
 
@@ -16,49 +21,26 @@ function featResourceLabel(node: FeatResource) {
   );
 }
 
-function featResourceToTreeDataIter(
-  node: FeatResource,
-  featResources: FeatResource[]
-) {
-  var children = featResources.filter((fr) => fr.parentId == node.id);
-  var treeData: TreeNodeData = {
-    key: node.id.toString(),
-    label: featResourceLabel(node),
-    icon: node.icon ? Icon[node.icon].render() : undefined,
-    data: node,
-  };
-  if (children.length > 0) {
-    treeData.children = [];
-    children.forEach((fr) => {
-      featResources.splice(featResources.indexOf(fr), 1);
-      treeData.children?.push(featResourceToTreeDataIter(fr, featResources));
-    });
-  }
-
-  return treeData;
-}
-
 /**
  *
  * @param featResources
  * @returns return TreeNodeData and the perporty `data` is FeatResource
  */
 export function featResourceToTreeData(featResources?: FeatResource[]) {
-  var nodes = [] as TreeNodeData[];
-  if (featResources && featResources.length > 0) {
-    var orderedRes = featResources
+  var filterResources = featResources;
+  if (featResources) {
+    filterResources = featResources
       .filter((fr) => fr.kind == 0)
       .sort((a, b) =>
         a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1
       );
-    while (orderedRes.length > 0) {
-      var featRes = orderedRes.shift();
-      if (featRes) {
-        nodes.push(featResourceToTreeDataIter(featRes, orderedRes));
-      }
-    }
   }
-  return nodes;
+  return featResourceToTree<TreeNodeData>(filterResources, (node) => ({
+    key: node.id.toString(),
+    label: featResourceLabel(node),
+    icon: node.icon ? Icon[node.icon].render() : undefined,
+    data: node,
+  }));
 }
 
 export function filterNode(

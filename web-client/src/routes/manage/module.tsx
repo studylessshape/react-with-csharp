@@ -53,7 +53,7 @@ function RouteComponent() {
   const loadMenus = Route.useLoaderData();
   const [menus, setMenus] = useState(loadMenus);
   const [selectedMenu, setSelectedMenu] = useState(
-    undefined as FeatResource | undefined,
+    undefined as FeatResource | undefined
   );
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [menuDialogVisible, setMenuDialogVisiable] = useState(false);
@@ -138,17 +138,14 @@ function RouteComponent() {
             onSelect={(
               _selectedKey: string,
               selected: boolean,
-              selectedNode,
+              selectedNode
             ) => {
               if (selected) {
                 setSelectedMenu(selectedNode["data"]);
               }
             }}
           ></Tree>
-          <div className="flex flex-col flex-1">
-            <Form className="flex-1"></Form>
-            <Table className="flex-1"></Table>
-          </div>
+          <Table></Table>
         </div>
       </div>
       <MenuEditor
