@@ -17,7 +17,7 @@ function RouteComponent() {
   const isAuthenticated = useUserState((state) => state.isAuthenticated);
   const navigate = useNavigate();
   const canGoBack = useCanGoBack();
-  
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate({ to: canGoBack ? ".." : "/", replace: true });

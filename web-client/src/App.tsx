@@ -1,10 +1,16 @@
-import { createRouter, Route, RouterProvider } from "@tanstack/react-router";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { useMenus, useUserState } from "./stores";
-import { ConfigProvider, Toast } from "@douyinfe/semi-ui";
+import {
+  ConfigProvider,
+  Space,
+  Spin,
+  Toast,
+  Typography,
+} from "@douyinfe/semi-ui";
 import { handleResp } from "./utils/resp_flow";
 import { getAccessMenu } from "./services";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Create a new router instance
 const router = createRouter({ routeTree, context: undefined! });
@@ -21,30 +27,46 @@ export interface AppProps {}
 export default function (_props: AppProps) {
   const user = useUserState();
   const menu = useMenus();
+  const isAuthenicated = useUserState((state) => state.isAuthenticated);
+  const [isLoading, setIsLoading] = useState(isAuthenicated);
 
   useEffect(() => {
     if (user.isAuthenticated) {
       if (!user.user) {
-        user.getLoginState((_err, message) =>
-          Toast.error(message ?? "获取用户信息失败")
-        );
+        user
+          .getLoginState((_err, message) =>
+            Toast.error(message ?? "获取用户信息失败"),
+          )
+          .finally(() => {
+            setIsLoading(menu.menus == undefined);
+          });
       } else if (!menu.menus) {
         handleResp(getAccessMenu(), {
           handleOk: (data) => menu.setMenus(data),
           defaultMessage: "获取菜单失败",
+        }).finally(() => {
+          setIsLoading(user.user == undefined);
         });
       }
     }
   }, [user.isAuthenticated, user.user, menu.menus]);
 
-  if (
-    !user.isAuthenticated ||
-    (user.isAuthenticated && user.user && menu.menus)
-  ) {
-    return (
-      <ConfigProvider>
+  return (
+    <ConfigProvider>
+      {isLoading ? (
+        <LoadingFallback />
+      ) : (
         <RouterProvider router={router} context={{ user: user, menus: menu }} />
-      </ConfigProvider>
-    );
-  }
+      )}
+    </ConfigProvider>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <Space vertical className="w-screen h-screen justify-center">
+      <Spin size="large"></Spin>
+      <Typography.Text>加载页面中....</Typography.Text>
+    </Space>
+  );
 }

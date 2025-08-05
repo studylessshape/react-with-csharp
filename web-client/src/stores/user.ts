@@ -22,24 +22,24 @@ export interface UserState {
     account: string,
     password: string,
     handleOk: () => void,
-    handleErr: (err?: NormalError, message?: string) => void
+    handleErr: (err?: NormalError, message?: string) => void,
   ) => Promise<void>;
   getLoginState: (
-    handleErr: (err?: NormalError, message?: string) => void
+    handleErr: (err?: NormalError, message?: string) => void,
   ) => Promise<void>;
   logout: (
     handleOk?: () => void,
-    handleErr?: (err?: NormalError, message?: string) => void
+    handleErr?: (err?: NormalError, message?: string) => void,
   ) => Promise<void>;
 }
 
 function isAuthenticatedCookie() {
   const COOKIE = import.meta.env.PUBLIC_AUTH_COOKIE;
-  var result = false;
-  if (getCookie(COOKIE) || (setCookie(COOKIE, COOKIE) && !getCookie(COOKIE))) {
-    result = true;
+  var result = getCookie(COOKIE) != undefined;
+  if (!result) {
+    if (setCookie(COOKIE, COOKIE) && !getCookie(COOKIE)) result = true;
+    removeCookie(COOKIE);
   }
-  removeCookie(COOKIE);
   return result;
 }
 
@@ -50,7 +50,7 @@ export const useUserState = create<UserState>((set, store) => ({
     account,
     password,
     handleOk: () => void,
-    handleErr: (err?: NormalError, message?: string) => void
+    handleErr: (err?: NormalError, message?: string) => void,
   ) {
     const response = await loginApi({ account: account, password: password });
     if (response.success && response.data) {
@@ -61,7 +61,7 @@ export const useUserState = create<UserState>((set, store) => ({
     }
   },
   async getLoginState(
-    handleErr: (err?: NormalError, message?: string) => void
+    handleErr: (err?: NormalError, message?: string) => void,
   ) {
     const response = await getLoginState();
 

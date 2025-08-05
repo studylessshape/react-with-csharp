@@ -16,7 +16,7 @@ import { Icon } from "@douyinfe/semi-ui";
 import Logo from "../assets/logo.svg?react";
 import { NotFound } from "../components/NotFoundPage";
 import { featResourceToMenuProps } from "../utils/feats_to_menu";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ErrorRoutePage } from "../components/ErrorRoutePage";
 
 export interface RouteContext {
@@ -45,7 +45,10 @@ function RootComponent() {
     }
   });
 
-  const menus = featResourceToMenuProps(true, menuResources);
+  const menus = useMemo(
+    () => featResourceToMenuProps(true, menuResources),
+    [menuResources]
+  );
 
   return (
     <>

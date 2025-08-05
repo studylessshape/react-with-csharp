@@ -14,8 +14,12 @@ body {
   background-image: url("./assets/background.svg");
 }
 
+@scrollbar-stable: {
+    scrollbar-gutter: stable;
+}
+
 @scrollbar-preset: {
-  scrollbar-gutter: stable;
+    @scrollbar-stable();
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -43,6 +47,10 @@ body {
   }
 };
 
+.scrollbar-stable {
+    @scrollbar-stable();
+}
+
 .scrollbar-default {
   @scrollbar-preset();
 }
@@ -59,5 +67,6 @@ body {
   flex: 1;
   padding: 8px 0;
   overflow: hidden auto;
+
   @scrollbar-preset();
 }

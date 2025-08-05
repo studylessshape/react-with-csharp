@@ -19,7 +19,7 @@ import {
   type FeatResourceDetail,
 } from "../../services";
 import { featResourceToTreeData, filterNode } from "../../utils/feats_to_tree";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FormModal } from "../../components/FormModal";
 import { handleResp } from "../../utils/resp_flow";
 import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
@@ -58,7 +58,7 @@ function RouteComponent() {
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [menuDialogVisible, setMenuDialogVisiable] = useState(false);
 
-  const treeData = featResourceToTreeData(menus);
+  const treeData = useMemo(() => featResourceToTreeData(menus), [menus]);
 
   function showDialog(dataFrom: DataFrom, mode: DialogMode) {
     setDialogMode(mode);
