@@ -10,6 +10,7 @@ import {
 import type { ErrorComponent } from "./defines";
 import { UnknownComponent } from "./UnknownErrorComponent";
 import { Button, Space } from "@douyinfe/semi-ui";
+import type React from "react";
 
 interface ThrowErrorProps {
   message?: string;
@@ -22,12 +23,18 @@ export function throwError({ type, message }: ThrowErrorProps) {
   throw error;
 }
 
-export function ErrorRoutePage(props: ErrorComponentProps) {
+export interface ErrorRoutePageProps
+  extends ErrorComponentProps,
+    React.HTMLProps<HTMLDivElement> {}
+
+export function ErrorRoutePage(props: ErrorRoutePageProps) {
   const navigate = useNavigate();
   const canGoBack = useCanGoBack();
 
+  const { error, info, reset, className, ...divProps } = props;
+
   var errorComponent: ErrorComponent = UnknownComponent;
-  switch (props.error.name) {
+  switch (error.name) {
     case UnauthorizedErrorName:
       errorComponent = UnauthorizedComponent;
       break;
@@ -35,33 +42,30 @@ export function ErrorRoutePage(props: ErrorComponentProps) {
       break;
   }
 
-  function BackButton() {
-    if (!canGoBack) {
-      return undefined;
-    }
-
-    return (
-      <Button
-        theme="solid"
-        onClick={() => {
-          props.reset();
-          navigate({ to: ".." });
-        }}
-      >
-        返回
-      </Button>
-    );
-  }
+  const backButton = !canGoBack ? undefined : (
+    <Button
+      theme="solid"
+      onClick={() => {
+        reset();
+        navigate({ to: ".." });
+      }}
+    >
+      返回
+    </Button>
+  );
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center flex-col">
+    <div
+      className={`flex flex-col justify-center items-center ${className}`}
+      {...divProps}
+    >
       {errorComponent.component(props)}
       <Space spacing={10} className="m-t-4">
-        {BackButton()}
+        {backButton}
         <Button
           theme={canGoBack ? undefined : "solid"}
           onClick={() => {
-            props.reset();
+            reset();
             navigate({ to: "/" });
           }}
         >

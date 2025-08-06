@@ -18,7 +18,9 @@ function Component(props: ErrorComponentProps) {
     <Empty
       image={<IllustrationNoAccess />}
       darkModeImage={<IllustrationNoAccessDark />}
-      description={"无权限访问"}
+      description={
+        props.error.message == "" ? "无权限访问" : props.error.message
+      }
     />
   );
 }

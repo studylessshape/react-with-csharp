@@ -23,24 +23,21 @@ export function useAuth(opts?: AuthOptions) {
   const userState = useUserState();
   const menuState = useMenuState();
   const location = useLocation();
-  const navigate = useNavigate();
   const isSystem = userState.hasRole("System");
 
-  useEffect(() => {
-    if (opts?.location == true) {
-      if (!isSystem) {
-        canAccessPage(location, menuState);
-        navigate({ to: "/unauthorized", replace: true });
-      }
+  if (opts?.location == true) {
+    if (!isSystem && !canAccessPage(location, menuState)) {
+      return false;
     }
+  }
 
-    if (opts?.permissions && opts.permissions.length > 0) {
-      if (!isSystem && !userState.hasAnyPermission(opts.permissions)) {
-        canAccessPage(location, menuState);
-        navigate({ to: "/unauthorized", replace: true });
-      }
+  if (opts?.permissions && opts.permissions.length > 0) {
+    if (!isSystem && !userState.hasAnyPermission(opts.permissions)) {
+      return false;
     }
-  });
+  }
+
+  return true;
 }
 
 export function canAccessPage(

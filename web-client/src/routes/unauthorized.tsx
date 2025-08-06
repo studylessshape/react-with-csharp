@@ -1,6 +1,6 @@
-import { IllustrationNoAccess, IllustrationNoAccessDark } from "@douyinfe/semi-illustrations";
-import { Empty } from "@douyinfe/semi-ui";
 import { createFileRoute } from "@tanstack/react-router";
+import { ErrorRoutePage } from "../components/ErrorRoutePage";
+import { UnauthorizedErrorName } from "../components/ErrorRoutePage/UnauthorizedComponent";
 
 export const Route = createFileRoute("/unauthorized")({
   component: RouteComponent,
@@ -8,12 +8,10 @@ export const Route = createFileRoute("/unauthorized")({
 
 function RouteComponent() {
   return (
-    <div className="w-full h-full">
-      <Empty
-        image={<IllustrationNoAccess />}
-        darkModeImage={<IllustrationNoAccessDark />}
-        description={"无权限访问"}
-      />
-    </div>
+    <ErrorRoutePage
+      error={{ name: UnauthorizedErrorName, message: "无权限访问" }}
+      reset={() => {}}
+      className="w-full h-full"
+    ></ErrorRoutePage>
   );
 }

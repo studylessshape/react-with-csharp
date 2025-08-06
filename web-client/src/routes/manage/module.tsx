@@ -1,5 +1,4 @@
 import { createFileRoute, useLocation } from "@tanstack/react-router";
-import { canAccessPage } from "../../utils/auth_router";
 import {
   Avatar,
   Button,
@@ -29,6 +28,7 @@ import { useMenuState, useUserState } from "../../stores";
 import { useAuth } from "../../hooks/useAuth";
 import type { ColumnProps, TableProps } from "@douyinfe/semi-ui/lib/es/table";
 import { SemiIcon } from "../../components/SemiIcon";
+import { RouteGuard } from "../../components/RouteGuard";
 
 export const Route = createFileRoute("/manage/module")({
   component: RouteComponent,
@@ -38,8 +38,14 @@ type DialogMode = "add" | "edit";
 type DataFrom = "menu" | "permission";
 
 function RouteComponent() {
-  useAuth({ location: true });
+  return (
+    <RouteGuard location redirectTo="/unauthorized">
+      <RouteContent />
+    </RouteGuard>
+  );
+}
 
+function RouteContent() {
   const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
   const [selectedMenu, setSelectedMenu] = useState(
     undefined as FeatResource | undefined

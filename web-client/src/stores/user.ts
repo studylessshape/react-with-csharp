@@ -8,13 +8,8 @@ import {
   login as loginApi,
   logout as logoutApi,
 } from "../services";
-import {
-  getCookie,
-  hasCookie,
-  removeCookie,
-  setCookie,
-} from "../utils/doc_cookie";
 import type { HandleErrHandler } from "../utils/resp_flow";
+import { getCookie, hasCookie, removeCookie, setCookie } from "../utils/doc_cookie";
 
 export interface UserState {
   isAuthenticated: boolean;
@@ -37,7 +32,13 @@ export interface UserState {
   ) => Promise<void>;
 }
 
+const IS_LOGIN_KEY = "logged_in";
+
 function isAuthenticatedCookie() {
+  if (encodeURIComponent(true) == window.localStorage.getItem(IS_LOGIN_KEY)) {
+    return true;
+  }
+  
   const COOKIE = import.meta.env.PUBLIC_AUTH_COOKIE;
   var result = hasCookie(COOKIE);
 
@@ -65,6 +66,7 @@ export const useUserState = create<UserState>((set, store) => ({
     if (response.success && response.data) {
       set({ user: response.data, isAuthenticated: true });
       handleOk();
+      window.localStorage.setItem(IS_LOGIN_KEY, encodeURIComponent(true));
     } else {
       handleErr(response.code, response.error, response.message);
     }
@@ -74,8 +76,13 @@ export const useUserState = create<UserState>((set, store) => ({
 
     if (response.success && response.data) {
       set({ user: response.data, isAuthenticated: true });
+      window.localStorage.setItem(IS_LOGIN_KEY, encodeURIComponent(true));
     } else {
       handleErr(response.code, response.error, response.message);
+      if (response.code == 401) {
+        set({ user: undefined, isAuthenticated: false });
+        window.localStorage.removeItem(IS_LOGIN_KEY);
+      }
     }
   },
   async logout(handleOk, handleErr) {
@@ -89,6 +96,7 @@ export const useUserState = create<UserState>((set, store) => ({
       }
     } finally {
       set({ user: undefined, isAuthenticated: false });
+      window.localStorage.removeItem(IS_LOGIN_KEY);
     }
   },
   hasRole(role) {
