@@ -3,6 +3,7 @@ import type { FeatResource } from "../services";
 import * as Icon from "@douyinfe/semi-icons";
 import { Space, Typography } from "@douyinfe/semi-ui";
 import { buildTree } from "./build_tree";
+import { SemiIcon } from "../components/SemiIcon";
 
 export interface FeatResourceWithChildren extends FeatResource {
   children?: FeatResourceWithChildren[];
@@ -10,7 +11,7 @@ export interface FeatResourceWithChildren extends FeatResource {
 
 const { Text } = Typography;
 
-function featResourceLabel(node: FeatResource) {
+export function featResourceLabel(node: FeatResource) {
   const urlNode =
     node.url == "" ? undefined : <Text type="secondary">({node.url})</Text>;
   return (
@@ -26,7 +27,10 @@ function featResourceLabel(node: FeatResource) {
  * @param featResources
  * @returns return TreeNodeData and the perporty `data` is FeatResource
  */
-export function featResourceToTreeData(featResources: FeatResource[] | undefined) {
+export function featResourceToTreeData(
+  featResources: FeatResource[] | undefined,
+  needDisabled?: (data: FeatResource) => boolean
+) {
   var filterResources = featResources;
   if (featResources) {
     filterResources = featResources
@@ -41,25 +45,27 @@ export function featResourceToTreeData(featResources: FeatResource[] | undefined
     (node) => ({
       key: node.id.toString(),
       label: featResourceLabel(node),
-      icon: node.icon ? Icon[node.icon].render() : undefined,
+      icon: <SemiIcon name={node.icon} />,
       data: node,
+      disabled: needDisabled == undefined ? undefined : needDisabled(node),
     })
   );
 }
 
-export function filterNode(
-  nodes: TreeNodeData[],
-  condition: (data: TreeNodeData) => boolean
-) {
+export function filterNode<
+  T extends { disabled?: boolean; children?: T[] },
+  R = T,
+>(nodes: T[], condition: (data: T) => boolean, map?: (data: T) => R): R[] {
   return nodes.map((n) => {
-    var children = n.children;
+    const { children, ...rowData } = n;
+    const data = map == undefined ? (rowData as R) : map(n);
     var disabled = !condition(n);
-    if (children && children.length > 0) {
-      children = filterNode(children, condition);
-    }
     return {
-      ...n,
-      children: children,
+      ...data,
+      children:
+        children == undefined
+          ? undefined
+          : filterNode(children, condition, map),
       disabled: disabled,
     };
   });

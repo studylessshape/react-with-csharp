@@ -60,3 +60,19 @@ export function findNode<T extends { children?: T[] }>(
   }
   return node;
 }
+
+export function mapNodes<T extends { children?: T[] }, R = T>(
+  datas: T[] | undefined,
+  map: (data: T) => R
+): R[] | undefined {
+  return datas == undefined
+    ? undefined
+    : datas.map((node) => {
+        const { children, ...nodeData } = node;
+        const data = map({ ...nodeData } as T);
+        return {
+          ...data,
+          children: mapNodes(children, map),
+        } as R;
+      });
+}

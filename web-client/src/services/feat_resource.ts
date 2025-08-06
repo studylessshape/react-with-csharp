@@ -50,6 +50,14 @@ export function deleteResource(id: number) {
   );
 }
 
+export function deleteManyResource(ids: number[]) {
+  return api<None, NormalError>(
+    `/api/auth/FeatResource/DeleteManyResource`,
+    "DELETE",
+    ids
+  );
+}
+
 export function updateMenu(menu: FeatResource) {
   return api<None, NormalError>(
     `/api/auth/FeatResource/UpdateMenu`,

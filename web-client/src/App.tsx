@@ -20,8 +20,10 @@ export default function (_props: AppProps) {
   const menu = useMenuState();
 
   return (
-    <ConfigProvider>
-      <RouterProvider router={router} context={{ user: user, menus: menu }} />
-    </ConfigProvider>
+    <div className="semi-light-scrollbar">
+      <ConfigProvider>
+        <RouterProvider router={router} context={{ user: user, menus: menu }} />
+      </ConfigProvider>
+    </div>
   );
 }

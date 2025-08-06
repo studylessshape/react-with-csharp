@@ -1,34 +1,38 @@
-import { createFileRoute, useLocation } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
-  Avatar,
   Button,
   Form,
-  Popconfirm,
   Space,
   Table,
   Toast,
-  Tree,
   Typography,
 } from "@douyinfe/semi-ui";
 import {
   createMenu,
+  deleteManyResource,
   deleteResource,
   getMenus,
   updateMenu,
   type FeatResource,
   type FeatResourceDetail,
 } from "../../services";
-import { featResourceToTreeData, filterNode } from "../../utils/feats_to_tree";
+import { featResourceToTreeData } from "../../utils/feats_to_tree";
 import { useEffect, useMemo, useState } from "react";
 import { FormModal } from "../../components/FormModal";
 import { handleResp } from "../../utils/resp_flow";
 import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
-import { featResourceToDataSource } from "../../utils/feat_to_data_source";
-import { useMenuState, useUserState } from "../../stores";
-import { useAuth } from "../../hooks/useAuth";
-import type { ColumnProps, TableProps } from "@douyinfe/semi-ui/lib/es/table";
+import {
+  featResourceToDataSource,
+  type FeatResourceTableData,
+} from "../../utils/feat_to_data_source";
+import type {
+  ColumnProps,
+  ColumnRender,
+  RowSelectionOnSelect,
+} from "@douyinfe/semi-ui/lib/es/table";
 import { SemiIcon } from "../../components/SemiIcon";
 import { RouteGuard } from "../../components/RouteGuard";
+import { DeleteButton } from "../../components/PermissionButton/DeleteButton";
 
 export const Route = createFileRoute("/manage/module")({
   component: RouteComponent,
@@ -46,57 +50,162 @@ function RouteComponent() {
 }
 
 function RouteContent() {
+  return <MenuPart />;
+}
+
+function MenuPart({
+  onDoubleClickRow,
+}: {
+  onDoubleClickRow?: (row: FeatResource) => void;
+}) {
   const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
-  const [selectedMenu, setSelectedMenu] = useState(
+  const [editMenu, setEditMenu] = useState(
     undefined as FeatResource | undefined
   );
+  const [loading, setLoading] = useState(false);
+  const [selectedMenus, setSelectedMenus] = useState(
+    undefined as FeatResource[] | undefined
+  );
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
-  const [menuDialogVisible, setMenuDialogVisiable] = useState(false);
+  const [dialogVisible, setDialogVisiable] = useState(false);
+
+  function loadMenus() {
+    setLoading(true);
+    handleResp(getMenus(), {
+      handleOk(data) {
+        setMenus(data);
+      },
+      defaultMessage: "获取菜单失败",
+    }).finally(() => {
+      setLoading(false);
+    });
+  }
+
+  function openDialog(menu: FeatResource | undefined, mode: DialogMode) {
+    setEditMenu(menu);
+    setDialogMode(mode);
+    setDialogVisiable(true);
+  }
+
+  useEffect(() => {
+    if (menus == undefined) {
+      loadMenus();
+    }
+  }, [menus]);
 
   return (
     <>
       <div className="w-full h-full flex flex-col">
-        <Space></Space>
+        <Space>
+          <Button
+            theme="solid"
+            disabled={selectedMenus != undefined && selectedMenus.length > 1}
+            onClick={() =>
+              openDialog(
+                selectedMenus == undefined || selectedMenus.length == 0
+                  ? undefined
+                  : selectedMenus[0],
+                "add"
+              )
+            }
+          >
+            添加
+          </Button>
+          <DeleteButton
+            title="是否删除选定菜单？"
+            disabled={selectedMenus == undefined || selectedMenus.length == 0}
+            onConfirm={() => {
+              if (selectedMenus) {
+                handleResp(deleteManyResource(selectedMenus.map((m) => m.id)), {
+                  handleOk: (count) => {
+                    Toast.success(`成功删除 ${count} 个菜单项`);
+                    loadMenus();
+                  },
+                });
+              }
+            }}
+          />
+        </Space>
         <div className="overflow-auto flex-1 flex">
-          <MenuDataTable />
+          <MenuDataTable
+            menus={menus}
+            loading={loading}
+            onSelect={(_row, _selected, selectedRows) => {
+              setSelectedMenus(selectedRows);
+            }}
+            onDoubleClickRow={onDoubleClickRow}
+            actionRender={(_t, record) => {
+              const row = record as FeatResourceTableData;
+
+              return (
+                <Space>
+                  <Button
+                    theme="solid"
+                    onClick={() => openDialog(record, "edit")}
+                  >
+                    编辑
+                  </Button>
+                  <DeleteButton
+                    position="bottomRight"
+                    onConfirm={() => {
+                      handleResp(deleteResource(row.id), {
+                        handleOk: () => {
+                          Toast.success("删除成功！");
+                          loadMenus();
+                        },
+                      });
+                    }}
+                  ></DeleteButton>
+                </Space>
+              );
+            }}
+          />
         </div>
       </div>
-      {/* <MenuEditor
-        menu={selectedMenu}
+      <MenuEditor
+        visible={dialogVisible}
+        menu={editMenu}
         mode={dialogMode}
+        datas={menus}
         onSubmit={(value) => {
           if (dialogMode == "add") {
-            submitAdd(value);
+            handleResp(createMenu(value), {
+              handleOk: () => {
+                Toast.success("添加成功");
+                loadMenus();
+                setDialogVisiable(false);
+              },
+            });
           } else {
-            submitEdit(value);
+            handleResp(updateMenu(value), {
+              handleOk: () => {
+                Toast.success("修改成功");
+                loadMenus();
+                setDialogVisiable(false);
+              },
+            });
           }
         }}
-        treeData={treeData}
-        visible={menuDialogVisible}
-        onCancel={() => setMenuDialogVisiable(false)}
-      ></MenuEditor> */}
+        onCancel={() => setDialogVisiable(false)}
+      />
     </>
   );
 }
 
-function MenuDataTable() {
-  const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
-  const [isLoading, setIsLoading] = useState(false);
+function MenuDataTable({
+  menus,
+  loading,
+  onDoubleClickRow,
+  onSelect,
+  actionRender,
+}: {
+  menus: FeatResource[] | undefined;
+  loading?: boolean;
+  onDoubleClickRow?: (row: FeatResource) => void;
+  onSelect?: RowSelectionOnSelect<FeatResourceTableData>;
+  actionRender?: ColumnRender<any>;
+}) {
   const tableData = useMemo(() => featResourceToDataSource(menus), [menus]);
-
-  useEffect(() => {
-    if (menus == undefined) {
-      setIsLoading(true);
-      handleResp(getMenus(), {
-        handleOk(data) {
-          setMenus(data);
-        },
-        defaultMessage: "获取菜单失败",
-      }).finally(() => {
-        setIsLoading(false);
-      });
-    }
-  }, [menus]);
 
   const columns: ColumnProps[] = [
     { title: "Id", dataIndex: "id" },
@@ -105,24 +214,50 @@ function MenuDataTable() {
       dataIndex: "name",
       render: (text, record) => {
         return (
-          <div>
+          <Space>
             <SemiIcon name={record.icon} />
             {text}
-          </div>
+          </Space>
         );
       },
     },
     { title: "描述", dataIndex: "description" },
     { title: "地址", dataIndex: "url" },
+    {
+      title: "操作",
+      fixed: true,
+      render: actionRender,
+    },
   ];
+  if (!actionRender) {
+    columns.pop();
+  }
+
   return (
     <Table
+      size="small"
       columns={columns}
       dataSource={tableData}
-      loading={isLoading}
+      loading={loading}
       pagination={false}
+      defaultExpandedRowKeys={[1]}
       sticky
-      scroll={{ x: 800, y: 500 }}
+      bordered
+      resizable
+      scroll={{ x: 500, y: 500 }}
+      style={{ height: 600 }}
+      rowSelection={{
+        fixed: true,
+        onSelect: onSelect,
+      }}
+      onRow={(record) => {
+        const row = record as FeatResource;
+        return {
+          onDoubleClick: () => {
+            if (onDoubleClickRow) onDoubleClickRow(row);
+          },
+        };
+      }}
     ></Table>
   );
 }
@@ -130,25 +265,24 @@ function MenuDataTable() {
 function MenuEditor({
   mode,
   menu,
-  treeData,
+  datas,
   onSubmit,
   visible,
   onCancel,
 }: {
   mode: DialogMode;
   menu: FeatResource | undefined;
-  treeData: TreeNodeData[] | undefined;
+  datas: FeatResource[] | undefined;
   onSubmit: (values: FeatResource) => void;
   visible?: boolean;
   onCancel?: () => void;
 }) {
   const title = `${mode == "add" ? "添加" : "编辑"} - 菜单`;
-  const treeDataProps =
-    treeData == undefined
-      ? treeData
-      : mode == "add"
-        ? treeData
-        : filterNode(treeData, (data) => data["data"]["id"] != menu?.id);
+  const treeDataProps: TreeNodeData[] | undefined = featResourceToTreeData(
+    datas,
+    mode == "add" ? undefined : (data) => data.id == menu?.id
+  );
+
   return (
     <FormModal
       form={{

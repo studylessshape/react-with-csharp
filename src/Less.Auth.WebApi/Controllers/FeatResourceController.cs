@@ -3,6 +3,7 @@ using Less.Auth.Dal.Claims;
 using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.Auth.WebApi.Models;
+using Less.EntityFramework.Plus.WhereOrFeat;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -104,6 +105,22 @@ namespace Less.Auth.WebApi.Controllers
             }
 
             return Resp.Ok(None.New());
+        }
+
+        /// <summary>
+        /// Delete resource
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<Resp<int>> DeleteManyResource(int[] ids)
+        {
+            var deleteCount = await resourceRepo.DeleteAsync(query => query.WhereAnyContains(f => f.Id, ids));
+            if (deleteCount == 0)
+            {
+                return Resp.Err<int>("删除失败，没有对应的资源");
+            }
+
+            return Resp.Ok(deleteCount);
         }
 
         /// <summary>
