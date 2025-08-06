@@ -56,7 +56,7 @@ function RouteContent() {
 function MenuPart({
   onDoubleClickRow,
 }: {
-  onDoubleClickRow?: (row: FeatResource) => void;
+  onDoubleClickRow?: (row: FeatResource | undefined) => void;
 }) {
   const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
   const [editMenu, setEditMenu] = useState(
@@ -68,6 +68,14 @@ function MenuPart({
   );
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [dialogVisible, setDialogVisiable] = useState(false);
+  const [doubleMenu, setDoubleMenu] = useState(
+    undefined as FeatResource | undefined
+  );
+
+  function setDouble(row: FeatResource | undefined) {
+    setDoubleMenu(row);
+    if (onDoubleClickRow) onDoubleClickRow(row);
+  }
 
   function loadMenus() {
     setLoading(true);
@@ -120,6 +128,13 @@ function MenuPart({
                   handleOk: (count) => {
                     Toast.success(`成功删除 ${count} 个菜单项`);
                     loadMenus();
+                    if (
+                      doubleMenu &&
+                      selectedMenus.some((f) => f.id == doubleMenu.id)
+                    ) {
+                      setDouble(undefined);
+                    }
+                    setSelectedMenus(undefined);
                   },
                 });
               }
@@ -133,7 +148,9 @@ function MenuPart({
             onSelect={(_row, _selected, selectedRows) => {
               setSelectedMenus(selectedRows);
             }}
-            onDoubleClickRow={onDoubleClickRow}
+            onDoubleClickRow={(row) => {
+              setDouble(row);
+            }}
             actionRender={(_t, record) => {
               const row = record as FeatResourceTableData;
 
@@ -152,6 +169,16 @@ function MenuPart({
                         handleOk: () => {
                           Toast.success("删除成功！");
                           loadMenus();
+                          if (doubleMenu && doubleMenu.id == row.id) {
+                            setDouble(undefined);
+                          }
+                          if (
+                            selectedMenus?.some((f) => f.id == row.id) == true
+                          ) {
+                            setSelectedMenus(
+                              selectedMenus.filter((f) => f.id != row.id)
+                            );
+                          }
                         },
                       });
                     }}
@@ -289,7 +316,7 @@ function MenuEditor({
         labelPosition: "left",
         initValues:
           mode == "add"
-            ? { parentId: menu?.id.toString(), order: 0 }
+            ? { parentId: menu?.id.toString() ?? "1", order: 0 }
             : {
                 ...menu,
                 parentId: menu?.parentId?.toString(),
