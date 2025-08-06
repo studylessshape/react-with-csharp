@@ -9,7 +9,9 @@ namespace Less.Auth.WebApi.Models
         [MinLength(1)]
         public string Name { get; set; } = "";
         public string? Description { get; set; }
-        public int? ParentId { get; set; }
+        [Required]
+        [Range(1, int.MaxValue)]
+        public int ParentId { get; set; }
         public string Tag { get; set; } = "";
         public string Url { get; set; } = "";
         public string? Icon { get; set; }
@@ -39,19 +41,6 @@ namespace Less.Auth.WebApi.Models
                 Tag = Tag,
                 Url = Url,
                 Icon = Icon,
-            };
-        }
-
-        public static FeatResourceDetail FromData(FeatResource data)
-        {
-            return new FeatResourceDetail
-            {
-                Name = data.Name,
-                Description = data.Description,
-                ParentId = data.ParentId,
-                Tag = data.Tag,
-                Url = data.Url,
-                Icon = data.Icon,
             };
         }
     }

@@ -16,14 +16,19 @@ export interface SemiIconProps
   type?: string;
 }
 
+interface SemiIconState {
+  name?: string;
+  svg?: ReactNode;
+}
+
 export class SemiIcon extends React.Component<SemiIconProps> {
   constructor(props: SemiIconProps) {
     super(props);
   }
-
+  
   render(): ReactNode {
     const { name, svg, ...iconProps } = this.props;
-    
+
     if (svg) {
       return <Icon svg={svg} {...iconProps}></Icon>;
     }

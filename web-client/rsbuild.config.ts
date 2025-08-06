@@ -3,6 +3,7 @@ import { pluginReact } from "@rsbuild/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/rspack";
 import { pluginLess } from "@rsbuild/plugin-less";
 import { pluginSvgr } from "@rsbuild/plugin-svgr";
+import path from "node:path";
 
 export default defineConfig({
   plugins: [pluginReact(), pluginLess(), pluginSvgr()],
@@ -39,5 +40,13 @@ export default defineConfig({
   },
   html: {
     title: "",
+  },
+  resolve: {
+    alias: [
+      {
+        "@": path.resolve(__dirname, "./src"),
+        "@src": path.resolve(__dirname, "./src"),
+      },
+    ],
   },
 });
