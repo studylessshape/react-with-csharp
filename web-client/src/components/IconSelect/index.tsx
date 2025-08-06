@@ -1,6 +1,6 @@
-import { Button, Popover, Space } from "@douyinfe/semi-ui";
+import { Button, Popover, Space, Tooltip, Typography } from "@douyinfe/semi-ui";
 import * as Icon from "@douyinfe/semi-icons/lib/es/icons";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SemiIcon } from "../SemiIcon";
 
 export function IconSelect(props: {
@@ -32,12 +32,15 @@ export function IconSelect(props: {
     >
       <Button
         type="tertiary"
-        className={`${selectedIcon == undefined ? "p-l-7" : ""}`}
+        className={`${selectedIcon == undefined ? "p-l-20" : ""}`}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
         <Space>
-          <SemiIcon name={selectedIcon} />
+          <Space>
+            <SemiIcon name={selectedIcon} />
+            <Typography.Text>{selectedIcon}</Typography.Text>
+          </Space>
           {isHover && props.showClear == true && selectedIcon != undefined ? (
             <Icon.IconClear onClick={() => setIcon(undefined)} />
           ) : (
@@ -54,21 +57,19 @@ function IconPopoverContent(props: {
   onIconSelected: (icon: string | undefined) => void;
 }) {
   const { icon, onIconSelected } = props;
-  const iconList = useMemo(() => Object.keys(Icon), []);
-  const iconOptionList = useMemo(() => {
-    return iconList.map((key) => (
-      <Button
-        key={key}
-        theme="borderless"
-        type={icon == key ? "primary" : "tertiary"}
-        icon={<SemiIcon name={key} />}
-        onClick={() => onIconSelected(key)}
-      />
-    ));
-  }, [iconList]);
+  const iconList = Object.keys(Icon);
   return (
-    <Space className="flex flex-row flex-wrap w-73 h-80 overflow-auto p-2 scrollbar-gutter-stable">
-      {iconOptionList}
+    <Space className="flex flex-row flex-wrap w-72 h-80 overflow-auto p-2 scrollbar-gutter-stable">
+      {iconList.map((key) => (
+        <Button
+          key={key}
+          theme="borderless"
+          className="border border-solid semi-border-color"
+          type={icon == key ? "primary" : "tertiary"}
+          icon={<SemiIcon name={key} />}
+          onClick={() => onIconSelected(key)}
+        />
+      ))}
     </Space>
   );
 }
