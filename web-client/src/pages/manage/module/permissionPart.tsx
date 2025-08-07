@@ -4,7 +4,7 @@ import {
   type FeatResource,
 } from "@/services";
 import { PermissionTable } from "./permissionTable";
-import { Button, Space, Toast } from "@douyinfe/semi-ui";
+import { Button, Space, Toast, Tooltip, Typography } from "@douyinfe/semi-ui";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import { IconPlus } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
@@ -22,6 +22,16 @@ export interface PageInfo {
   total?: number;
   page?: number;
   pageSize: number;
+}
+
+export function CurrentMenu({ menu }: { menu?: FeatResource }) {
+  return (
+    <Tooltip content="双击上方菜单条目查看">
+      <span>
+        当前菜单项：{menu?.description ?? menu?.name} - {menu?.id}
+      </span>
+    </Tooltip>
+  );
 }
 
 export function PermissionPart(props: PermissionPartProps) {
@@ -51,6 +61,7 @@ export function PermissionPart(props: PermissionPartProps) {
             添加许可
           </Button>
           <DeleteButton buttonChildren="删除选中许可"></DeleteButton>
+          <CurrentMenu menu={props.parent} />
         </Space>
         <PermissionTable parentId={props.parent?.id} />
       </div>
@@ -60,9 +71,14 @@ export function PermissionPart(props: PermissionPartProps) {
         visible={dialogVisible}
         feat={editFeat}
         onSubmit={(feat) => {
-          handleResp(createPermission(feat), {
-            handleOk: (data) => {},
-          });
+          if (dialogMode == "add") {
+            handleResp(createPermission(feat), {
+              handleOk: (data) => {
+                Toast.success("添加成功");
+                setDialogVisiable(false);
+              },
+            });
+          }
         }}
         onCancel={() => setDialogVisiable(false)}
       />

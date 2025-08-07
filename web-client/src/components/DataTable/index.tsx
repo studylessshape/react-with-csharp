@@ -9,7 +9,7 @@ import type {
   RowSelection,
   Size,
 } from "@douyinfe/semi-ui/lib/es/table";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
 export interface PaginationData {
   currentPage?: number;
@@ -39,6 +39,9 @@ export interface DataTableProps<
   className?: string;
   loading?: boolean;
   changing?: any;
+  resizable?: boolean;
+  emptyTitle?: ReactNode;
+  emptyMessage?: ReactNode;
 }
 
 export function DataTable<
@@ -98,7 +101,7 @@ export function DataTable<
       defaultExpandedRowKeys={props.defaultExpandedRowKeys}
       sticky={props.scroll != undefined}
       bordered
-      resizable
+      resizable={props.resizable}
       scroll={props.scroll}
       style={props.style}
       rowSelection={props.rowSelection}
@@ -134,8 +137,9 @@ export function DataTable<
         <Empty
           image={<IllustrationNoResult />}
           darkModeImage={<IllustrationNoResultDark />}
+          title={props.emptyTitle}
         >
-          没有数据
+          {props.emptyMessage ?? "没有数据"}
         </Empty>
       }
     ></Table>
