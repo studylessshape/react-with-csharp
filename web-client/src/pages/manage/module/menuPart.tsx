@@ -1,11 +1,4 @@
-import {
-  Button,
-  Form,
-  Space,
-  Table,
-  Toast,
-  Typography,
-} from "@douyinfe/semi-ui";
+import { Button, Space, Table, Toast } from "@douyinfe/semi-ui";
 import {
   createMenu,
   deleteManyResource,
@@ -13,13 +6,9 @@ import {
   getMenus,
   updateMenu,
   type FeatResource,
-  type FeatResourceDetail,
 } from "@/services";
-import { featResourceToTreeData } from "@/utils/feats_to_tree";
 import { useEffect, useMemo, useState } from "react";
-import { FormModal } from "@/components/FormModal";
 import { handleResp } from "@/utils/resp_flow";
-import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
 import {
   featResourceToDataSource,
   type FeatResourceTableData,
@@ -33,6 +22,7 @@ import { SemiIcon } from "@/components/SemiIcon";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import type { DialogMode } from "./types";
 import { IconSelect } from "@/components/IconSelect";
+import { MenuEditor } from "./menuEditor";
 
 export function MenuPart({
   onDoubleClickRow,
@@ -86,7 +76,7 @@ export function MenuPart({
     <>
       <div className="w-full h-full flex flex-col">
         <Space>
-          <IconSelect showClear/>
+          <IconSelect showClear />
           <Button
             theme="solid"
             disabled={selectedMenus != undefined && selectedMenus.length > 1}
@@ -268,79 +258,5 @@ function MenuDataTable({
         };
       }}
     ></Table>
-  );
-}
-
-function MenuEditor({
-  mode,
-  menu,
-  datas,
-  onSubmit,
-  visible,
-  onCancel,
-}: {
-  mode: DialogMode;
-  menu: FeatResource | undefined;
-  datas: FeatResource[] | undefined;
-  onSubmit: (values: FeatResource) => void;
-  visible?: boolean;
-  onCancel?: () => void;
-}) {
-  const title = `${mode == "add" ? "添加" : "编辑"} - 菜单`;
-  const treeDataProps: TreeNodeData[] | undefined = featResourceToTreeData(
-    datas,
-    mode == "add" ? undefined : (data) => data.id == menu?.id
-  );
-  const initValues =
-    mode == "add"
-      ? { parentId: menu?.id.toString() ?? "1", order: 0 }
-      : {
-          ...menu,
-          parentId: menu?.parentId?.toString(),
-        };
-
-  return (
-    <FormModal
-      form={{
-        labelPosition: "left",
-        initValues: initValues,
-        onSubmit: (values) => {
-          const { parentId, ...valuesOther } = values;
-          const detail = {
-            parentId: parentId != undefined ? parseInt(parentId) : undefined,
-            ...valuesOther,
-          } as FeatResourceDetail;
-          const value = { id: menu?.id, kind: 0, ...detail } as FeatResource;
-          onSubmit(value);
-        },
-      }}
-      modal={{
-        title: title,
-        onCancel: onCancel,
-        visible: visible,
-      }}
-    >
-      <Form.Slot label="Id">
-        <Typography.Text className="h-full flex items-center">
-          {mode == "add" ? undefined : menu?.id}
-        </Typography.Text>
-      </Form.Slot>
-      <Form.Input
-        label="代号"
-        field="name"
-        rules={[{ required: true, message: "代号不可为空" }]}
-      ></Form.Input>
-      <Form.Input label="描述" field="description"></Form.Input>
-      <Form.Input label="地址" field="url"></Form.Input>
-      <Form.InputNumber label="排序" field="order" required></Form.InputNumber>
-      {initValues.parentId == undefined ? undefined : (
-        <Form.TreeSelect
-          label="父级"
-          field="parentId"
-          disableStrictly
-          treeData={treeDataProps}
-        ></Form.TreeSelect>
-      )}
-    </FormModal>
   );
 }

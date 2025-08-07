@@ -23,7 +23,7 @@ export type None = {} | undefined | null;
 
 export interface FeatResourceDetail {
   name: string;
-  description: string;
+  description?: string;
   parentId?: number;
   tag: string;
   url: string;

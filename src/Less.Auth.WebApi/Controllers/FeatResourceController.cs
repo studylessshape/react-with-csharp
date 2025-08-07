@@ -98,6 +98,10 @@ namespace Less.Auth.WebApi.Controllers
         [HttpDelete]
         public async Task<Resp<None>> DeleteResource(int id)
         {
+            if (id == 1)
+            {
+                return Resp.Err<None>("根资源不允许删除");
+            }
             var deleteCount = await resourceRepo.DeleteAsync(query => query.Where(f => f.Id == id));
             if (deleteCount == 0)
             {
@@ -114,6 +118,11 @@ namespace Less.Auth.WebApi.Controllers
         [HttpDelete]
         public async Task<Resp<int>> DeleteManyResource(int[] ids)
         {
+            if (ids.Contains(1))
+            {
+                return Resp.Err<int>("根资源不允许删除");
+            }
+
             var deleteCount = await resourceRepo.DeleteAsync(query => query.WhereAnyContains(f => f.Id, ids));
             if (deleteCount == 0)
             {
@@ -131,6 +140,10 @@ namespace Less.Auth.WebApi.Controllers
         [HttpPost]
         public async Task<Resp<None>> UpdateMenu(FeatResource data)
         {
+            if (data.Id == 1 && data.ParentId != null)
+            {
+                return Resp.Err<None>("不允许修改根资源的父级");
+            }
             var result = await resourceRepo.UpdateMenuAsync(data);
             return Resp.FromResult(result);
         }
