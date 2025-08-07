@@ -30,7 +30,7 @@ export function MenuEditor({
   );
   const initValues =
     mode == "add"
-      ? { parentId: menu?.id.toString() ?? "1", order: 0 }
+      ? { name: "", parentId: menu?.id.toString() ?? "1", order: 0 }
       : {
           ...menu,
           parentId: menu?.parentId?.toString(),
@@ -39,7 +39,7 @@ export function MenuEditor({
 
   useEffect(() => {
     if (visible && formApi) {
-      formApi.setValues(initValues);
+      formApi.setValues(initValues, { isOverride: true });
     }
   }, [visible, formApi]);
 
@@ -57,7 +57,7 @@ export function MenuEditor({
           const value = { id: menu?.id, kind: 0, ...detail } as FeatResource;
           onSubmit(value);
         },
-        getFormApi: setFormApi,
+        getFormApi: (api) => setFormApi(api),
       }}
       modal={{
         title: title,

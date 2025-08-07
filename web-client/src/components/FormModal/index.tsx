@@ -1,7 +1,7 @@
 import type { BaseFormProps, FormApi } from "@douyinfe/semi-ui/lib/es/form";
 import type { ModalReactProps } from "@douyinfe/semi-ui/lib/es/modal";
 import Modal from "@douyinfe/semi-ui/lib/es/modal";
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "@douyinfe/semi-ui";
 
 export interface FormModalProps {
@@ -20,7 +20,6 @@ class FormModalContext {
   formProps?: any;
   getFormApiFromProps?: (formApi: FormApi<Record<string, any>>) => void;
   children?: React.ReactNode;
-  formApi?: FormApi<Record<string, any>>;
   constructor(props: React.PropsWithChildren<FormModalProps>) {
     const { form, modal, children } = props;
 
@@ -35,31 +34,25 @@ class FormModalContext {
     }
     this.children = children;
   }
-
-  getFormApi(api: FormApi<Record<string, any>>) {
-    this.formApi = api;
-  }
-
-  async handleOk() {
-    if (this.formApi) {
-      this.formApi.submitForm();
-    }
-  }
 }
 
 export function FormModal(props: React.PropsWithChildren<FormModalProps>) {
   const context = new FormModalContext(props);
+  const [formApi, setFormApi] = useState(undefined as FormApi | undefined);
+  
   return (
     <Modal
       {...context.modalProps}
-      onOk={async () => {
-        await context.handleOk();
+      onOk={() => {
+        if (formApi) {
+          formApi.submitForm();
+        }
       }}
     >
       <Form
         {...context.formProps}
         getFormApi={(api) => {
-          context.getFormApi(api);
+          setFormApi(api);
           if (context.getFormApiFromProps) context.getFormApiFromProps(api);
         }}
       >

@@ -27,6 +27,7 @@ export function DeleteButton(props: DeleteButtonProps) {
         position={props.position}
         onConfirm={props.onConfirm}
         onCancel={props.onCancel}
+        disabled={props.disabled}
       >
         <Button
           size={props.size}

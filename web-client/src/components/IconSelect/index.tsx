@@ -1,6 +1,6 @@
-import { Button, Popover, Space, Tooltip, Typography } from "@douyinfe/semi-ui";
+import { Button, Popover, Space, Typography } from "@douyinfe/semi-ui";
 import * as Icon from "@douyinfe/semi-icons/lib/es/icons";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import { SemiIcon } from "../SemiIcon";
 
 export function IconSelect(props: {
@@ -15,7 +15,7 @@ export function IconSelect(props: {
   function setIcon(icon: string | undefined) {
     setSelectedIcon(icon);
     if (props.onIconSelected) {
-      props.onIconSelected(icon);
+      props.onIconSelected(icon ?? undefined);
     }
   }
 
@@ -71,6 +71,7 @@ function IconPopoverContent(props: {
 }) {
   const { icon, onIconSelected } = props;
   const iconList = Object.keys(Icon);
+
   return (
     <Space className="flex flex-row flex-wrap w-73 h-80 overflow-auto p-y-2 p-l-2 scrollbar-gutter-stable">
       {iconList.map((key) => (

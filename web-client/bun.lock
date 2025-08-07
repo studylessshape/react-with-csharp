@@ -6,23 +6,23 @@
       "dependencies": {
         "@douyinfe/semi-icons": "^2.84.0",
         "@douyinfe/semi-illustrations": "^2.84.0",
-        "@douyinfe/semi-ui": "^2.83.0",
-        "@tanstack/react-router": "^1.130.2",
-        "@tanstack/react-router-devtools": "^1.130.2",
+        "@douyinfe/semi-ui": "^2.84.0",
+        "@tanstack/react-router": "^1.130.12",
+        "@tanstack/react-router-devtools": "^1.130.13",
         "react": "18.3.1",
         "react-dom": "18.3.1",
-        "zustand": "^5.0.6",
+        "zustand": "^5.0.7",
       },
       "devDependencies": {
         "@biomejs/biome": "2.1.2",
-        "@rsbuild/core": "^1.4.11",
-        "@rsbuild/plugin-less": "^1.3.1",
-        "@rsbuild/plugin-react": "^1.3.4",
-        "@rsbuild/plugin-svgr": "^1.2.1",
-        "@tanstack/router-plugin": "^1.130.2",
+        "@rsbuild/core": "^1.4.14",
+        "@rsbuild/plugin-less": "^1.3.2",
+        "@rsbuild/plugin-react": "^1.3.5",
+        "@rsbuild/plugin-svgr": "^1.2.2",
+        "@tanstack/router-plugin": "^1.130.15",
         "@types/react": "18.3.23",
         "@types/react-dom": "18.3.7",
-        "@unocss/postcss": "^66.3.3",
+        "@unocss/postcss": "^66.4.1",
         "less": "^4.4.0",
         "less-loader": "^12.3.0",
         "typescript": "^5.5.2",
@@ -273,13 +273,13 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.46.2", "https://registry.npmmirror.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.46.2.tgz", { "os": "win32", "cpu": "x64" }, "sha512-CvUo2ixeIQGtF6WvuB87XWqPQkoFAFqW+HUo/WzHwuHDvIwZCtjdWXoYCcr06iKGydiqTclC4jU/TNObC/xKZg=="],
 
-    "@rsbuild/core": ["@rsbuild/core@1.4.13", "https://registry.npmmirror.com/@rsbuild/core/-/core-1.4.13.tgz", { "dependencies": { "@rspack/core": "1.4.11", "@rspack/lite-tapable": "~1.0.1", "@swc/helpers": "^0.5.17", "core-js": "~3.44.0", "jiti": "^2.5.1" }, "bin": { "rsbuild": "bin/rsbuild.js" } }, "sha512-aEVIgIRf1Fva9dmX7Swakrt4hgS2yijka9eAJu5FeZb5cMcsgLmFbF2U/vjYFi95MEdgn4R4Z4wGdFzJK9NiEQ=="],
+    "@rsbuild/core": ["@rsbuild/core@1.4.14", "https://registry.npmmirror.com/@rsbuild/core/-/core-1.4.14.tgz", { "dependencies": { "@rspack/core": "1.4.11", "@rspack/lite-tapable": "~1.0.1", "@swc/helpers": "^0.5.17", "core-js": "~3.44.0", "jiti": "^2.5.1" }, "bin": { "rsbuild": "bin/rsbuild.js" } }, "sha512-9ExdIME+/FFEZ30CKGLgNqjyISA8ww/n0+1qd8M69oLoodPuoqIiTMNu1fJVbErXsjje/Kd3MaodlyqGfa4RLw=="],
 
-    "@rsbuild/plugin-less": ["@rsbuild/plugin-less@1.3.1", "https://registry.npmmirror.com/@rsbuild/plugin-less/-/plugin-less-1.3.1.tgz", { "dependencies": { "deepmerge": "^4.3.1", "reduce-configs": "^1.1.0" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-RFzm23VAM9qRO2xrLh1vkZktvSseA1A+DSy+AenM9PNrqO89c+qa6L0R+5AdtbNoao1VXFa4Ixz6yNTe/Bis2A=="],
+    "@rsbuild/plugin-less": ["@rsbuild/plugin-less@1.3.2", "https://registry.npmmirror.com/@rsbuild/plugin-less/-/plugin-less-1.3.2.tgz", { "dependencies": { "deepmerge": "^4.3.1", "reduce-configs": "^1.1.0" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-MmluLKJA0sFujCWUvB5fHIPe6PSRvrGWmlK9cOuRgOPfSPB8gQO8i2+auQXbHdG9u95LpTPoTcXEXnQ2v7tp7A=="],
 
-    "@rsbuild/plugin-react": ["@rsbuild/plugin-react@1.3.4", "https://registry.npmmirror.com/@rsbuild/plugin-react/-/plugin-react-1.3.4.tgz", { "dependencies": { "@rspack/plugin-react-refresh": "~1.4.3", "react-refresh": "^0.17.0" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-PeLmPkUUm+t2cBGBe1WHhw1NNPHDFnKiXnRUGM5WSSlSZWfSi96RbeLqrm+gH6TaefdyvmLvurJu+7tSSUrQjQ=="],
+    "@rsbuild/plugin-react": ["@rsbuild/plugin-react@1.3.5", "https://registry.npmmirror.com/@rsbuild/plugin-react/-/plugin-react-1.3.5.tgz", { "dependencies": { "@rspack/plugin-react-refresh": "~1.4.3", "react-refresh": "^0.17.0" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-L/GoHgJV4j+EQbI4KOhe5EscM0OHgnSat1eR0Nt5P3JZxpJV2ryO5Yfx5jElPWOkYZZCuk+EWhHWDQ4CkeC5BQ=="],
 
-    "@rsbuild/plugin-svgr": ["@rsbuild/plugin-svgr@1.2.1", "https://registry.npmmirror.com/@rsbuild/plugin-svgr/-/plugin-svgr-1.2.1.tgz", { "dependencies": { "@rsbuild/plugin-react": "^1.1.0", "@svgr/core": "8.1.0", "@svgr/plugin-jsx": "8.1.0", "@svgr/plugin-svgo": "8.1.0", "deepmerge": "^4.3.1", "loader-utils": "^3.3.1" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-UERUQmyGHx0B2mvSvdyuGyUFG2U94ogwpDRF+d6BRw4Yzm+OAktSjREoqvi/snwQZwZkRdHfdOkqI/jhPnPA/Q=="],
+    "@rsbuild/plugin-svgr": ["@rsbuild/plugin-svgr@1.2.2", "https://registry.npmmirror.com/@rsbuild/plugin-svgr/-/plugin-svgr-1.2.2.tgz", { "dependencies": { "@rsbuild/plugin-react": "^1.1.0", "@svgr/core": "8.1.0", "@svgr/plugin-jsx": "8.1.0", "@svgr/plugin-svgo": "8.1.0", "deepmerge": "^4.3.1", "loader-utils": "^3.3.1" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-zd1efqsd0mDWe6B6dAKmubMvvaGrD4lPKXUZObynROvPZBSeaZxY2y2Ddrwc1yCyWL6X4WdBd1WIfShGGGKDxg=="],
 
     "@rspack/binding": ["@rspack/binding@1.4.11", "https://registry.npmmirror.com/@rspack/binding/-/binding-1.4.11.tgz", { "optionalDependencies": { "@rspack/binding-darwin-arm64": "1.4.11", "@rspack/binding-darwin-x64": "1.4.11", "@rspack/binding-linux-arm64-gnu": "1.4.11", "@rspack/binding-linux-arm64-musl": "1.4.11", "@rspack/binding-linux-x64-gnu": "1.4.11", "@rspack/binding-linux-x64-musl": "1.4.11", "@rspack/binding-wasm32-wasi": "1.4.11", "@rspack/binding-win32-arm64-msvc": "1.4.11", "@rspack/binding-win32-ia32-msvc": "1.4.11", "@rspack/binding-win32-x64-msvc": "1.4.11" } }, "sha512-maGl/zRwnl0QVwkBCkgjn5PH20L9HdlRIdkYhEsfTepy5x2QZ0ti/0T49djjTJQrqb+S1i6wWQymMMMMMsxx6Q=="],
 
@@ -377,8 +377,6 @@
 
     "@types/ms": ["@types/ms@2.1.0", "https://registry.npmmirror.com/@types/ms/-/ms-2.1.0.tgz", {}, "sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA=="],
 
-    "@types/node": ["@types/node@24.1.0", "https://registry.npmmirror.com/@types/node/-/node-24.1.0.tgz", { "dependencies": { "undici-types": "~7.8.0" } }, "sha512-ut5FthK5moxFKH2T1CUOC6ctR67rQRvvHdFLCD2Ql6KXmMuCrjsSsRI9UsLCm9M18BMwClv4pn327UvB7eeO1w=="],
-
     "@types/prop-types": ["@types/prop-types@15.7.15", "https://registry.npmmirror.com/@types/prop-types/-/prop-types-15.7.15.tgz", {}, "sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw=="],
 
     "@types/react": ["@types/react@18.3.23", "https://registry.npmmirror.com/@types/react/-/react-18.3.23.tgz", { "dependencies": { "@types/prop-types": "*", "csstype": "^3.0.2" } }, "sha512-/LDXMQh55EzZQ0uVAZmKKhfENivEvWz6E+EYzh+/MCjMhNsotd+ZHhBGIjFDTi6+fz0OhQQQLbTgdQIxxCsC0w=="],
@@ -389,53 +387,53 @@
 
     "@ungap/structured-clone": ["@ungap/structured-clone@1.3.0", "https://registry.npmmirror.com/@ungap/structured-clone/-/structured-clone-1.3.0.tgz", {}, "sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g=="],
 
-    "@unocss/astro": ["@unocss/astro@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/reset": "66.4.1", "@unocss/vite": "66.4.1" }, "peerDependencies": { "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0" }, "optionalPeers": ["vite"] }, "sha512-UPfpg1FGf8lMugnMYuFxpVqNvO9cIVdi7e3yXpBnzf0uQ4Pib7KvOTPB4VOAVoqDK2A0kPxCzeR9MxCk4c+wxw=="],
+    "@unocss/astro": ["@unocss/astro@66.4.1", "https://registry.npmmirror.com/@unocss/astro/-/astro-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/reset": "66.4.1", "@unocss/vite": "66.4.1" }, "peerDependencies": { "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0" }, "optionalPeers": ["vite"] }, "sha512-UPfpg1FGf8lMugnMYuFxpVqNvO9cIVdi7e3yXpBnzf0uQ4Pib7KvOTPB4VOAVoqDK2A0kPxCzeR9MxCk4c+wxw=="],
 
-    "@unocss/cli": ["@unocss/cli@66.4.1", "", { "dependencies": { "@ampproject/remapping": "^2.3.0", "@unocss/config": "66.4.1", "@unocss/core": "66.4.1", "@unocss/preset-uno": "66.4.1", "cac": "^6.7.14", "chokidar": "^3.6.0", "colorette": "^2.0.20", "consola": "^3.4.2", "magic-string": "^0.30.17", "pathe": "^2.0.3", "perfect-debounce": "^1.0.0", "tinyglobby": "^0.2.14", "unplugin-utils": "^0.2.4" }, "bin": { "unocss": "bin/unocss.mjs" } }, "sha512-rf6udln8CY70tRP2BU1zorJZjzhDVIO3JzmxvH+q4W7MZBQ2ZRfZkWKUFa6ZiyjIj8lxEWlmT6zvu3aSJXbHTg=="],
+    "@unocss/cli": ["@unocss/cli@66.4.1", "https://registry.npmmirror.com/@unocss/cli/-/cli-66.4.1.tgz", { "dependencies": { "@ampproject/remapping": "^2.3.0", "@unocss/config": "66.4.1", "@unocss/core": "66.4.1", "@unocss/preset-uno": "66.4.1", "cac": "^6.7.14", "chokidar": "^3.6.0", "colorette": "^2.0.20", "consola": "^3.4.2", "magic-string": "^0.30.17", "pathe": "^2.0.3", "perfect-debounce": "^1.0.0", "tinyglobby": "^0.2.14", "unplugin-utils": "^0.2.4" }, "bin": { "unocss": "bin/unocss.mjs" } }, "sha512-rf6udln8CY70tRP2BU1zorJZjzhDVIO3JzmxvH+q4W7MZBQ2ZRfZkWKUFa6ZiyjIj8lxEWlmT6zvu3aSJXbHTg=="],
 
-    "@unocss/config": ["@unocss/config@66.4.0", "https://registry.npmmirror.com/@unocss/config/-/config-66.4.0.tgz", { "dependencies": { "@unocss/core": "66.4.0", "unconfig": "^7.3.2" } }, "sha512-0H0dd5sWuFg9Z7oN+nGaL9UV4KitNuEcFcVVMUxPW3l+j3BKGMy6B+2jNS2+ezmpJoh5jaaL/fm5loYvOvaATA=="],
+    "@unocss/config": ["@unocss/config@66.4.1", "https://registry.npmmirror.com/@unocss/config/-/config-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "unconfig": "^7.3.2" } }, "sha512-ABiYEN9febHAfvpxzjrqdCrkomcDpcjCL1OPrWXLHOecfi2qZkj5sTASAfGUvqrV2WtZTPDQii6Nz1OisitRQQ=="],
 
-    "@unocss/core": ["@unocss/core@66.4.0", "https://registry.npmmirror.com/@unocss/core/-/core-66.4.0.tgz", {}, "sha512-vrfK8i3EwbKDbrhmR5lJQQltU1U0SvPqr2XVTHqZdCdzTUsg73I4NqFSiadt486i421C8BfTa2MPNHBnv35RuA=="],
+    "@unocss/core": ["@unocss/core@66.4.1", "https://registry.npmmirror.com/@unocss/core/-/core-66.4.1.tgz", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
 
-    "@unocss/extractor-arbitrary-variants": ["@unocss/extractor-arbitrary-variants@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-1iG2egoarrpht56AMoccUMc5iEMPLOQY0iwPumGtwTFqFAYntAQLHbFL//BCOD7DRrHMvGLVNt+uKEGXYIvW6w=="],
+    "@unocss/extractor-arbitrary-variants": ["@unocss/extractor-arbitrary-variants@66.4.1", "https://registry.npmmirror.com/@unocss/extractor-arbitrary-variants/-/extractor-arbitrary-variants-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-1iG2egoarrpht56AMoccUMc5iEMPLOQY0iwPumGtwTFqFAYntAQLHbFL//BCOD7DRrHMvGLVNt+uKEGXYIvW6w=="],
 
-    "@unocss/inspector": ["@unocss/inspector@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/rule-utils": "66.4.1", "colorette": "^2.0.20", "gzip-size": "^6.0.0", "sirv": "^3.0.1", "vue-flow-layout": "^0.2.0" } }, "sha512-QS2zOaJaddDFQ7g3BRlFnxqyPYEa5XtE6cwo58hgeZwFDak8IAyPBYpFbINfCQzXhguqGO4MyMRX6NXzgKQ1Cw=="],
+    "@unocss/inspector": ["@unocss/inspector@66.4.1", "https://registry.npmmirror.com/@unocss/inspector/-/inspector-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/rule-utils": "66.4.1", "colorette": "^2.0.20", "gzip-size": "^6.0.0", "sirv": "^3.0.1", "vue-flow-layout": "^0.2.0" } }, "sha512-QS2zOaJaddDFQ7g3BRlFnxqyPYEa5XtE6cwo58hgeZwFDak8IAyPBYpFbINfCQzXhguqGO4MyMRX6NXzgKQ1Cw=="],
 
-    "@unocss/postcss": ["@unocss/postcss@66.4.0", "https://registry.npmmirror.com/@unocss/postcss/-/postcss-66.4.0.tgz", { "dependencies": { "@unocss/config": "66.4.0", "@unocss/core": "66.4.0", "@unocss/rule-utils": "66.4.0", "css-tree": "^3.1.0", "postcss": "^8.5.6", "tinyglobby": "^0.2.14" } }, "sha512-MX6hFo54+tiysvstHKhNP1nQabqKzXDzdX/6Ctqhj++cL/yRfz6vqcv8MSbfBQDciiTin0ikDytBYik0pRgENQ=="],
+    "@unocss/postcss": ["@unocss/postcss@66.4.1", "https://registry.npmmirror.com/@unocss/postcss/-/postcss-66.4.1.tgz", { "dependencies": { "@unocss/config": "66.4.1", "@unocss/core": "66.4.1", "@unocss/rule-utils": "66.4.1", "css-tree": "^3.1.0", "postcss": "^8.5.6", "tinyglobby": "^0.2.14" } }, "sha512-UcpMqOJ+ADn9uGetWgmIV+Ctu6Y/W828bJKGRPn6u+c+kporLWfkV5nwSqo1C3o1ADkChwpzs0Ikpz3emxM7yQ=="],
 
-    "@unocss/preset-attributify": ["@unocss/preset-attributify@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-HTJd/4bEie6EsCwqq9hK+GJwoFp0rx6k3GTz9jHXMwhGpUGYPrrccw8cazYmJq7lMHnPbh/spxHH24eTISwojg=="],
+    "@unocss/preset-attributify": ["@unocss/preset-attributify@66.4.1", "https://registry.npmmirror.com/@unocss/preset-attributify/-/preset-attributify-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-HTJd/4bEie6EsCwqq9hK+GJwoFp0rx6k3GTz9jHXMwhGpUGYPrrccw8cazYmJq7lMHnPbh/spxHH24eTISwojg=="],
 
-    "@unocss/preset-icons": ["@unocss/preset-icons@66.4.1", "", { "dependencies": { "@iconify/utils": "^2.3.0", "@unocss/core": "66.4.1", "ofetch": "^1.4.1" } }, "sha512-2XONpwvWcedBRmGangrTcHKGcXN46tZicZIVBa9QCDZ+VsAzOdHzvHWl4QinoYnBhCs6yE+sxZ0sETfFwjOsEg=="],
+    "@unocss/preset-icons": ["@unocss/preset-icons@66.4.1", "https://registry.npmmirror.com/@unocss/preset-icons/-/preset-icons-66.4.1.tgz", { "dependencies": { "@iconify/utils": "^2.3.0", "@unocss/core": "66.4.1", "ofetch": "^1.4.1" } }, "sha512-2XONpwvWcedBRmGangrTcHKGcXN46tZicZIVBa9QCDZ+VsAzOdHzvHWl4QinoYnBhCs6yE+sxZ0sETfFwjOsEg=="],
 
-    "@unocss/preset-mini": ["@unocss/preset-mini@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/extractor-arbitrary-variants": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-3yzpUty02AGgZRBlcRhgpEEsG+GJYvweh1TqWql0bAiW3GJWx0oNuvy2jEQjgllvRYRAErIW4/doOljGNQwwjw=="],
+    "@unocss/preset-mini": ["@unocss/preset-mini@66.4.1", "https://registry.npmmirror.com/@unocss/preset-mini/-/preset-mini-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/extractor-arbitrary-variants": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-3yzpUty02AGgZRBlcRhgpEEsG+GJYvweh1TqWql0bAiW3GJWx0oNuvy2jEQjgllvRYRAErIW4/doOljGNQwwjw=="],
 
-    "@unocss/preset-tagify": ["@unocss/preset-tagify@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-PGlC8NwojPc1mj5cvYq5JmBaK7wigcElAItGS+uVQW6goC5kyeiiB0vNw1iyfG542yzXJpPkb3d6B4wZpjl21w=="],
+    "@unocss/preset-tagify": ["@unocss/preset-tagify@66.4.1", "https://registry.npmmirror.com/@unocss/preset-tagify/-/preset-tagify-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-PGlC8NwojPc1mj5cvYq5JmBaK7wigcElAItGS+uVQW6goC5kyeiiB0vNw1iyfG542yzXJpPkb3d6B4wZpjl21w=="],
 
-    "@unocss/preset-typography": ["@unocss/preset-typography@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-mini": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-V7al6aFsmLcj/eyXuvyf2RIlmTpnUJvWnG4A/LZd8UNsLCndFecE0sTR9VYG1JgNj9aywtJT2w6MSSFnN7Jf5g=="],
+    "@unocss/preset-typography": ["@unocss/preset-typography@66.4.1", "https://registry.npmmirror.com/@unocss/preset-typography/-/preset-typography-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-mini": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-V7al6aFsmLcj/eyXuvyf2RIlmTpnUJvWnG4A/LZd8UNsLCndFecE0sTR9VYG1JgNj9aywtJT2w6MSSFnN7Jf5g=="],
 
-    "@unocss/preset-uno": ["@unocss/preset-uno@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-wind3": "66.4.1" } }, "sha512-iRx0GSSCQFL0rjQs9/rNM+igoBup44kCe+yHcB86/nUaRodQbWU2287xoXZcnzcg7/MTjtEtQWu220EY940pmg=="],
+    "@unocss/preset-uno": ["@unocss/preset-uno@66.4.1", "https://registry.npmmirror.com/@unocss/preset-uno/-/preset-uno-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-wind3": "66.4.1" } }, "sha512-iRx0GSSCQFL0rjQs9/rNM+igoBup44kCe+yHcB86/nUaRodQbWU2287xoXZcnzcg7/MTjtEtQWu220EY940pmg=="],
 
-    "@unocss/preset-web-fonts": ["@unocss/preset-web-fonts@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "ofetch": "^1.4.1" } }, "sha512-+wVO+kZTZVREDXtD4/0sJQIBfid+bim40AF4mYp5wA85aeWCCZIqvXzPeF4BWvGFqqrQDHEO1TcUbnOoP8V8UQ=="],
+    "@unocss/preset-web-fonts": ["@unocss/preset-web-fonts@66.4.1", "https://registry.npmmirror.com/@unocss/preset-web-fonts/-/preset-web-fonts-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "ofetch": "^1.4.1" } }, "sha512-+wVO+kZTZVREDXtD4/0sJQIBfid+bim40AF4mYp5wA85aeWCCZIqvXzPeF4BWvGFqqrQDHEO1TcUbnOoP8V8UQ=="],
 
-    "@unocss/preset-wind": ["@unocss/preset-wind@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-wind3": "66.4.1" } }, "sha512-r/dUy+0G20/UO6bcZFnNXoRu/6KdRzVdfbeH5TjgO8riI7U44ckLQjDhCMUgUgYldIHewazyiDfMWBcYs5QF5w=="],
+    "@unocss/preset-wind": ["@unocss/preset-wind@66.4.1", "https://registry.npmmirror.com/@unocss/preset-wind/-/preset-wind-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-wind3": "66.4.1" } }, "sha512-r/dUy+0G20/UO6bcZFnNXoRu/6KdRzVdfbeH5TjgO8riI7U44ckLQjDhCMUgUgYldIHewazyiDfMWBcYs5QF5w=="],
 
-    "@unocss/preset-wind3": ["@unocss/preset-wind3@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-mini": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-GB2evqTAYw3Z9MImIl3JN5T1of8BO40X9zXnpsVQ4w/v/TOUdVzhfsc4XTVOr8/VVO6Z7VNczgpsd6lZhbrcyg=="],
+    "@unocss/preset-wind3": ["@unocss/preset-wind3@66.4.1", "https://registry.npmmirror.com/@unocss/preset-wind3/-/preset-wind3-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/preset-mini": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-GB2evqTAYw3Z9MImIl3JN5T1of8BO40X9zXnpsVQ4w/v/TOUdVzhfsc4XTVOr8/VVO6Z7VNczgpsd6lZhbrcyg=="],
 
-    "@unocss/preset-wind4": ["@unocss/preset-wind4@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/extractor-arbitrary-variants": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-mDomSDXAWqnKTbmgEws9WxUxfvGoEzhy/NmpmHRX7R7wm1LAD7FGUl7pF11N51Wf6Z5in8iTzqSFcs0YfUfYng=="],
+    "@unocss/preset-wind4": ["@unocss/preset-wind4@66.4.1", "https://registry.npmmirror.com/@unocss/preset-wind4/-/preset-wind4-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/extractor-arbitrary-variants": "66.4.1", "@unocss/rule-utils": "66.4.1" } }, "sha512-mDomSDXAWqnKTbmgEws9WxUxfvGoEzhy/NmpmHRX7R7wm1LAD7FGUl7pF11N51Wf6Z5in8iTzqSFcs0YfUfYng=="],
 
-    "@unocss/reset": ["@unocss/reset@66.4.1", "", {}, "sha512-f0t2YIRF7uVUwEB0aDR6yPMqBO+QgGdgACWQmCrZ84Kir9HV+5d50tK5tXDflHmFTu9mqS9MUG4Ba3sPp44vZw=="],
+    "@unocss/reset": ["@unocss/reset@66.4.1", "https://registry.npmmirror.com/@unocss/reset/-/reset-66.4.1.tgz", {}, "sha512-f0t2YIRF7uVUwEB0aDR6yPMqBO+QgGdgACWQmCrZ84Kir9HV+5d50tK5tXDflHmFTu9mqS9MUG4Ba3sPp44vZw=="],
 
-    "@unocss/rule-utils": ["@unocss/rule-utils@66.4.0", "https://registry.npmmirror.com/@unocss/rule-utils/-/rule-utils-66.4.0.tgz", { "dependencies": { "@unocss/core": "^66.4.0", "magic-string": "^0.30.17" } }, "sha512-cWqs6Vre54iwbeYmJIjx1I912M3zNXYQ+lvytkn3NMysNsJlYYhyM4T0L6Jt3dz74X7I4vTcN0sQvVeE2TS3Fg=="],
+    "@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "https://registry.npmmirror.com/@unocss/rule-utils/-/rule-utils-66.4.1.tgz", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
 
-    "@unocss/transformer-attributify-jsx": ["@unocss/transformer-attributify-jsx@66.4.1", "", { "dependencies": { "@babel/parser": "^7.28.0", "@babel/traverse": "^7.28.0", "@unocss/core": "66.4.1" } }, "sha512-5aICECaco87n1p/8/vzvtgIly3lu1htd/n2SdfA1t6gtUO7PMX2CEZGSw4VxnMTrjNZRXUqxD7MACJIEg/kzRw=="],
+    "@unocss/transformer-attributify-jsx": ["@unocss/transformer-attributify-jsx@66.4.1", "https://registry.npmmirror.com/@unocss/transformer-attributify-jsx/-/transformer-attributify-jsx-66.4.1.tgz", { "dependencies": { "@babel/parser": "^7.28.0", "@babel/traverse": "^7.28.0", "@unocss/core": "66.4.1" } }, "sha512-5aICECaco87n1p/8/vzvtgIly3lu1htd/n2SdfA1t6gtUO7PMX2CEZGSw4VxnMTrjNZRXUqxD7MACJIEg/kzRw=="],
 
-    "@unocss/transformer-compile-class": ["@unocss/transformer-compile-class@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-xf6W+zLbFwOvlNNxV0S73ggevlmiBhqtWBI4xdd463IdiJJ1VU/hTmXJ0r39hVHwVEPYGtechUODGtky47M59Q=="],
+    "@unocss/transformer-compile-class": ["@unocss/transformer-compile-class@66.4.1", "https://registry.npmmirror.com/@unocss/transformer-compile-class/-/transformer-compile-class-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-xf6W+zLbFwOvlNNxV0S73ggevlmiBhqtWBI4xdd463IdiJJ1VU/hTmXJ0r39hVHwVEPYGtechUODGtky47M59Q=="],
 
-    "@unocss/transformer-directives": ["@unocss/transformer-directives@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/rule-utils": "66.4.1", "css-tree": "^3.1.0" } }, "sha512-3PiYgq0/TYeCLoUm6K+XbsHcd03l3TN2U2fSeda4PIZoZ/ioH0kJd0tVg98DzO8ekgqtUwKFZjgBa0ezQJwfPQ=="],
+    "@unocss/transformer-directives": ["@unocss/transformer-directives@66.4.1", "https://registry.npmmirror.com/@unocss/transformer-directives/-/transformer-directives-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1", "@unocss/rule-utils": "66.4.1", "css-tree": "^3.1.0" } }, "sha512-3PiYgq0/TYeCLoUm6K+XbsHcd03l3TN2U2fSeda4PIZoZ/ioH0kJd0tVg98DzO8ekgqtUwKFZjgBa0ezQJwfPQ=="],
 
-    "@unocss/transformer-variant-group": ["@unocss/transformer-variant-group@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-stFDCkPeZYBRpKmmF8dOBgAZEh8ydzSrBnc4Uiakgn0LXrhAKNgxR/kC8urgMhu+HcyNsWlLEEIeQyPj72IAHA=="],
+    "@unocss/transformer-variant-group": ["@unocss/transformer-variant-group@66.4.1", "https://registry.npmmirror.com/@unocss/transformer-variant-group/-/transformer-variant-group-66.4.1.tgz", { "dependencies": { "@unocss/core": "66.4.1" } }, "sha512-stFDCkPeZYBRpKmmF8dOBgAZEh8ydzSrBnc4Uiakgn0LXrhAKNgxR/kC8urgMhu+HcyNsWlLEEIeQyPj72IAHA=="],
 
-    "@unocss/vite": ["@unocss/vite@66.4.1", "", { "dependencies": { "@ampproject/remapping": "^2.3.0", "@unocss/config": "66.4.1", "@unocss/core": "66.4.1", "@unocss/inspector": "66.4.1", "chokidar": "^3.6.0", "magic-string": "^0.30.17", "pathe": "^2.0.3", "tinyglobby": "^0.2.14", "unplugin-utils": "^0.2.4" }, "peerDependencies": { "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0" } }, "sha512-oXXh9FKaxHUbd9GaiVg+CKtVDoWubQNKtHOLExXU3GgZ/jHATPawR2LXoOtPl/9qq6lT6Dl+o4el2AauUQqo7g=="],
+    "@unocss/vite": ["@unocss/vite@66.4.1", "https://registry.npmmirror.com/@unocss/vite/-/vite-66.4.1.tgz", { "dependencies": { "@ampproject/remapping": "^2.3.0", "@unocss/config": "66.4.1", "@unocss/core": "66.4.1", "@unocss/inspector": "66.4.1", "chokidar": "^3.6.0", "magic-string": "^0.30.17", "pathe": "^2.0.3", "tinyglobby": "^0.2.14", "unplugin-utils": "^0.2.4" }, "peerDependencies": { "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0" } }, "sha512-oXXh9FKaxHUbd9GaiVg+CKtVDoWubQNKtHOLExXU3GgZ/jHATPawR2LXoOtPl/9qq6lT6Dl+o4el2AauUQqo7g=="],
 
     "acorn": ["acorn@8.15.0", "https://registry.npmmirror.com/acorn/-/acorn-8.15.0.tgz", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 
@@ -559,7 +557,7 @@
 
     "duplexer": ["duplexer@0.1.2", "https://registry.npmmirror.com/duplexer/-/duplexer-0.1.2.tgz", {}, "sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg=="],
 
-    "electron-to-chromium": ["electron-to-chromium@1.5.194", "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.5.194.tgz", {}, "sha512-SdnWJwSUot04UR51I2oPD8kuP2VI37/CADR1OHsFOUzZIvfWJBO6q11k5P/uKNyTT3cdOsnyjkrZ+DDShqYqJA=="],
+    "electron-to-chromium": ["electron-to-chromium@1.5.198", "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.5.198.tgz", {}, "sha512-G5COfnp3w+ydVu80yprgWSfmfQaYRh9DOxfhAxstLyetKaLyl55QrNjx8C38Pc/C+RaDmb1M0Lk8wPEMQ+bGgQ=="],
 
     "entities": ["entities@4.5.0", "https://registry.npmmirror.com/entities/-/entities-4.5.0.tgz", {}, "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw=="],
 
@@ -903,7 +901,7 @@
 
     "recma-stringify": ["recma-stringify@1.0.0", "https://registry.npmmirror.com/recma-stringify/-/recma-stringify-1.0.0.tgz", { "dependencies": { "@types/estree": "^1.0.0", "estree-util-to-js": "^2.0.0", "unified": "^11.0.0", "vfile": "^6.0.0" } }, "sha512-cjwII1MdIIVloKvC9ErQ+OgAtwHBmcZ0Bg4ciz78FtbT8In39aAYbaA7zvxQ61xVMSPE8WxhLwLbhif4Js2C+g=="],
 
-    "reduce-configs": ["reduce-configs@1.1.0", "https://registry.npmmirror.com/reduce-configs/-/reduce-configs-1.1.0.tgz", {}, "sha512-DQxy6liNadHfrLahZR7lMdc227NYVaQZhY5FMsxLEjX8X0SCuH+ESHSLCoz2yDZFq1/CLMDOAHdsEHwOEXKtvg=="],
+    "reduce-configs": ["reduce-configs@1.1.1", "https://registry.npmmirror.com/reduce-configs/-/reduce-configs-1.1.1.tgz", {}, "sha512-EYtsVGAQarE8daT54cnaY1PIknF2VB78ug6Zre2rs36EsJfC40EG6hmTU2A2P1ZuXnKAt2KI0fzOGHcX7wzdPw=="],
 
     "rehype-recma": ["rehype-recma@1.0.0", "https://registry.npmmirror.com/rehype-recma/-/rehype-recma-1.0.0.tgz", { "dependencies": { "@types/estree": "^1.0.0", "@types/hast": "^3.0.0", "hast-util-to-estree": "^3.0.0" } }, "sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw=="],
 
@@ -941,7 +939,7 @@
 
     "snake-case": ["snake-case@3.0.4", "https://registry.npmmirror.com/snake-case/-/snake-case-3.0.4.tgz", { "dependencies": { "dot-case": "^3.0.4", "tslib": "^2.0.3" } }, "sha512-LAOh4z89bGQvl9pFfNF8V146i7o7/CqFPbqzYgP+yYzDIDeS9HaNFtXABamRW+AQzEVODcvE79ljJ+8a9YSdMg=="],
 
-    "solid-js": ["solid-js@1.9.7", "https://registry.npmmirror.com/solid-js/-/solid-js-1.9.7.tgz", { "dependencies": { "csstype": "^3.1.0", "seroval": "~1.3.0", "seroval-plugins": "~1.3.0" } }, "sha512-/saTKi8iWEM233n5OSi1YHCCuh66ZIQ7aK2hsToPe4tqGm7qAejU1SwNuTPivbWAYq7SjuHVVYxxuZQNRbICiw=="],
+    "solid-js": ["solid-js@1.9.8", "https://registry.npmmirror.com/solid-js/-/solid-js-1.9.8.tgz", { "dependencies": { "csstype": "^3.1.0", "seroval": "~1.3.0", "seroval-plugins": "~1.3.0" } }, "sha512-zF9Whfqk+s8wWuyDKnE7ekl+dJburjdZq54O6X1k4XChA57uZ5FOauYAa0s4I44XkBOM3CZmPrZC0DGjH9fKjQ=="],
 
     "source-map": ["source-map@0.6.1", "https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz", {}, "sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g=="],
 
@@ -987,8 +985,6 @@
 
     "unconfig": ["unconfig@7.3.2", "https://registry.npmmirror.com/unconfig/-/unconfig-7.3.2.tgz", { "dependencies": { "@quansync/fs": "^0.1.1", "defu": "^6.1.4", "jiti": "^2.4.2", "quansync": "^0.2.8" } }, "sha512-nqG5NNL2wFVGZ0NA/aCFw0oJ2pxSf1lwg4Z5ill8wd7K4KX/rQbHlwbh+bjctXL5Ly1xtzHenHGOK0b+lG6JVg=="],
 
-    "undici-types": ["undici-types@7.8.0", "https://registry.npmmirror.com/undici-types/-/undici-types-7.8.0.tgz", {}, "sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw=="],
-
     "unified": ["unified@11.0.5", "https://registry.npmmirror.com/unified/-/unified-11.0.5.tgz", { "dependencies": { "@types/unist": "^3.0.0", "bail": "^2.0.0", "devlop": "^1.0.0", "extend": "^3.0.0", "is-plain-obj": "^4.0.0", "trough": "^2.0.0", "vfile": "^6.0.0" } }, "sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA=="],
 
     "unist-util-is": ["unist-util-is@6.0.0", "https://registry.npmmirror.com/unist-util-is/-/unist-util-is-6.0.0.tgz", { "dependencies": { "@types/unist": "^3.0.0" } }, "sha512-2qCTHimwdxLfz+YzdGfkqNlH0tLi9xjTnHddPmJwtIG9MGsdbutfTc4P+haPD7l7Cjxf/WZj+we5qfVPvvxfYw=="],
@@ -1003,11 +999,11 @@
 
     "unist-util-visit-parents": ["unist-util-visit-parents@6.0.1", "https://registry.npmmirror.com/unist-util-visit-parents/-/unist-util-visit-parents-6.0.1.tgz", { "dependencies": { "@types/unist": "^3.0.0", "unist-util-is": "^6.0.0" } }, "sha512-L/PqWzfTP9lzzEa6CKs0k2nARxTdZduw3zyh8d2NVBnsyvHjSX4TWse388YrrQKbvI8w20fGjGlhgT96WwKykw=="],
 
-    "unocss": ["unocss@66.4.1", "", { "dependencies": { "@unocss/astro": "66.4.1", "@unocss/cli": "66.4.1", "@unocss/core": "66.4.1", "@unocss/postcss": "66.4.1", "@unocss/preset-attributify": "66.4.1", "@unocss/preset-icons": "66.4.1", "@unocss/preset-mini": "66.4.1", "@unocss/preset-tagify": "66.4.1", "@unocss/preset-typography": "66.4.1", "@unocss/preset-uno": "66.4.1", "@unocss/preset-web-fonts": "66.4.1", "@unocss/preset-wind": "66.4.1", "@unocss/preset-wind3": "66.4.1", "@unocss/preset-wind4": "66.4.1", "@unocss/transformer-attributify-jsx": "66.4.1", "@unocss/transformer-compile-class": "66.4.1", "@unocss/transformer-directives": "66.4.1", "@unocss/transformer-variant-group": "66.4.1", "@unocss/vite": "66.4.1" }, "peerDependencies": { "@unocss/webpack": "66.4.1", "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0" }, "optionalPeers": ["@unocss/webpack", "vite"] }, "sha512-9nZRafw74usdYIHnfBzCtYlPZUjmLOZZ4fxcohMaQtQon+A9P5KiJoaX+9Z2PxVqnArB3drQ1KiRxFPMHJN3+A=="],
+    "unocss": ["unocss@66.4.1", "https://registry.npmmirror.com/unocss/-/unocss-66.4.1.tgz", { "dependencies": { "@unocss/astro": "66.4.1", "@unocss/cli": "66.4.1", "@unocss/core": "66.4.1", "@unocss/postcss": "66.4.1", "@unocss/preset-attributify": "66.4.1", "@unocss/preset-icons": "66.4.1", "@unocss/preset-mini": "66.4.1", "@unocss/preset-tagify": "66.4.1", "@unocss/preset-typography": "66.4.1", "@unocss/preset-uno": "66.4.1", "@unocss/preset-web-fonts": "66.4.1", "@unocss/preset-wind": "66.4.1", "@unocss/preset-wind3": "66.4.1", "@unocss/preset-wind4": "66.4.1", "@unocss/transformer-attributify-jsx": "66.4.1", "@unocss/transformer-compile-class": "66.4.1", "@unocss/transformer-directives": "66.4.1", "@unocss/transformer-variant-group": "66.4.1", "@unocss/vite": "66.4.1" }, "peerDependencies": { "@unocss/webpack": "66.4.1", "vite": "^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0" }, "optionalPeers": ["@unocss/webpack", "vite"] }, "sha512-9nZRafw74usdYIHnfBzCtYlPZUjmLOZZ4fxcohMaQtQon+A9P5KiJoaX+9Z2PxVqnArB3drQ1KiRxFPMHJN3+A=="],
 
     "unplugin": ["unplugin@2.3.5", "https://registry.npmmirror.com/unplugin/-/unplugin-2.3.5.tgz", { "dependencies": { "acorn": "^8.14.1", "picomatch": "^4.0.2", "webpack-virtual-modules": "^0.6.2" } }, "sha512-RyWSb5AHmGtjjNQ6gIlA67sHOsWpsbWpwDokLwTcejVdOjEkJZh7QKu14J00gDDVSh8kGH4KYC/TNBceXFZhtw=="],
 
-    "unplugin-utils": ["unplugin-utils@0.2.4", "https://registry.npmmirror.com/unplugin-utils/-/unplugin-utils-0.2.4.tgz", { "dependencies": { "pathe": "^2.0.2", "picomatch": "^4.0.2" } }, "sha512-8U/MtpkPkkk3Atewj1+RcKIjb5WBimZ/WSLhhR3w6SsIj8XJuKTacSP8g+2JhfSGw0Cb125Y+2zA/IzJZDVbhA=="],
+    "unplugin-utils": ["unplugin-utils@0.2.5", "https://registry.npmmirror.com/unplugin-utils/-/unplugin-utils-0.2.5.tgz", { "dependencies": { "pathe": "^2.0.3", "picomatch": "^4.0.3" } }, "sha512-gwXJnPRewT4rT7sBi/IvxKTjsms7jX7QIDLOClApuZwR49SXbrB1z2NLUZ+vDHyqCj/n58OzRRqaW+B8OZi8vg=="],
 
     "update-browserslist-db": ["update-browserslist-db@1.1.3", "https://registry.npmmirror.com/update-browserslist-db/-/update-browserslist-db-1.1.3.tgz", { "dependencies": { "escalade": "^3.2.0", "picocolors": "^1.1.1" }, "peerDependencies": { "browserslist": ">= 4.21.0" }, "bin": { "update-browserslist-db": "cli.js" } }, "sha512-UxhIZQ+QInVdunkDAaiazvvT/+fXL5Osr0JZlJulepYu6Jd7qJtDZjlur0emRlT71EN3ScPoE7gvsuIKKNavKw=="],
 
@@ -1037,60 +1033,6 @@
 
     "@tanstack/router-generator/source-map": ["source-map@0.7.6", "https://registry.npmmirror.com/source-map/-/source-map-0.7.6.tgz", {}, "sha512-i5uvt8C3ikiWeNZSVZNWcfZPItFQOsYTUAOkcUPGd8DqDy1uOUikjt5dG+uRlwyvR108Fb9DOd4GvXfT0N2/uQ=="],
 
-    "@unocss/astro/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/cli/@unocss/config": ["@unocss/config@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "unconfig": "^7.3.2" } }, "sha512-ABiYEN9febHAfvpxzjrqdCrkomcDpcjCL1OPrWXLHOecfi2qZkj5sTASAfGUvqrV2WtZTPDQii6Nz1OisitRQQ=="],
-
-    "@unocss/cli/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/extractor-arbitrary-variants/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/inspector/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/inspector/@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
-
-    "@unocss/preset-attributify/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-icons/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-mini/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-mini/@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
-
-    "@unocss/preset-tagify/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-typography/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-typography/@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
-
-    "@unocss/preset-uno/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-web-fonts/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-wind/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-wind3/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-wind3/@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
-
-    "@unocss/preset-wind4/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/preset-wind4/@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
-
-    "@unocss/transformer-attributify-jsx/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/transformer-compile-class/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/transformer-directives/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/transformer-directives/@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
-
-    "@unocss/transformer-variant-group/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "@unocss/vite/@unocss/config": ["@unocss/config@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "unconfig": "^7.3.2" } }, "sha512-ABiYEN9febHAfvpxzjrqdCrkomcDpcjCL1OPrWXLHOecfi2qZkj5sTASAfGUvqrV2WtZTPDQii6Nz1OisitRQQ=="],
-
-    "@unocss/vite/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
     "anymatch/picomatch": ["picomatch@2.3.1", "https://registry.npmmirror.com/picomatch/-/picomatch-2.3.1.tgz", {}, "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA=="],
 
     "csso/css-tree": ["css-tree@2.2.1", "https://registry.npmmirror.com/css-tree/-/css-tree-2.2.1.tgz", { "dependencies": { "mdn-data": "2.0.28", "source-map-js": "^1.0.1" } }, "sha512-OA0mILzGc1kCOCSJerOeqDxDQ4HOh+G8NbOJFOTgOCzpw7fCBubk0fEyxp8AgOL/jvLgYA/uV0cMbe43ElF1JA=="],
@@ -1107,18 +1049,10 @@
 
     "svgo/css-tree": ["css-tree@2.3.1", "https://registry.npmmirror.com/css-tree/-/css-tree-2.3.1.tgz", { "dependencies": { "mdn-data": "2.0.30", "source-map-js": "^1.0.1" } }, "sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw=="],
 
-    "unocss/@unocss/core": ["@unocss/core@66.4.1", "", {}, "sha512-2QMthvEmH0215zqIIL5WCodQ9lYShYDzziF4N1MMdcoRvCumGq9MMBFPxC54gNDrO3+/Olhp++YYmXkdZ89qrA=="],
-
-    "unocss/@unocss/postcss": ["@unocss/postcss@66.4.1", "", { "dependencies": { "@unocss/config": "66.4.1", "@unocss/core": "66.4.1", "@unocss/rule-utils": "66.4.1", "css-tree": "^3.1.0", "postcss": "^8.5.6", "tinyglobby": "^0.2.14" } }, "sha512-UcpMqOJ+ADn9uGetWgmIV+Ctu6Y/W828bJKGRPn6u+c+kporLWfkV5nwSqo1C3o1ADkChwpzs0Ikpz3emxM7yQ=="],
-
     "csso/css-tree/mdn-data": ["mdn-data@2.0.28", "https://registry.npmmirror.com/mdn-data/-/mdn-data-2.0.28.tgz", {}, "sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g=="],
 
     "mlly/pkg-types/confbox": ["confbox@0.1.8", "https://registry.npmmirror.com/confbox/-/confbox-0.1.8.tgz", {}, "sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w=="],
 
     "svgo/css-tree/mdn-data": ["mdn-data@2.0.30", "https://registry.npmmirror.com/mdn-data/-/mdn-data-2.0.30.tgz", {}, "sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA=="],
-
-    "unocss/@unocss/postcss/@unocss/config": ["@unocss/config@66.4.1", "", { "dependencies": { "@unocss/core": "66.4.1", "unconfig": "^7.3.2" } }, "sha512-ABiYEN9febHAfvpxzjrqdCrkomcDpcjCL1OPrWXLHOecfi2qZkj5sTASAfGUvqrV2WtZTPDQii6Nz1OisitRQQ=="],
-
-    "unocss/@unocss/postcss/@unocss/rule-utils": ["@unocss/rule-utils@66.4.1", "", { "dependencies": { "@unocss/core": "^66.4.1", "magic-string": "^0.30.17" } }, "sha512-iYbx4ab3aTMrcJSyBoGvwsbUM5BmRQef4rzGOjL312r/0RDZM+i2ikPxcFXpp/9P+Gp22gSXDMlzwY+VfJ2Llw=="],
   }
 }

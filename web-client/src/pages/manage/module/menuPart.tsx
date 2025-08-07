@@ -17,6 +17,7 @@ import type {
   ColumnProps,
   ColumnRender,
   RowSelectionOnSelect,
+  RowSelectionOnSelectAll,
 } from "@douyinfe/semi-ui/lib/es/table";
 import { SemiIcon } from "@/components/SemiIcon";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
@@ -76,7 +77,6 @@ export function MenuPart({
     <>
       <div className="w-full h-full flex flex-col">
         <Space>
-          <IconSelect showClear />
           <Button
             theme="solid"
             disabled={selectedMenus != undefined && selectedMenus.length > 1}
@@ -118,6 +118,9 @@ export function MenuPart({
             menus={menus}
             loading={loading}
             onSelect={(_row, _selected, selectedRows) => {
+              setSelectedMenus(selectedRows);
+            }}
+            onSelectAll={(_selected, selectedRows) => {
               setSelectedMenus(selectedRows);
             }}
             onDoubleClickRow={(row) => {
@@ -196,12 +199,14 @@ function MenuDataTable({
   loading,
   onDoubleClickRow,
   onSelect,
+  onSelectAll,
   actionRender,
 }: {
   menus: FeatResource[] | undefined;
   loading?: boolean;
   onDoubleClickRow?: (row: FeatResource) => void;
   onSelect?: RowSelectionOnSelect<FeatResourceTableData>;
+  onSelectAll?: RowSelectionOnSelectAll<FeatResourceTableData>;
   actionRender?: ColumnRender<any>;
 }) {
   const tableData = useMemo(() => featResourceToDataSource(menus), [menus]);
@@ -248,6 +253,7 @@ function MenuDataTable({
       rowSelection={{
         fixed: true,
         onSelect: onSelect,
+        onSelectAll: onSelectAll,
       }}
       onRow={(record) => {
         const row = record as FeatResource;
