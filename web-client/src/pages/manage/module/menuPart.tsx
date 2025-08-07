@@ -1,4 +1,4 @@
-import { Button, Space, Table, Toast } from "@douyinfe/semi-ui";
+import { Button, Space, Toast } from "@douyinfe/semi-ui";
 import {
   createMenu,
   deleteManyResource,
@@ -7,23 +7,14 @@ import {
   updateMenu,
   type FeatResource,
 } from "@/services";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { handleResp } from "@/utils/resp_flow";
-import {
-  featResourceToDataSource,
-  type FeatResourceTableData,
-} from "@/utils/feat_to_data_source";
-import type {
-  ColumnProps,
-  ColumnRender,
-  RowSelectionOnSelect,
-  RowSelectionOnSelectAll,
-} from "@douyinfe/semi-ui/lib/es/table";
-import { SemiIcon } from "@/components/SemiIcon";
+import { type FeatResourceTableData } from "@/utils/feat_to_data_source";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import type { DialogMode } from "./types";
-import { IconSelect } from "@/components/IconSelect";
-import { MenuEditor } from "./menuEditor";
+import { MenuDataTable } from "./menuTable";
+import { IconDeleteStroked, IconEdit, IconPlus } from "@douyinfe/semi-icons";
+import { FeatResourceEditor } from "./featResourceEditor";
 
 export function MenuPart({
   onDoubleClickRow,
@@ -79,6 +70,7 @@ export function MenuPart({
         <Space>
           <Button
             theme="solid"
+            icon={<IconPlus />}
             disabled={selectedMenus != undefined && selectedMenus.length > 1}
             onClick={() =>
               openDialog(
@@ -89,10 +81,12 @@ export function MenuPart({
               )
             }
           >
-            添加
+            添加菜单
           </Button>
           <DeleteButton
             title="是否删除选定菜单？"
+            icon={<IconDeleteStroked />}
+            buttonChildren="删除选中菜单"
             disabled={selectedMenus == undefined || selectedMenus.length == 0}
             onConfirm={() => {
               if (selectedMenus) {
@@ -133,12 +127,14 @@ export function MenuPart({
                 <Space>
                   <Button
                     theme="solid"
+                    icon={<IconEdit />}
                     onClick={() => openDialog(record, "edit")}
                   >
                     编辑
                   </Button>
                   <DeleteButton
                     position="bottomRight"
+                    icon={<IconDeleteStroked />}
                     onConfirm={() => {
                       handleResp(deleteResource(row.id), {
                         handleOk: () => {
@@ -164,9 +160,10 @@ export function MenuPart({
           />
         </div>
       </div>
-      <MenuEditor
+      <FeatResourceEditor
         visible={dialogVisible}
-        menu={editMenu}
+        feat={editMenu}
+        from="menu"
         mode={dialogMode}
         datas={menus}
         onSubmit={(value) => {
@@ -191,78 +188,5 @@ export function MenuPart({
         onCancel={() => setDialogVisiable(false)}
       />
     </>
-  );
-}
-
-function MenuDataTable({
-  menus,
-  loading,
-  onDoubleClickRow,
-  onSelect,
-  onSelectAll,
-  actionRender,
-}: {
-  menus: FeatResource[] | undefined;
-  loading?: boolean;
-  onDoubleClickRow?: (row: FeatResource) => void;
-  onSelect?: RowSelectionOnSelect<FeatResourceTableData>;
-  onSelectAll?: RowSelectionOnSelectAll<FeatResourceTableData>;
-  actionRender?: ColumnRender<any>;
-}) {
-  const tableData = useMemo(() => featResourceToDataSource(menus), [menus]);
-
-  const columns: ColumnProps[] = [
-    { title: "Id", dataIndex: "id" },
-    {
-      title: "名称",
-      dataIndex: "name",
-      render: (text, record) => {
-        return (
-          <Space>
-            <SemiIcon name={record.icon} />
-            {text}
-          </Space>
-        );
-      },
-    },
-    { title: "描述", dataIndex: "description" },
-    { title: "地址", dataIndex: "url" },
-    {
-      title: "操作",
-      fixed: true,
-      render: actionRender,
-    },
-  ];
-  if (!actionRender) {
-    columns.pop();
-  }
-
-  return (
-    <Table
-      size="small"
-      columns={columns}
-      dataSource={tableData}
-      loading={loading}
-      pagination={false}
-      defaultExpandedRowKeys={[1]}
-      sticky
-      bordered
-      resizable
-      scroll={{ x: 500, y: 500 }}
-      style={{ height: 600 }}
-      rowSelection={{
-        fixed: true,
-        onSelect: onSelect,
-        onSelectAll: onSelectAll,
-      }}
-      onRow={(record) => {
-        const row = record as FeatResource;
-        return {
-          onDoubleClick: () => {
-            if (onDoubleClickRow) onDoubleClickRow(row);
-          },
-        };
-      }}
-    ></Table>
   );
 }

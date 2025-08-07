@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace Less.Api.Core
 {
-    public class PagedList<T> : List<T>
+    [Serializable]
+    public class PagedList<T>
     {
         /// <summary>
         /// 总数
@@ -35,13 +36,15 @@ namespace Less.Api.Core
         /// </summary>
         public bool HasNextPage => PageIndex < TotalPages;
 
+        public List<T> Content { get; } = new List<T>();
+
         public PagedList(IEnumerable<T> items, int total, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             Total = total;
             TotalPages = (int)Math.Ceiling(total / (double)pageSize);
             PageSize = pageSize;
-            AddRange(items);
+            Content.AddRange(items);
         }
     }
 }

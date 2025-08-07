@@ -1,5 +1,6 @@
-import api from "./api";
+import api, { get } from "./api";
 import type {
+  PagedList,
   FeatResource,
   FeatResourceDetail,
   None,
@@ -20,10 +21,18 @@ export function getPermissions() {
   );
 }
 
-export function getPermissionsBelongMenu(menuId: number) {
-  return api<FeatResource[], NormalError>(
-    `/api/auth/FeatResource/GetPermissionsBelongMenu?menuId=${menuId}`,
-    "GET"
+export function getMenuPermissions(
+  page: number,
+  pageSize: number,
+  menuId?: number
+) {
+  return get<PagedList<FeatResource>, NormalError>(
+    "/api/auth/FeatResource/GetMenuPermissions",
+    {
+      page: page.toString(),
+      pageSize: pageSize.toString(),
+      menuId: menuId ? menuId.toString() : undefined,
+    }
   );
 }
 

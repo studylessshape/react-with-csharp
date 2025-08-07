@@ -6,9 +6,11 @@ import type { Position } from "@douyinfe/semi-ui/lib/es/tooltip";
 
 export interface DeleteButtonProps {
   permissions?: string[];
+  icon?: ReactNode;
   content?: ReactNode;
   title?: ReactNode;
   position?: Position;
+  buttonChildren?: ReactNode;
   onConfirm?: (e: React.MouseEvent) => Promise<any> | void;
   onCancel?: (e: React.MouseEvent) => Promise<any> | void;
   size?: "default" | "small" | "large";
@@ -35,8 +37,9 @@ export function DeleteButton(props: DeleteButtonProps) {
           theme={props.theme ?? "solid"}
           htmlType={props.htmlType}
           disabled={props.disabled}
+          icon={props.icon}
         >
-          删除
+          {props.buttonChildren ?? "删除"}
         </Button>
       </Popconfirm>
     </PermissionGuard>

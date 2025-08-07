@@ -109,7 +109,7 @@ namespace Less.DalCore.Repository
         /// <returns></returns>
         Task<IList<T>> ListAsync<T>(Func<IQueryable<TEntity>, IQueryable<TEntity>>? map, Expression<Func<TEntity, T>> selector);
         /// <summary>
-        /// 从 1 开始的页查找
+        /// query by page
         /// </summary>
         /// <param name="pageIndex">one-based</param>
         /// <param name="pageSize"></param>
@@ -117,6 +117,17 @@ namespace Less.DalCore.Repository
         /// <param name="countRowsAsync"></param>
         /// <returns></returns>
         Task<PagedList<TEntity>> PaginateAsync(int pageIndex, int pageSize, Func<IQueryable<TEntity>, IQueryable<TEntity>>? mapQuery = null, Func<IQueryable<TEntity>, Task<int>>? countRowsAsync = null);
+        /// <summary>
+        /// custom return type by <paramref name="select"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="select"></param>
+        /// <param name="mapQuery"></param>
+        /// <param name="countRowsAsync"></param>
+        /// <returns></returns>
+        Task<PagedList<T>> PaginateAsync<T>(int pageIndex, int pageSize, Expression<Func<TEntity, T>> select, Func<IQueryable<TEntity>, IQueryable<TEntity>>? mapQuery = null, Func<IQueryable<TEntity>, Task<int>>? countRowsAsync = null);
         /// <summary>
         /// save all changes
         /// </summary>

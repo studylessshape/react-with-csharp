@@ -1,2 +1,2 @@
 export type DialogMode = "add" | "edit";
-export type DataFrom = "menu" | "permission";
+export type DialogFrom = "menu" | "permission";

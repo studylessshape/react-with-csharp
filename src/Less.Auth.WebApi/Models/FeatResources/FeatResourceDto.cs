@@ -1,4 +1,5 @@
 ﻿using Less.Auth.FeatResources;
+using System.Linq.Expressions;
 
 namespace Less.Auth.WebApi.Models
 {
@@ -28,5 +29,17 @@ namespace Less.Auth.WebApi.Models
                 Icon = featResource.Icon,
             };
         }
+
+        public static Expression<Func<FeatResource, FeatResourceDto>> FromDataExpr = featResource => new FeatResourceDto()
+        {
+            Id = featResource.Id,
+            Name = featResource.Name,
+            Description = featResource.Description,
+            ParentId = featResource.ParentId,
+            Kind = featResource.Kind,
+            Tag = featResource.Tag,
+            Url = featResource.Url,
+            Icon = featResource.Icon,
+        };
     }
 }

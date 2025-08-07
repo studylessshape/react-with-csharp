@@ -1,7 +1,5 @@
 ﻿using Less.Api.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,6 +162,20 @@ namespace Less.DalCore.Repository
             var total = countRowsAsync != null ? await countRowsAsync(query) : await query.CountAsync();
 
             return new PagedList<TEntity>(result, total, pageIndex, pageSize);
+        }
+
+        /// <inheritdoc />
+        public virtual async Task<PagedList<T>> PaginateAsync<T>(int pageIndex, int pageSize, Expression<Func<TEntity, T>> select, Func<IQueryable<TEntity>, IQueryable<TEntity>>? mapQuery = null, Func<IQueryable<TEntity>, Task<int>>? countRowsAsync = null)
+        {
+            if (pageIndex <= 0) throw new ArgumentException("pageIndex must be greater than zero!", nameof(pageIndex));
+
+            var query = EntitySet.AsQueryable();
+            if (mapQuery != null) query = mapQuery(query);
+
+            var result = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).Select(select).ToListAsync();
+            var total = countRowsAsync != null ? await countRowsAsync(query) : await query.CountAsync();
+
+            return new PagedList<T>(result, total, pageIndex, pageSize);
         }
 
         /// <inheritdoc />

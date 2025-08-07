@@ -47,13 +47,20 @@ namespace Less.Auth.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get permissions belong to menu
+        /// Get permissions belong menu
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Resp<IList<FeatResource>>> GetPermissionsBelongMenu(int menuId)
+        public async Task<Resp<PagedList<FeatResourceDto>>> GetMenuPermissions([FromQuery] MenuPermissionReq request)
         {
-            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.PERMISSION_KIND && f.ParentId == menuId));
+            var list = await resourceRepo.PaginateAsync(request.Page, request.PageSize, FeatResourceDto.FromDataExpr, query =>
+            {
+                if (request.MenuId != null)
+                {
+                    query = query.Where(f => f.ParentId == request.MenuId);
+                }
+                return query.Where(f => f.Kind == FeatResource.PERMISSION_KIND);
+            });
             return Resp.Ok(list);
         }
 
