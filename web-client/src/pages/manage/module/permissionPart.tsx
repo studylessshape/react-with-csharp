@@ -1,4 +1,8 @@
-import { getMenuPermissions, type FeatResource } from "@/services";
+import {
+  createPermission,
+  getMenuPermissions,
+  type FeatResource,
+} from "@/services";
 import { PermissionTable } from "./permissionTable";
 import { Button, Space, Toast } from "@douyinfe/semi-ui";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
@@ -30,27 +34,37 @@ export function PermissionPart(props: PermissionPartProps) {
     undefined as FeatResource | undefined
   );
 
-  
+  function showDialog(mode: DialogMode) {
+    setDialogMode(mode);
+    setDialogVisiable(true);
+  }
 
   return (
     <>
       <div className="w-full h-full flex flex-col">
         <Space>
-          <Button icon={<IconPlus />}>添加许可</Button>
+          <Button
+            icon={<IconPlus />}
+            theme="solid"
+            onClick={() => showDialog("add")}
+          >
+            添加许可
+          </Button>
           <DeleteButton buttonChildren="删除选中许可"></DeleteButton>
         </Space>
-        <DataTable
-          loadData={loadPermissions}
-          dataToTableData={(data) => featResourceToDataSource(data.content)}
-          
-        />
+        <PermissionTable parentId={props.parent?.id} />
       </div>
       <FeatResourceEditor
         from="permission"
         mode={dialogMode}
         visible={dialogVisible}
         feat={editFeat}
-        onSubmit={(feat) => {}}
+        onSubmit={(feat) => {
+          handleResp(createPermission(feat), {
+            handleOk: (data) => {},
+          });
+        }}
+        onCancel={() => setDialogVisiable(false)}
       />
     </>
   );

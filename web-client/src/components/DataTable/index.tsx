@@ -38,6 +38,7 @@ export interface DataTableProps<
   style?: CSSProperties;
   className?: string;
   loading?: boolean;
+  changing?: any;
 }
 
 export function DataTable<
@@ -75,7 +76,7 @@ export function DataTable<
 
   useEffect(() => {
     loadData(pageData);
-  }, [props.loadData]);
+  }, [props.loadData, props.changing]);
 
   useEffect(() => {
     if (props.data) {

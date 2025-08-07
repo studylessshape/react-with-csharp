@@ -26,7 +26,7 @@ function RouteContent() {
   return (
     <Space vertical className="w-full">
       <MenuPart onDoubleClickRow={(row) => setSelectedMenus(row)} />
-      <PermissionPart parentId={selectedMenu?.id} />
+      <PermissionPart parent={selectedMenu} />
     </Space>
   );
 }
