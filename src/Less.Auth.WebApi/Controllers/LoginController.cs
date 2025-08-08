@@ -92,7 +92,17 @@ namespace Less.Auth.WebApi.Controllers
                 return Resp.Err<UserState>("未能获取到当前登录的账户");
             }
 
-            var featResources = await featResourceClaimRepo.GetPermissions(claims);
+            IList<FeatResource> featResources;
+
+            if (claims.HasRole(ClaimDefines.ROLE_SYSTEM))
+            {
+                featResources = await featResourceRepo.ListAsync();
+            }
+            else
+            {
+                featResources = await featResourceClaimRepo.GetPermissions(claims);
+            }
+
             var userState = UserProfile.FromUser<UserState>(user);
             userState.Roles = claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToArray();
             userState.Permissions = featResources.Where(fr => fr.Kind == FeatResource.PERMISSION_KIND).Select(fr => fr.Name).ToArray();

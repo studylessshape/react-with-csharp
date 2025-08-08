@@ -1,5 +1,6 @@
 import type React from "react";
 import { useUserState } from "../../stores";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface PermissionGuardProps {
   permissions?: string[];
@@ -12,19 +13,6 @@ export interface PermissionGuardProps {
 export function PermissionGuard(
   props: React.PropsWithChildren<PermissionGuardProps>
 ) {
-  const user = useUserState();
-  const { permissions, all, children } = props;
-  var result: React.ReactNode | undefined = undefined;
-
-  if (!permissions || permissions.length == 0) {
-    result = children;
-  } else if (user) {
-    if (
-      (all == true && user.hasAllPermissions(permissions)) ||
-      (all != true && user.hasAnyPermission(permissions))
-    ) {
-      result = children;
-    }
-  }
-  return result;
+  const authed = useAuth(props);
+  return <>{authed ? props.children : undefined}</>;
 }

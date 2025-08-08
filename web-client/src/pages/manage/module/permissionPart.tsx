@@ -16,10 +16,21 @@ import Icon, {
 } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
 import { useEffect, useState, type CSSProperties } from "react";
-import type { DialogMode } from "./types";
+import {
+  PermissionAdd,
+  PermissionDelete,
+  PermissionEdit,
+  type DialogMode,
+} from "./types";
 import { DataTable, type PaginationData } from "@/components/DataTable";
 import { handleResp } from "@/utils/resp_flow";
-import { featResourceToDataSource } from "@/utils/feat_to_data_source";
+import {
+  featResourceToDataSource,
+  type FeatResourceTableData,
+} from "@/utils/feat_to_data_source";
+import { PermissionButton } from "@/components/PermissionButton";
+import type { ColumnRender } from "@douyinfe/semi-ui/lib/es/table";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface PermissionPartProps {
   parent?: FeatResource;
@@ -54,6 +65,44 @@ export function PermissionPart(props: PermissionPartProps) {
   );
   const [refreshTable, setRefreshTable] = useState(false);
 
+  const actionRender: ColumnRender<FeatResourceTableData> | undefined =
+    !useAuth({ permissions: [PermissionEdit, PermissionDelete] })
+      ? undefined
+      : (_text, record) => {
+          return (
+            <Space>
+              <PermissionButton
+                permissions={[PermissionEdit]}
+                icon={<IconEdit />}
+                theme="borderless"
+                size="small"
+                onClick={() => {
+                  setEditFeat(record);
+                  showDialog("edit");
+                }}
+              >
+                编辑
+              </PermissionButton>
+              <DeleteButton
+                permissions={[PermissionDelete]}
+                position="bottomRight"
+                icon={<IconDeleteStroked />}
+                theme="borderless"
+                size="small"
+                onConfirm={() => {
+                  handleResp(deleteResource(record.id), {
+                    handleOk: () => {
+                      Toast.success("删除成功");
+                      setSelectedRows(undefined);
+                      setRefreshTable(!refreshTable);
+                    },
+                  });
+                }}
+              ></DeleteButton>
+            </Space>
+          );
+        };
+
   function showDialog(mode: DialogMode) {
     setDialogMode(mode);
     setDialogVisiable(true);
@@ -61,7 +110,6 @@ export function PermissionPart(props: PermissionPartProps) {
 
   useEffect(() => {
     setSelectedRows(undefined);
-    console.log(props.parent);
   }, [props.parent]);
 
   return (
@@ -71,7 +119,8 @@ export function PermissionPart(props: PermissionPartProps) {
         style={props.style}
       >
         <Space className="m-y-2">
-          <Button
+          <PermissionButton
+            permissions={[PermissionAdd]}
             icon={<IconPlus />}
             theme="solid"
             onClick={() => {
@@ -81,8 +130,9 @@ export function PermissionPart(props: PermissionPartProps) {
             disabled={props.parent == undefined}
           >
             添加许可
-          </Button>
+          </PermissionButton>
           <DeleteButton
+            permissions={[PermissionDelete]}
             icon={<IconDeleteStroked />}
             disabled={selectedRows == undefined || selectedRows.length == 0}
             onConfirm={() => {
@@ -104,38 +154,7 @@ export function PermissionPart(props: PermissionPartProps) {
         <PermissionTable
           parentId={props.parent?.id}
           refresh={refreshTable}
-          actionRender={(text, record) => {
-            return (
-              <Space>
-                <Button
-                  icon={<IconEdit />}
-                  theme="borderless"
-                  size="small"
-                  onClick={() => {
-                    setEditFeat(record);
-                    showDialog("edit");
-                  }}
-                >
-                  编辑
-                </Button>
-                <DeleteButton
-                  position="bottomRight"
-                  icon={<IconDeleteStroked />}
-                  theme="borderless"
-                  size="small"
-                  onConfirm={() => {
-                    handleResp(deleteResource(record.id), {
-                      handleOk: () => {
-                        Toast.success("删除成功");
-                        setSelectedRows(undefined);
-                        setRefreshTable(!refreshTable);
-                      },
-                    });
-                  }}
-                ></DeleteButton>
-              </Space>
-            );
-          }}
+          actionRender={actionRender}
           onSelect={(_row, _selected, selectedRows) => {
             setSelectedRows(selectedRows);
           }}

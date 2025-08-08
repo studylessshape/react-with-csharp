@@ -5,7 +5,7 @@ import {
   type ParsedLocation,
 } from "@tanstack/react-router";
 import { useMenuState, useUserState, type MenuResourceState } from "../stores";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { FileRouteTypes } from "../routeTree.gen";
 
 const router = { to: "/" } as FileRouteTypes;
@@ -17,6 +17,8 @@ export interface AuthOptions {
    */
   location?: boolean;
   permissions?: string[];
+  allPermission?: boolean;
+  role?: string[];
 }
 
 export function useAuth(opts?: AuthOptions) {
@@ -31,9 +33,27 @@ export function useAuth(opts?: AuthOptions) {
     }
   }
 
-  if (opts?.permissions && opts.permissions.length > 0) {
-    if (!isSystem && !userState.hasAnyPermission(opts.permissions)) {
+  if (opts?.role && opts.role.length > 0) {
+    if (!isSystem && !userState.hasAnyRole(opts.role)) {
       return false;
+    }
+  }
+
+  if (opts?.permissions && opts.permissions.length > 0) {
+    if (!isSystem) {
+      if (
+        opts.allPermission &&
+        !userState.hasAllPermissions(opts.permissions)
+      ) {
+        return false;
+      }
+
+      if (
+        !opts.allPermission &&
+        !userState.hasAnyPermission(opts.permissions)
+      ) {
+        return false;
+      }
     }
   }
 

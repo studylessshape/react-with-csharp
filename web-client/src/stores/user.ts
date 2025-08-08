@@ -121,7 +121,7 @@ export const useUserState = create<UserState>((set, store) => ({
     const user = store().user;
     if (!user) return false;
 
-    return permissions.some((p) => !user.permissions.some((up) => up == p));
+    return !permissions.some((p) => !user.permissions.some((up) => up == p));
   },
   hasAnyPermission(permissions) {
     const user = store().user;

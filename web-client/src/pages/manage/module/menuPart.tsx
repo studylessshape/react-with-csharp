@@ -11,10 +11,18 @@ import { useEffect, useState } from "react";
 import { handleResp } from "@/utils/resp_flow";
 import { type FeatResourceTableData } from "@/utils/feat_to_data_source";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
-import type { DialogMode } from "./types";
+import {
+  PermissionAdd,
+  PermissionDelete,
+  PermissionEdit,
+  type DialogMode,
+} from "./types";
 import { MenuDataTable } from "./menuTable";
 import { IconDeleteStroked, IconEdit, IconPlus } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
+import { PermissionButton } from "@/components/PermissionButton";
+import { useAuth } from "@/hooks/useAuth";
+import type { ColumnRender } from "@douyinfe/semi-ui/lib/es/table";
 
 export function MenuPart({
   onDoubleClickRow,
@@ -58,6 +66,52 @@ export function MenuPart({
     setDialogVisiable(true);
   }
 
+  const actionRender: ColumnRender<FeatResourceTableData> | undefined =
+    !useAuth({
+      permissions: [PermissionEdit, PermissionDelete],
+    })
+      ? undefined
+      : (_t, record) => {
+          const row = record;
+
+          return (
+            <Space>
+              <PermissionButton
+                theme="borderless"
+                permissions={[PermissionEdit]}
+                size="small"
+                icon={<IconEdit />}
+                onClick={() => openDialog(record, "edit")}
+              >
+                编辑
+              </PermissionButton>
+              <DeleteButton
+                position="bottomRight"
+                theme="borderless"
+                size="small"
+                permissions={[PermissionDelete]}
+                icon={<IconDeleteStroked />}
+                onConfirm={() => {
+                  handleResp(deleteResource(row.id), {
+                    handleOk: () => {
+                      Toast.success("删除成功！");
+                      loadMenus();
+                      if (doubleMenu && doubleMenu.id == row.id) {
+                        setDouble(undefined);
+                      }
+                      if (selectedMenus?.some((f) => f.id == row.id) == true) {
+                        setSelectedMenus(
+                          selectedMenus.filter((f) => f.id != row.id)
+                        );
+                      }
+                    },
+                  });
+                }}
+              ></DeleteButton>
+            </Space>
+          );
+        };
+
   useEffect(() => {
     if (menus == undefined) {
       loadMenus();
@@ -68,7 +122,8 @@ export function MenuPart({
     <>
       <div className="w-full h-full flex flex-col">
         <Space className="m-y-2">
-          <Button
+          <PermissionButton
+            permissions={[PermissionAdd]}
             theme="solid"
             icon={<IconPlus />}
             disabled={selectedMenus != undefined && selectedMenus.length > 1}
@@ -82,9 +137,10 @@ export function MenuPart({
             }
           >
             添加菜单
-          </Button>
+          </PermissionButton>
           <DeleteButton
             title="是否删除选定菜单？"
+            permissions={[PermissionDelete]}
             icon={<IconDeleteStroked />}
             children="删除选中菜单"
             disabled={selectedMenus == undefined || selectedMenus.length == 0}
@@ -120,46 +176,7 @@ export function MenuPart({
             onDoubleClickRow={(row) => {
               setDouble(row);
             }}
-            actionRender={(_t, record) => {
-              const row = record as FeatResourceTableData;
-
-              return (
-                <Space>
-                  <Button
-                    theme="borderless"
-                    size="small"
-                    icon={<IconEdit />}
-                    onClick={() => openDialog(record, "edit")}
-                  >
-                    编辑
-                  </Button>
-                  <DeleteButton
-                    position="bottomRight"
-                    theme="borderless"
-                    size="small"
-                    icon={<IconDeleteStroked />}
-                    onConfirm={() => {
-                      handleResp(deleteResource(row.id), {
-                        handleOk: () => {
-                          Toast.success("删除成功！");
-                          loadMenus();
-                          if (doubleMenu && doubleMenu.id == row.id) {
-                            setDouble(undefined);
-                          }
-                          if (
-                            selectedMenus?.some((f) => f.id == row.id) == true
-                          ) {
-                            setSelectedMenus(
-                              selectedMenus.filter((f) => f.id != row.id)
-                            );
-                          }
-                        },
-                      });
-                    }}
-                  ></DeleteButton>
-                </Space>
-              );
-            }}
+            actionRender={actionRender}
           />
         </div>
       </div>

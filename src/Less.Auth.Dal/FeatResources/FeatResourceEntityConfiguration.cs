@@ -1,6 +1,8 @@
 ﻿using Less.Auth.FeatResources;
+using Less.Utils.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Linq;
 
 namespace Less.Auth.Dal.FeatResources
 {
@@ -50,6 +52,15 @@ namespace Less.Auth.Dal.FeatResources
                     {
                         Id = 5,
                         ParentId = 3,
+                        Name = "role_manage",
+                        Description = "角色管理",
+                        Url = "/manage/role",
+                        Icon = "IconLock"
+                    },
+                    new FeatResource()
+                    {
+                        Id = 6,
+                        ParentId = 3,
                         Name = "user_manage",
                         Description = "用户管理",
                         Url = "/manage/user",
@@ -67,6 +78,34 @@ namespace Less.Auth.Dal.FeatResources
             builder.HasIndex(f => new { f.Name, f.Kind }).IsUnique();
             builder.HasOne(f => f.Parent).WithMany().HasForeignKey(f => f.ParentId).OnDelete(DeleteBehavior.Cascade);
             builder.HasData(InitFeatResources);
+            int id = InitFeatResources.Last().Id + 1;
+            builder.HasData(InitFeatResources.Skip(1).Select(f =>
+            {
+                return new FeatResource[]
+                {
+                    new FeatResource()
+                    {
+                        Id = id++,
+                        Name = $"{f.Name}:add",
+                        ParentId = f.Id,
+                        Kind = FeatResource.PERMISSION_KIND,
+                    },
+                    new FeatResource()
+                    {
+                        Id = id++,
+                        Name = $"{f.Name}:edit",
+                        ParentId = f.Id,
+                        Kind = FeatResource.PERMISSION_KIND,
+                    },
+                    new FeatResource()
+                    {
+                        Id = id++,
+                        Name = $"{f.Name}:delete",
+                        ParentId = f.Id,
+                        Kind = FeatResource.PERMISSION_KIND,
+                    }
+                };
+            }).Flat());
         }
     }
 }

@@ -16,6 +16,7 @@ import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserAccountRouteImport } from './routes/user/$account'
 import { Route as ManageUserRouteImport } from './routes/manage/user'
+import { Route as ManageRoleRouteImport } from './routes/manage/role'
 import { Route as ManageModuleRouteImport } from './routes/manage/module'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
@@ -53,6 +54,11 @@ const ManageUserRoute = ManageUserRouteImport.update({
   path: '/manage/user',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManageRoleRoute = ManageRoleRouteImport.update({
+  id: '/manage/role',
+  path: '/manage/role',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ManageModuleRoute = ManageModuleRouteImport.update({
   id: '/manage/module',
   path: '/manage/module',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/manage/module': typeof ManageModuleRoute
+  '/manage/role': typeof ManageRoleRoute
   '/manage/user': typeof ManageUserRoute
   '/user/$account': typeof UserAccountRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/manage/module': typeof ManageModuleRoute
+  '/manage/role': typeof ManageRoleRoute
   '/manage/user': typeof ManageUserRoute
   '/user/$account': typeof UserAccountRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/manage/module': typeof ManageModuleRoute
+  '/manage/role': typeof ManageRoleRoute
   '/manage/user': typeof ManageUserRoute
   '/user/$account': typeof UserAccountRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/unauthorized'
     | '/manage/module'
+    | '/manage/role'
     | '/manage/user'
     | '/user/$account'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/unauthorized'
     | '/manage/module'
+    | '/manage/role'
     | '/manage/user'
     | '/user/$account'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/unauthorized'
     | '/manage/module'
+    | '/manage/role'
     | '/manage/user'
     | '/user/$account'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   ManageModuleRoute: typeof ManageModuleRoute
+  ManageRoleRoute: typeof ManageRoleRoute
   ManageUserRoute: typeof ManageUserRoute
   UserAccountRoute: typeof UserAccountRoute
 }
@@ -185,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ManageUserRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manage/role': {
+      id: '/manage/role'
+      path: '/manage/role'
+      fullPath: '/manage/role'
+      preLoaderRoute: typeof ManageRoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/manage/module': {
       id: '/manage/module'
       path: '/manage/module'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   ManageModuleRoute: ManageModuleRoute,
+  ManageRoleRoute: ManageRoleRoute,
   ManageUserRoute: ManageUserRoute,
   UserAccountRoute: UserAccountRoute,
 }
