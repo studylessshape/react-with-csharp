@@ -42,6 +42,7 @@ export interface DataTableProps<
   resizable?: boolean;
   emptyTitle?: ReactNode;
   emptyMessage?: ReactNode;
+  defaultPageSize?: number;
 }
 
 export function DataTable<
@@ -55,7 +56,7 @@ export function DataTable<
   const [loading, setLoading] = useState(false);
   const [pageData, setPageData] = useState({
     currentPage: 1,
-    pageSize: 10,
+    pageSize: props.defaultPageSize ?? 10,
   } as PaginationData);
 
   function loadData(page?: PaginationData) {
@@ -110,6 +111,8 @@ export function DataTable<
           ? {
               ...pageData,
               pageSizeOpts: props.pageSizeOpts,
+              showSizeChanger: true,
+              showQuickJumper: true,
               onPageChange: (currentPage) => {
                 setPageData({ ...pageData, currentPage: currentPage });
                 loadData({ ...pageData, currentPage: currentPage });

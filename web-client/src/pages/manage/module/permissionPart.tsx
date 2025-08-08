@@ -6,9 +6,13 @@ import {
 import { PermissionTable } from "./permissionTable";
 import { Button, Space, Toast, Tooltip, Typography } from "@douyinfe/semi-ui";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
-import { IconPlus } from "@douyinfe/semi-icons";
+import Icon, {
+  IconDeleteStroked,
+  IconEdit,
+  IconPlus,
+} from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import type { DialogMode } from "./types";
 import { DataTable, type PaginationData } from "@/components/DataTable";
 import { handleResp } from "@/utils/resp_flow";
@@ -16,6 +20,8 @@ import { featResourceToDataSource } from "@/utils/feat_to_data_source";
 
 export interface PermissionPartProps {
   parent?: FeatResource;
+  className?: string;
+  style?: CSSProperties;
 }
 
 export interface PageInfo {
@@ -51,8 +57,11 @@ export function PermissionPart(props: PermissionPartProps) {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col">
-        <Space>
+      <div
+        className={`w-full h-full flex flex-col ${props.className ?? ""}`}
+        style={props.style}
+      >
+        <Space className="m-y-2">
           <Button
             icon={<IconPlus />}
             theme="solid"
@@ -60,10 +69,34 @@ export function PermissionPart(props: PermissionPartProps) {
           >
             添加许可
           </Button>
-          <DeleteButton buttonChildren="删除选中许可"></DeleteButton>
+          <DeleteButton icon={<IconDeleteStroked />}>删除选中许可</DeleteButton>
           <CurrentMenu menu={props.parent} />
         </Space>
-        <PermissionTable parentId={props.parent?.id} />
+        <PermissionTable
+          parentId={props.parent?.id}
+          actionRender={(text, record) => {
+            return (
+              <Space>
+                <Button
+                  icon={<IconEdit />}
+                  theme="borderless"
+                  size="small"
+                  onClick={() => {
+                    setEditFeat(record);
+                    showDialog("edit");
+                  }}
+                >
+                  编辑
+                </Button>
+                <DeleteButton
+                  icon={<IconDeleteStroked />}
+                  theme="borderless"
+                  size="small"
+                ></DeleteButton>
+              </Space>
+            );
+          }}
+        />
       </div>
       <FeatResourceEditor
         from="permission"

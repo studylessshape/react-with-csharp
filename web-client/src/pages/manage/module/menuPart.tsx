@@ -67,7 +67,7 @@ export function MenuPart({
   return (
     <>
       <div className="w-full h-full flex flex-col">
-        <Space>
+        <Space className="m-y-2">
           <Button
             theme="solid"
             icon={<IconPlus />}
@@ -86,7 +86,7 @@ export function MenuPart({
           <DeleteButton
             title="是否删除选定菜单？"
             icon={<IconDeleteStroked />}
-            buttonChildren="删除选中菜单"
+            children="删除选中菜单"
             disabled={selectedMenus == undefined || selectedMenus.length == 0}
             onConfirm={() => {
               if (selectedMenus) {
@@ -126,7 +126,8 @@ export function MenuPart({
               return (
                 <Space>
                   <Button
-                    theme="solid"
+                    theme="borderless"
+                    size="small"
                     icon={<IconEdit />}
                     onClick={() => openDialog(record, "edit")}
                   >
@@ -134,6 +135,8 @@ export function MenuPart({
                   </Button>
                   <DeleteButton
                     position="bottomRight"
+                    theme="borderless"
+                    size="small"
                     icon={<IconDeleteStroked />}
                     onConfirm={() => {
                       handleResp(deleteResource(row.id), {

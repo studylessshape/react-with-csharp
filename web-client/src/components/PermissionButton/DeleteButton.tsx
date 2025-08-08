@@ -10,7 +10,7 @@ export interface DeleteButtonProps {
   content?: ReactNode;
   title?: ReactNode;
   position?: Position;
-  buttonChildren?: ReactNode;
+  children?: ReactNode;
   onConfirm?: (e: React.MouseEvent) => Promise<any> | void;
   onCancel?: (e: React.MouseEvent) => Promise<any> | void;
   size?: "default" | "small" | "large";
@@ -39,7 +39,7 @@ export function DeleteButton(props: DeleteButtonProps) {
           disabled={props.disabled}
           icon={props.icon}
         >
-          {props.buttonChildren ?? "删除"}
+          {props.children ?? "删除"}
         </Button>
       </Popconfirm>
     </PermissionGuard>

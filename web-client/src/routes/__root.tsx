@@ -100,24 +100,7 @@ function RootComponent() {
           <Outlet />
         </AppLayout>
       )}
-      {/* <AppLayout
-        menu={menus}
-        layout={user.user != null && isAuthenticated}
-        header={{
-          logo: (
-            <Icon
-              svg={<Logo height={36} width={36} />}
-              className="font-size-9"
-            />
-          ),
-          text: import.meta.env.PUBLIC_APP_TITLE,
-          link: "/",
-        }}
-        sidebarAutoCollapsed={{ minWidth: 520, radio: 2.0 / 3.0 }}
-      >
-        <Outlet />
-      </AppLayout> */}
-      <TanStackRouterDevtools position="bottom-right" />
+      <TanStackRouterDevtools position="bottom-left" />
     </>
   );
 }

@@ -59,9 +59,11 @@ export function PermissionTable({
             (f) => ({ key: f.id, ...f }) as FeatResourceTableData
           )
         }
+        size="small"
+        total={(data) => data.total}
+        pageSizeOpts={[10, 20, 40, 80, 100]}
         columns={columns}
-        scroll={{ x: 500, y: 500 }}
-        style={{ height: 600 }}
+        scroll={{ x: 400, y: 500 }}
         rowSelection={{
           fixed: true,
           onSelect: onSelect,
