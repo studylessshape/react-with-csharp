@@ -12,7 +12,7 @@ import Icon, {
   IconPlus,
 } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import type { DialogMode } from "./types";
 import { DataTable, type PaginationData } from "@/components/DataTable";
 import { handleResp } from "@/utils/resp_flow";
@@ -49,11 +49,17 @@ export function PermissionPart(props: PermissionPartProps) {
   const [editFeat, setEditFeat] = useState(
     undefined as FeatResource | undefined
   );
+  const [refreshTable, setRefreshTable] = useState(false);
 
   function showDialog(mode: DialogMode) {
     setDialogMode(mode);
     setDialogVisiable(true);
   }
+
+  useEffect(() => {
+    setSelectedRows(undefined);
+    console.log(props.parent);
+  }, [props.parent]);
 
   return (
     <>
@@ -65,15 +71,25 @@ export function PermissionPart(props: PermissionPartProps) {
           <Button
             icon={<IconPlus />}
             theme="solid"
-            onClick={() => showDialog("add")}
+            onClick={() => {
+              setEditFeat(undefined);
+              showDialog("add");
+            }}
+            disabled={props.parent == undefined}
           >
             添加许可
           </Button>
-          <DeleteButton icon={<IconDeleteStroked />}>删除选中许可</DeleteButton>
+          <DeleteButton
+            icon={<IconDeleteStroked />}
+            disabled={selectedRows == undefined || selectedRows.length == 0}
+          >
+            删除选中许可
+          </DeleteButton>
           <CurrentMenu menu={props.parent} />
         </Space>
         <PermissionTable
           parentId={props.parent?.id}
+          refresh={refreshTable}
           actionRender={(text, record) => {
             return (
               <Space>
@@ -103,11 +119,13 @@ export function PermissionPart(props: PermissionPartProps) {
         mode={dialogMode}
         visible={dialogVisible}
         feat={editFeat}
+        parentId={props.parent?.id}
         onSubmit={(feat) => {
           if (dialogMode == "add") {
             handleResp(createPermission(feat), {
               handleOk: (data) => {
                 Toast.success("添加成功");
+                setRefreshTable(!refreshTable);
                 setDialogVisiable(false);
               },
             });

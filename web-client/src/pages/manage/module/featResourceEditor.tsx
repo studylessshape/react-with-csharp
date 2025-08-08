@@ -12,6 +12,7 @@ export function FeatResourceEditor({
   mode,
   from,
   feat,
+  parentId,
   datas,
   onSubmit,
   visible,
@@ -20,6 +21,7 @@ export function FeatResourceEditor({
   mode: DialogMode;
   from: DialogFrom;
   feat: FeatResource | undefined;
+  parentId?: number;
   datas?: FeatResource[];
   onSubmit: (values: FeatResource) => void;
   visible?: boolean;
@@ -32,10 +34,13 @@ export function FeatResourceEditor({
   );
   const initValues =
     mode == "add"
-      ? { parentId: feat?.id.toString() ?? "1", order: 0 }
+      ? {
+          parentId: feat?.parentId?.toString() ?? parentId?.toString() ?? "1",
+          order: 0,
+        }
       : {
           ...feat,
-          parentId: feat?.parentId?.toString(),
+          parentId: feat?.parentId?.toString() ?? parentId?.toString(),
         };
   const [formApi, setFormApi] = useState(undefined as FormApi | undefined);
 
@@ -43,7 +48,7 @@ export function FeatResourceEditor({
     if (visible && formApi) {
       formApi.setValues(initValues, { isOverride: true });
     }
-  }, [visible, formApi]);
+  }, [visible, formApi, feat, parentId]);
 
   return (
     <FormModal

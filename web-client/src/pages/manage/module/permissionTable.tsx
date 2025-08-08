@@ -12,11 +12,13 @@ import { DataTable, type PaginationData } from "@/components/DataTable";
 
 export function PermissionTable({
   parentId,
+  refresh,
   onSelect,
   onSelectAll,
   actionRender,
 }: {
   parentId?: number;
+  refresh?: any;
   onSelect?: RowSelectionOnSelect<FeatResourceTableData>;
   onSelectAll?: RowSelectionOnSelectAll<FeatResourceTableData>;
   actionRender?: ColumnRender<FeatResourceTableData>;
@@ -69,7 +71,8 @@ export function PermissionTable({
           onSelect: onSelect,
           onSelectAll: onSelectAll,
         }}
-        changing={parentId}
+        changingForResetPage={parentId}
+        changing={refresh}
       ></DataTable>
     </div>
   );

@@ -39,6 +39,7 @@ export interface DataTableProps<
   className?: string;
   loading?: boolean;
   changing?: any;
+  changingForResetPage?: any;
   resizable?: boolean;
   emptyTitle?: ReactNode;
   emptyMessage?: ReactNode;
@@ -80,7 +81,11 @@ export function DataTable<
 
   useEffect(() => {
     loadData(pageData);
-  }, [props.loadData, props.changing]);
+  }, [props.changing]);
+
+  useEffect(() => {
+    loadData({ currentPage: 1, pageSize: pageData.pageSize });
+  }, [props.changingForResetPage]);
 
   useEffect(() => {
     if (props.data) {
