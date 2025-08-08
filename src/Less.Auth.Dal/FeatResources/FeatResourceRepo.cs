@@ -43,7 +43,7 @@ namespace Less.Auth.Dal.FeatResources
             {
                 return "数据库中不存在该条数据".ToErr<None, string>();
             }
-            if (await AnyAsync(q => q.Where(f => f.Id != entity.Id && f.Name == featResource.Name)))
+            if (await AnyAsync(q => q.Where(f => f.Id != entity.Id && f.Kind == FeatResource.MENU_KIND && f.Name == featResource.Name)))
             {
                 return "资源名已存在".ToErr<None, string>();
             }
@@ -66,6 +66,35 @@ namespace Less.Auth.Dal.FeatResources
             }
 
             entity.ParentId = featResource.ParentId;
+            entity.Name = featResource.Name;
+            entity.Description = featResource.Description;
+            entity.Url = featResource.Url;
+            entity.Order = featResource.Order;
+            entity.Tag = featResource.Tag;
+            entity.Icon = featResource.Icon;
+
+            await SaveChangesAsync();
+
+            return None.New().ToOk<None, string>();
+        }
+
+        public async Task<Result<None, string>> UpdatePermissionAsync(FeatResource featResource)
+        {
+            if (featResource.Kind != FeatResource.PERMISSION_KIND)
+            {
+                return "不能使用该方法修改非许可资源".ToErr<None, string>();
+            }
+
+            var entity = await FindAsync(featResource.Id);
+            if (entity == null)
+            {
+                return "数据库中不存在该条数据".ToErr<None, string>();
+            }
+            if (await AnyAsync(q => q.Where(f => f.Id != entity.Id && f.Kind == FeatResource.PERMISSION_KIND && f.Name == featResource.Name)))
+            {
+                return "许可名已存在".ToErr<None, string>();
+            }
+
             entity.Name = featResource.Name;
             entity.Description = featResource.Description;
             entity.Url = featResource.Url;

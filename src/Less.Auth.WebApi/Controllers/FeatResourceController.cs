@@ -145,13 +145,29 @@ namespace Less.Auth.WebApi.Controllers
         /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Resp<None>> UpdateMenu(FeatResource data)
+        public async Task<Resp<None>> UpdateMenu(FeatResourceDto data)
         {
             if (data.Id == 1 && data.ParentId != null)
             {
                 return Resp.Err<None>("不允许修改根资源的父级");
             }
-            var result = await resourceRepo.UpdateMenuAsync(data);
+            var result = await resourceRepo.UpdateMenuAsync(data.ToData());
+            return Resp.FromResult(result);
+        }
+
+        /// <summary>
+        /// update permissions resource
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<Resp<None>> UpdatePermission(FeatResourceDto data)
+        {
+            if (data.Id == 1 && data.ParentId != null)
+            {
+                return Resp.Err<None>("不允许修改根资源的父级");
+            }
+            var result = await resourceRepo.UpdatePermissionAsync(data.ToData());
             return Resp.FromResult(result);
         }
     }

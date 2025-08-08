@@ -1,6 +1,9 @@
 import {
   createPermission,
+  deleteManyResource,
+  deleteResource,
   getMenuPermissions,
+  updatePermission,
   type FeatResource,
 } from "@/services";
 import { PermissionTable } from "./permissionTable";
@@ -82,6 +85,17 @@ export function PermissionPart(props: PermissionPartProps) {
           <DeleteButton
             icon={<IconDeleteStroked />}
             disabled={selectedRows == undefined || selectedRows.length == 0}
+            onConfirm={() => {
+              if (selectedRows) {
+                handleResp(deleteManyResource(selectedRows.map((r) => r.id)), {
+                  handleOk: (count) => {
+                    Toast.success(`成功删除 ${count} 个菜单项`);
+                    setSelectedRows(undefined);
+                    setRefreshTable(!refreshTable);
+                  },
+                });
+              }
+            }}
           >
             删除选中许可
           </DeleteButton>
@@ -105,12 +119,28 @@ export function PermissionPart(props: PermissionPartProps) {
                   编辑
                 </Button>
                 <DeleteButton
+                  position="bottomRight"
                   icon={<IconDeleteStroked />}
                   theme="borderless"
                   size="small"
+                  onConfirm={() => {
+                    handleResp(deleteResource(record.id), {
+                      handleOk: () => {
+                        Toast.success("删除成功");
+                        setSelectedRows(undefined);
+                        setRefreshTable(!refreshTable);
+                      },
+                    });
+                  }}
                 ></DeleteButton>
               </Space>
             );
+          }}
+          onSelect={(_row, _selected, selectedRows) => {
+            setSelectedRows(selectedRows);
+          }}
+          onSelectAll={(_selected, selectedRows) => {
+            setSelectedRows(selectedRows);
           }}
         />
       </div>
@@ -125,6 +155,14 @@ export function PermissionPart(props: PermissionPartProps) {
             handleResp(createPermission(feat), {
               handleOk: (data) => {
                 Toast.success("添加成功");
+                setRefreshTable(!refreshTable);
+                setDialogVisiable(false);
+              },
+            });
+          } else {
+            handleResp(updatePermission(feat), {
+              handleOk() {
+                Toast.success("修改成功");
                 setRefreshTable(!refreshTable);
                 setDialogVisiable(false);
               },

@@ -15,6 +15,21 @@ namespace Less.Auth.WebApi.Models
         public string Url { get; set; } = "";
         public string? Icon { get; set; }
 
+        public FeatResource ToData()
+        {
+            return new FeatResource()
+            {
+                Id = Id,
+                Name = Name,
+                Description = Description,
+                ParentId = ParentId,
+                Kind = Kind,
+                Tag = Tag,
+                Url = Url,
+                Icon = Icon,
+            };
+        }
+
         public static FeatResourceDto FromData(FeatResource featResource)
         {
             return new FeatResourceDto()

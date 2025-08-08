@@ -10,5 +10,6 @@ namespace Less.Auth.FeatResources
         public Task<bool> HasMenu(string name);
         public Task<bool> HasPermission(string name);
         public Task<Result<None, string>> UpdateMenuAsync(FeatResource featResource);
+        public Task<Result<None, string>> UpdatePermissionAsync(FeatResource featResource);
     }
 }
