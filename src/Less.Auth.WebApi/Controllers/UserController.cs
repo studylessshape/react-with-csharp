@@ -1,4 +1,5 @@
 ﻿using Less.Api.Core;
+using Less.Auth.Dal.Claims;
 using Less.Auth.Users;
 using Less.Auth.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ namespace Less.Auth.WebApi.Controllers
     /// </summary>
     [ApiController]
     [Route("api/auth/[controller]/[action]")]
-    [Authorize(Roles = "System, Admin")]
+    [Authorize(Roles = $"{ClaimDefines.ROLE_SYSTEM}, {ClaimDefines.ROLE_ADMIN}")]
     public class UserController : ControllerBase
     {
         private readonly IUserManager userManager;
@@ -61,6 +62,22 @@ namespace Less.Auth.WebApi.Controllers
         public async Task<Resp<IList<User>>> GetAllAsync()
         {
             return Resp.Ok(await userRepo.ListAsync());
+        }
+
+        /// <summary>
+        /// delete user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<Resp<None>> DeleteUser(Guid id)
+        {
+            var deleted = await userRepo.DeleteAsync(q => q.Where(u => u.Id == id));
+            if (deleted <= 0)
+            {
+                return Resp.Err<None>("删除失败");
+            }
+            return Resp.Ok(None.New());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Less.Auth.Users;
+﻿using Less.Auth.Role;
+using Less.Auth.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,7 +39,8 @@ namespace Less.Auth
         public static IServiceCollection AddDefaultAuthService<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext
         {
-            return services.AddDefaultPasswordHasher()
+            return services.AddScoped<IRoleManager, RoleManager>()
+                .AddDefaultPasswordHasher()
                 .AddDefaultUserManager<TDbContext>();
         }
     }

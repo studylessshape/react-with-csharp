@@ -3,7 +3,7 @@ using Less.Auth.Dal.Claims;
 using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.Auth.WebApi.Models;
-using Less.EntityFramework.Plus.WhereOrFeat;
+using Less.EntityFramework.Plus;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

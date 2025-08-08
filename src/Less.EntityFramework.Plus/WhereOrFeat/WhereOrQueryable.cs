@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Less.EntityFramework.Plus.WhereOrFeat
+namespace Less.EntityFramework.Plus
 {
 #nullable enable
     internal class WhereOrQueryable<T> : IWhereOrQueryable<T>

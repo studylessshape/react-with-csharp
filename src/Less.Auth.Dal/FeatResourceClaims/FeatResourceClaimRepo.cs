@@ -1,7 +1,7 @@
 ﻿using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.DalCore.Repository;
-using Less.EntityFramework.Plus.WhereOrFeat;
+using Less.EntityFramework.Plus;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -1,9 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { RouteGuard } from "@/components/RouteGuard";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/manage/role')({
+export const Route = createFileRoute("/manage/role")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/manage/role"!</div>
+  return (
+    <RouteGuard location redirectTo="/unauthorized">
+      <RouteContent />
+    </RouteGuard>
+  );
+}
+
+function RouteContent() {
+  return <div>Hello "/manage/role"!</div>;
 }

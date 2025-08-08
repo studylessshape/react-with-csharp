@@ -49,4 +49,11 @@ export default defineConfig({
       },
     ],
   },
+  performance: {
+    chunkSplit: {
+      forceSplitting: {
+        "semi-design": /node_modules[\\/]@douyinfe/,
+      },
+    },
+  },
 });

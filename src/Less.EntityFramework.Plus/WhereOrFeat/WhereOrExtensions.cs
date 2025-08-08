@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Less.EntityFramework.Plus.WhereOrFeat
+namespace Less.EntityFramework.Plus
 {
     /// <summary>
     /// Contains all extensions or method for query

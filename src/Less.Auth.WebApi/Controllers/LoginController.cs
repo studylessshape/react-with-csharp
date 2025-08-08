@@ -87,9 +87,9 @@ namespace Less.Auth.WebApi.Controllers
         {
             var claims = HttpContext.User.Claims.ToList();
             var user = await userRepo.FirstByAccountAsync(claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).First());
-            if (user == null)
+            if (user == null || user.Status == Users.User.DISABLE_STATUS)
             {
-                return Resp.Err<UserState>("未能获取到当前登录的账户");
+                return Resp.Err<UserState>("未能获取到当前登录的账户", 401);
             }
 
             IList<FeatResource> featResources;
