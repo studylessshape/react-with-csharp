@@ -1,5 +1,5 @@
 import { getMenuPermissions } from "@/services";
-import type { FeatResourceTableData } from "@/utils/feat_to_data_source";
+import type { FeatResourceTableData } from "@/utils/featToDataSource";
 import { Toast } from "@douyinfe/semi-ui";
 import type {
   ColumnRender,
@@ -41,7 +41,7 @@ export function PermissionTable({
       const result = await getMenuPermissions(
         page?.currentPage ?? 1,
         page?.pageSize ?? 10,
-        parentId
+        parentId,
       );
       if (result.success) {
         return result.data;
@@ -58,7 +58,7 @@ export function PermissionTable({
         loadData={loadPermissions}
         dataToTableData={(data) =>
           data.content.map(
-            (f) => ({ key: f.id, ...f }) as FeatResourceTableData
+            (f) => ({ key: f.id, ...f }) as FeatResourceTableData,
           )
         }
         size="small"

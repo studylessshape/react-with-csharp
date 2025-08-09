@@ -1,8 +1,7 @@
 import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
 import type { FeatResource } from "../services";
-import * as Icon from "@douyinfe/semi-icons";
 import { Space, Typography } from "@douyinfe/semi-ui";
-import { buildTree } from "./build_tree";
+import { buildTree } from "./buildTree";
 import { SemiIcon } from "../components/SemiIcon";
 
 export interface FeatResourceWithChildren extends FeatResource {
@@ -29,14 +28,14 @@ export function featResourceLabel(node: FeatResource) {
  */
 export function featResourceToTreeData(
   featResources: FeatResource[] | undefined,
-  needDisabled?: (data: FeatResource) => boolean
+  needDisabled?: (data: FeatResource) => boolean,
 ) {
   var filterResources = featResources;
   if (featResources) {
     filterResources = featResources
       .filter((fr) => fr.kind == 0)
       .sort((a, b) =>
-        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1
+        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1,
       );
   }
   return buildTree<FeatResource, TreeNodeData>(
@@ -48,7 +47,7 @@ export function featResourceToTreeData(
       icon: <SemiIcon name={node.icon} />,
       data: node,
       disabled: needDisabled == undefined ? undefined : needDisabled(node),
-    })
+    }),
   );
 }
 

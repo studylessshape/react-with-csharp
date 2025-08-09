@@ -130,7 +130,7 @@ namespace Less.Auth.WebApi.Controllers
                 return Resp.Err<int>("根资源不允许删除");
             }
 
-            var deleteCount = await resourceRepo.DeleteAsync(query => query.WhereAnyContains(f => f.Id, ids));
+            var deleteCount = await resourceRepo.DeleteAsync(query => query.WhereAnyContains(ids, f => f.Id));
             if (deleteCount == 0)
             {
                 return Resp.Err<int>("删除失败，没有对应的资源");

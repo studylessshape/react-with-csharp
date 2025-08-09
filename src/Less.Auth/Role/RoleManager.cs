@@ -20,18 +20,30 @@ namespace Less.Auth.Role
             this.featResourceClaimRepo = featResourceClaimRepo;
         }
 
-        public async Task<Result<None, string>> AssignFeatResources(int roleId, int[] featResourcesId)
+        public async Task<Result<None, string>> AssignFeatResources(int roleId, int[] featResourcesIds)
         {
-            var claim = await claimRepo.FindAsync(roleId);
-            if (claim == null || claim.ClaimType != ClaimTypes.Role)
+            var has = await claimRepo.AnyAsync(c => c.Id == roleId && c.ClaimType == ClaimTypes.Role);
+            if (!has)
             {
-                return "指定的声明不符合要求".ToErr<None, string>();
+                return "不存在或指定的声明不符合要求".ToErr<None, string>();
             }
 
+            var featClaimIds = await featResourceClaimRepo.ListAsync(query => query.Where(fc => fc.ClaimEntityId == roleId), fc => fc.FeatResourceId);
+            var needDeletedIds = featClaimIds.Except(featResourcesIds);
+            var needAddedIds = featResourcesIds.Except(featClaimIds);
+
             // delete not exist in given feats' ids
-            await featResourceClaimRepo.DeleteAsync(query => query.Where(fc => fc.ClaimEntityId == roleId).WhereNotContains(fc => fc.FeatResourceId, featResourcesId), false);
+            await featResourceClaimRepo.DeleteAsync(q => q.Where(fc => fc.ClaimEntityId == roleId)
+                                                          .WhereAnyContains(needDeletedIds, fc => fc.FeatResourceId)
+                                                    , false);
             // add all not exist feats relation
-            await featResourceClaimRepo.AddAsync()
+            await featResourceClaimRepo.AddRangeAsync(needAddedIds.Select(fid => new FeatResourceClaim()
+            {
+                ClaimEntityId = roleId,
+                FeatResourceId = fid,
+            }));
+
+            return None.New().ToOk<string>();
         }
     }
 }

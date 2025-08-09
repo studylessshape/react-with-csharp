@@ -2,18 +2,13 @@ import {
   createPermission,
   deleteManyResource,
   deleteResource,
-  getMenuPermissions,
   updatePermission,
   type FeatResource,
 } from "@/services";
 import { PermissionTable } from "./permissionTable";
-import { Button, Space, Toast, Tooltip, Typography } from "@douyinfe/semi-ui";
+import { Space, Toast, Tooltip } from "@douyinfe/semi-ui";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
-import Icon, {
-  IconDeleteStroked,
-  IconEdit,
-  IconPlus,
-} from "@douyinfe/semi-icons";
+import { IconDeleteStroked, IconEdit, IconPlus } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
 import { useEffect, useState, type CSSProperties } from "react";
 import {
@@ -22,12 +17,8 @@ import {
   PermissionEdit,
   type DialogMode,
 } from "./types";
-import { DataTable, type PaginationData } from "@/components/DataTable";
-import { handleResp } from "@/utils/resp_flow";
-import {
-  featResourceToDataSource,
-  type FeatResourceTableData,
-} from "@/utils/feat_to_data_source";
+import { handleResp } from "@/utils/respFlow";
+import { type FeatResourceTableData } from "@/utils/featToDataSource";
 import { PermissionButton } from "@/components/PermissionButton";
 import type { ColumnRender } from "@douyinfe/semi-ui/lib/es/table";
 import { useAuth } from "@/hooks/useAuth";
@@ -58,10 +49,10 @@ export function PermissionPart(props: PermissionPartProps) {
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [dialogVisible, setDialogVisiable] = useState(false);
   const [selectedRows, setSelectedRows] = useState(
-    undefined as FeatResource[] | undefined
+    undefined as FeatResource[] | undefined,
   );
   const [editFeat, setEditFeat] = useState(
-    undefined as FeatResource | undefined
+    undefined as FeatResource | undefined,
   );
   const [refreshTable, setRefreshTable] = useState(false);
 

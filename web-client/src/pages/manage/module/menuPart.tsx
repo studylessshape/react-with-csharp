@@ -8,8 +8,8 @@ import {
   type FeatResource,
 } from "@/services";
 import { useEffect, useState } from "react";
-import { handleResp } from "@/utils/resp_flow";
-import { type FeatResourceTableData } from "@/utils/feat_to_data_source";
+import { handleResp } from "@/utils/respFlow";
+import { type FeatResourceTableData } from "@/utils/featToDataSource";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import {
   PermissionAdd,
@@ -31,16 +31,16 @@ export function MenuPart({
 }) {
   const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
   const [editMenu, setEditMenu] = useState(
-    undefined as FeatResource | undefined
+    undefined as FeatResource | undefined,
   );
   const [loading, setLoading] = useState(false);
   const [selectedMenus, setSelectedMenus] = useState(
-    undefined as FeatResource[] | undefined
+    undefined as FeatResource[] | undefined,
   );
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [dialogVisible, setDialogVisiable] = useState(false);
   const [doubleMenu, setDoubleMenu] = useState(
-    undefined as FeatResource | undefined
+    undefined as FeatResource | undefined,
   );
 
   function setDouble(row: FeatResource | undefined) {
@@ -101,7 +101,7 @@ export function MenuPart({
                       }
                       if (selectedMenus?.some((f) => f.id == row.id) == true) {
                         setSelectedMenus(
-                          selectedMenus.filter((f) => f.id != row.id)
+                          selectedMenus.filter((f) => f.id != row.id),
                         );
                       }
                     },
@@ -132,7 +132,7 @@ export function MenuPart({
                 selectedMenus == undefined || selectedMenus.length == 0
                   ? undefined
                   : selectedMenus[0],
-                "add"
+                "add",
               )
             }
           >

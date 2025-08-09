@@ -1,11 +1,11 @@
-import type { Resp } from "./resp";
+import type { Resp } from "./types";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 export default async function api<T, TError, R = any>(
   apiPath: string,
   method: HttpMethod,
-  request?: R
+  request?: R,
 ): Promise<Resp<T, TError>> {
   const url =
     document.location.origin + (apiPath.startsWith("/") ? "" : "/") + apiPath;
@@ -72,11 +72,11 @@ export class SearchParams {
 
 export async function get<T, TError>(
   apiPath: string,
-  request?: Record<string, string | undefined>
+  request?: Record<string, string | undefined>,
 ): Promise<Resp<T, TError>> {
   const searchParams = new SearchParams(request).toString();
   return await api<T, TError>(
     `${apiPath}${searchParams == "" ? "" : `?${searchParams}`}`,
-    "GET"
+    "GET",
   );
 }

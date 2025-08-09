@@ -1,15 +1,17 @@
 import { create } from "zustand";
-import type {
-  NormalError,
-  UserState as ServiceUserState,
-} from "../services/interfaces";
+import type { NormalError, UserState as ServiceUserState } from "@/services";
 import {
   getLoginState,
   login as loginApi,
   logout as logoutApi,
-} from "../services";
-import type { HandleErrHandler } from "../utils/resp_flow";
-import { getCookie, hasCookie, removeCookie, setCookie } from "../utils/doc_cookie";
+} from "@/services";
+import type { HandleErrHandler } from "@/utils/respFlow";
+import {
+  getCookie,
+  hasCookie,
+  removeCookie,
+  setCookie,
+} from "@/utils/docCookie";
 
 export interface UserState {
   isAuthenticated: boolean;
@@ -23,12 +25,12 @@ export interface UserState {
     account: string,
     password: string,
     handleOk: () => void,
-    handleErr: HandleErrHandler<NormalError>
+    handleErr: HandleErrHandler<NormalError>,
   ) => Promise<void>;
   getLoginState: (handleErr: HandleErrHandler<NormalError>) => Promise<void>;
   logout: (
     handleOk?: () => void,
-    handleErr?: HandleErrHandler<NormalError>
+    handleErr?: HandleErrHandler<NormalError>,
   ) => Promise<void>;
 }
 
@@ -38,7 +40,7 @@ function isAuthenticatedCookie() {
   if (encodeURIComponent(true) == window.localStorage.getItem(IS_LOGIN_KEY)) {
     return true;
   }
-  
+
   const COOKIE = import.meta.env.PUBLIC_AUTH_COOKIE;
   var result = hasCookie(COOKIE);
 
@@ -60,7 +62,7 @@ export const useUserState = create<UserState>((set, store) => ({
     account,
     password,
     handleOk: () => void,
-    handleErr: HandleErrHandler<NormalError>
+    handleErr: HandleErrHandler<NormalError>,
   ) {
     const response = await loginApi({ account: account, password: password });
     if (response.success && response.data) {

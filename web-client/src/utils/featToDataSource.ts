@@ -1,5 +1,5 @@
 import type { FeatResource } from "../services";
-import { buildTree } from "./build_tree";
+import { buildTree } from "./buildTree";
 
 export interface FeatResourceTableData extends FeatResource {
   key: number;
@@ -7,19 +7,19 @@ export interface FeatResourceTableData extends FeatResource {
 }
 
 export function featResourceToDataSource(
-  feats: FeatResource[] | undefined
+  feats: FeatResource[] | undefined,
 ): FeatResourceTableData[] {
   var filterResources = feats;
   if (feats) {
     filterResources = feats
       .filter((fr) => fr.kind == 0)
       .sort((a, b) =>
-        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1
+        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1,
       );
   }
   return buildTree<FeatResource, FeatResourceTableData>(
     feats,
     (node, data) => data.parentId == node.id,
-    (data) => ({ ...data, key: data.id })
+    (data) => ({ ...data, key: data.id }),
   );
 }

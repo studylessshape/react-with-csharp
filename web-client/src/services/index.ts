@@ -1,7 +1,6 @@
-export * from "./interfaces";
-export * from "./resp";
+export * from "./types";
 
 export * from "./api";
 
 export * from "./account";
-export * from "./feat_resource";
+export * from "./featResource";

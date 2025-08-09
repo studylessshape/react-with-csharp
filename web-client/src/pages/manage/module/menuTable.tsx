@@ -4,7 +4,7 @@ import type { FeatResource } from "@/services";
 import {
   featResourceToDataSource,
   type FeatResourceTableData,
-} from "@/utils/feat_to_data_source";
+} from "@/utils/featToDataSource";
 import { Space, Table } from "@douyinfe/semi-ui";
 import type {
   RowSelectionOnSelect,

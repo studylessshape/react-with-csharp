@@ -1,13 +1,12 @@
 import {
   createFileRoute,
   useCanGoBack,
-  useMatch,
   useNavigate,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useUserState } from "../stores";
+import { useUserState } from "@/stores";
 import { Toast } from "@douyinfe/semi-ui";
-import { LoginPage } from "../components/LoginPage";
+import { LoginPage } from "@/components/LoginPage";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,

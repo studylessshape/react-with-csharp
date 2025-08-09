@@ -1,7 +1,7 @@
 import type { FeatResource, FeatResourceDetail } from "@/services";
 import type { DialogFrom, DialogMode } from "./types";
 import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
-import { featResourceToTreeData } from "@/utils/feats_to_tree";
+import { featResourceToTreeData } from "@/utils/featsToTree";
 import { useEffect, useState } from "react";
 import { Col, Form, Row, Typography } from "@douyinfe/semi-ui";
 import { FormModal } from "@/components/FormModal";
@@ -30,7 +30,7 @@ export function FeatResourceEditor({
   const title = `${mode == "add" ? "添加" : "编辑"} - ${from == "menu" ? "菜单" : "许可"}`;
   const treeDataProps: TreeNodeData[] | undefined = featResourceToTreeData(
     datas,
-    mode == "add" ? undefined : (data) => data.id == feat?.id
+    mode == "add" ? undefined : (data) => data.id == feat?.id,
   );
   const initValues =
     mode == "add"

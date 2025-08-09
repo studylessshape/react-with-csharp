@@ -18,7 +18,7 @@ export interface AuthOptions {
   location?: boolean;
   permissions?: string[];
   allPermission?: boolean;
-  role?: string[];
+  roles?: string[];
 }
 
 export function useAuth(opts?: AuthOptions) {
@@ -33,8 +33,8 @@ export function useAuth(opts?: AuthOptions) {
     }
   }
 
-  if (opts?.role && opts.role.length > 0) {
-    if (!isSystem && !userState.hasAnyRole(opts.role)) {
+  if (opts?.roles && opts.roles.length > 0) {
+    if (!isSystem && !userState.hasAnyRole(opts.roles)) {
       return false;
     }
   }
@@ -62,7 +62,7 @@ export function useAuth(opts?: AuthOptions) {
 
 export function canAccessPage(
   location: ParsedLocation<{}>,
-  menuState: MenuResourceState | undefined
+  menuState: MenuResourceState | undefined,
 ) {
   const menus = menuState?.menus;
   return menus && menus.some((m) => m.url == location.pathname);

@@ -1,11 +1,11 @@
 import type { MenuItemProps } from "../components/Layout";
 import { SemiIcon } from "../components/SemiIcon";
 import type { FeatResource } from "../services";
-import { buildTree } from "./build_tree";
+import { buildTree } from "./buildTree";
 
 export function featResourceToMenuProps(
   skipRoot: boolean,
-  featResources: FeatResource[] | undefined
+  featResources: FeatResource[] | undefined,
 ) {
   var paramFeatResources = featResources;
   if (featResources) {
@@ -24,6 +24,6 @@ export function featResourceToMenuProps(
       name: node.name,
       descprition: node.description,
       icon: new SemiIcon({ name: node.icon }).render(),
-    })
+    }),
   );
 }

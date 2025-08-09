@@ -26,8 +26,8 @@ namespace Less.Auth.Dal.FeatResourceClaims
                 query = query
                     // This method can't be translated to sql
                     //.WhereAnyContains(claims, (fc, c) => fc.ClaimEntity.ClaimType == c.Type && fc.ClaimEntity.ClaimValue == c.Value)
-                    .WhereAnyContains(fc => fc.ClaimEntity!.ClaimType, claims.Select(c => c.Type).Distinct())
-                    .WhereAnyContains(fc => fc.ClaimEntity!.ClaimValue, claims.Select(c => c.Value).Distinct());
+                    .WhereAnyContains(claims.Select(c => c.Type).Distinct(), fc => fc.ClaimEntity!.ClaimType)
+                    .WhereAnyContains(claims.Select(c => c.Value).Distinct(), fc => fc.ClaimEntity!.ClaimValue);
             }
             return query.Select(predicate).Distinct();
         }

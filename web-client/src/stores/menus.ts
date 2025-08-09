@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { FeatResource } from "../services/interfaces";
+import type { FeatResource } from "@/services";
 
 export interface MenuResourceState {
   menus?: FeatResource[];

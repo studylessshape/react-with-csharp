@@ -45,7 +45,7 @@ namespace Less.Auth.WebApi.Models
             };
         }
 
-        public static Expression<Func<FeatResource, FeatResourceDto>> FromDataExpr = featResource => new FeatResourceDto()
+        public static Expression<Func<FeatResource, FeatResourceDto>> FromDataExpr { get; } = featResource => new FeatResourceDto()
         {
             Id = featResource.Id,
             Name = featResource.Name,

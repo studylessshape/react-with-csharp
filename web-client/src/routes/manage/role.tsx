@@ -1,3 +1,4 @@
+import { DataTable } from "@/components/DataTable";
 import { RouteGuard } from "@/components/RouteGuard";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -14,5 +15,5 @@ function RouteComponent() {
 }
 
 function RouteContent() {
-  return <div>Hello "/manage/role"!</div>;
+  return <div>{/*<DataTable></DataTable>*/}</div>;
 }

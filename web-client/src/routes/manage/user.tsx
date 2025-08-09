@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { RouteGuard } from "../../components/RouteGuard";
+import { RouteGuard } from "@/components/RouteGuard";
 
 export const Route = createFileRoute("/manage/user")({
   component: RouteComponent,

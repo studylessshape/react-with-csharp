@@ -5,26 +5,26 @@ import type {
   FeatResourceDetail,
   None,
   NormalError,
-} from "./interfaces";
+} from "./types";
 
 export function getMenus() {
   return api<FeatResource[], NormalError>(
     "/api/auth/FeatResource/GetMenus",
-    "GET"
+    "GET",
   );
 }
 
 export function getPermissions() {
   return api<FeatResource[], NormalError>(
     "/api/auth/FeatResource/GetPermissions",
-    "GET"
+    "GET",
   );
 }
 
 export function getMenuPermissions(
   page: number,
   pageSize: number,
-  menuId?: number
+  menuId?: number,
 ) {
   return get<PagedList<FeatResource>, NormalError>(
     "/api/auth/FeatResource/GetMenuPermissions",
@@ -32,7 +32,7 @@ export function getMenuPermissions(
       page: page.toString(),
       pageSize: pageSize.toString(),
       menuId: menuId ? menuId.toString() : undefined,
-    }
+    },
   );
 }
 
@@ -40,7 +40,7 @@ export function createMenu(detail: FeatResourceDetail) {
   return api<FeatResource, NormalError>(
     "/api/auth/FeatResource/CreateMenu",
     "PUT",
-    detail
+    detail,
   );
 }
 
@@ -48,14 +48,14 @@ export function createPermission(detail: FeatResourceDetail) {
   return api<FeatResource, NormalError>(
     "/api/auth/FeatResource/CreatePermission",
     "PUT",
-    detail
+    detail,
   );
 }
 
 export function deleteResource(id: number) {
   return api<None, NormalError>(
     `/api/auth/FeatResource/DeleteResource?id=${id}`,
-    "DELETE"
+    "DELETE",
   );
 }
 
@@ -63,7 +63,7 @@ export function deleteManyResource(ids: number[]) {
   return api<number, NormalError>(
     `/api/auth/FeatResource/DeleteManyResource`,
     "DELETE",
-    ids
+    ids,
   );
 }
 
@@ -71,7 +71,7 @@ export function updateMenu(menu: FeatResource) {
   return api<None, NormalError>(
     `/api/auth/FeatResource/UpdateMenu`,
     "POST",
-    menu
+    menu,
   );
 }
 
@@ -79,6 +79,6 @@ export function updatePermission(permission: FeatResource) {
   return api<None, NormalError>(
     `/api/auth/FeatResource/UpdatePermission`,
     "POST",
-    permission
+    permission,
   );
 }

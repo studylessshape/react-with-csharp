@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ErrorRoutePage } from "../components/ErrorRoutePage";
-import { UnauthorizedErrorName } from "../components/ErrorRoutePage/UnauthorizedComponent";
+import { ErrorRoutePage } from "@/components/ErrorRoutePage";
+import { UnauthorizedErrorName } from "@/components/ErrorRoutePage/UnauthorizedComponent";
 
 export const Route = createFileRoute("/unauthorized")({
   component: RouteComponent,

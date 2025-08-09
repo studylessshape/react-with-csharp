@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { RouteGuard } from "../../components/RouteGuard";
-import { MenuPart } from "../../pages/manage/module/menuPart";
-import { Space } from "@douyinfe/semi-ui";
+import { RouteGuard } from "@/components/RouteGuard";
+import { MenuPart } from "@/pages/manage/module/menuPart";
 import { PermissionPart } from "@/pages/manage/module/permissionPart";
 import { useState } from "react";
 import type { FeatResource } from "@/services";
@@ -20,7 +19,7 @@ function RouteComponent() {
 
 function RouteContent() {
   const [selectedMenu, setSelectedMenus] = useState(
-    undefined as FeatResource | undefined
+    undefined as FeatResource | undefined,
   );
 
   return (
