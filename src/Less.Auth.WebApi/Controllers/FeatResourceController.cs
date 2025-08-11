@@ -59,7 +59,7 @@ namespace Less.Auth.WebApi.Controllers
                 {
                     query = query.Where(f => f.ParentId == request.MenuId);
                 }
-                return query.Where(f => f.Kind == FeatResource.PERMISSION_KIND);
+                return query.Where(f => f.Kind == FeatResource.PERMISSION_KIND).OrderBy(f => f.Id);
             });
             return Resp.Ok(list);
         }

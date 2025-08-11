@@ -6,7 +6,13 @@ import {
   type FeatResource,
 } from "@/services";
 import { PermissionTable } from "./permissionTable";
-import { Highlight, Space, Toast, Tooltip } from "@douyinfe/semi-ui";
+import {
+  Highlight,
+  Space,
+  Toast,
+  Tooltip,
+  Typography,
+} from "@douyinfe/semi-ui";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import { IconDeleteStroked, IconEdit, IconPlus } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
@@ -120,40 +126,46 @@ export function PermissionPart(props: PermissionPartProps) {
         className={`w-full h-full flex flex-col ${props.className ?? ""}`}
         style={props.style}
       >
-        <Space className="m-y-2">
-          <PermissionButton
-            permissions={[PermissionAdd]}
-            icon={<IconPlus />}
-            theme="solid"
-            onClick={() => {
-              setEditFeat(undefined);
-              showDialog("add");
-            }}
-            disabled={props.parent == undefined}
-          >
-            添加许可
-          </PermissionButton>
-          <DeleteButton
-            permissions={[PermissionDelete]}
-            icon={<IconDeleteStroked />}
-            disabled={selectedRows == undefined || selectedRows.length == 0}
-            onConfirm={() => {
-              if (selectedRows) {
-                handleResp(deleteManyResource(selectedRows.map((r) => r.id)), {
-                  handleOk: (count) => {
-                    Toast.success(`成功删除 ${count} 个菜单项`);
-                    setSelectedRows(undefined);
-                    setRefreshTable(!refreshTable);
-                  },
-                });
-              }
-            }}
-          >
-            删除选中许可
-          </DeleteButton>
-          <CurrentMenu menu={props.parent} />
-        </Space>
         <PermissionTable
+          title={
+            <Space>
+              <Typography.Title heading={4}>许可列表</Typography.Title>
+              <PermissionButton
+                permissions={[PermissionAdd]}
+                icon={<IconPlus />}
+                theme="solid"
+                onClick={() => {
+                  setEditFeat(undefined);
+                  showDialog("add");
+                }}
+                disabled={props.parent == undefined}
+              >
+                添加许可
+              </PermissionButton>
+              <DeleteButton
+                permissions={[PermissionDelete]}
+                icon={<IconDeleteStroked />}
+                disabled={selectedRows == undefined || selectedRows.length == 0}
+                onConfirm={() => {
+                  if (selectedRows) {
+                    handleResp(
+                      deleteManyResource(selectedRows.map((r) => r.id)),
+                      {
+                        handleOk: (count) => {
+                          Toast.success(`成功删除 ${count} 个菜单项`);
+                          setSelectedRows(undefined);
+                          setRefreshTable(!refreshTable);
+                        },
+                      }
+                    );
+                  }
+                }}
+              >
+                删除选中许可
+              </DeleteButton>
+              <CurrentMenu menu={props.parent} />
+            </Space>
+          }
           parentId={props.parent?.id}
           refresh={refreshTable}
           actionRender={actionRender}

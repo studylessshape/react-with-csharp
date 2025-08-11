@@ -17,6 +17,7 @@ import { useMemo, type ReactNode } from "react";
 export function MenuDataTable({
   menus,
   loading,
+  title,
   onDoubleClickRow,
   onSelect,
   onSelectAll,
@@ -24,6 +25,7 @@ export function MenuDataTable({
 }: {
   menus: FeatResource[] | undefined;
   loading?: boolean;
+  title?: ReactNode | ((pageData?: FeatResourceTableData[]) => ReactNode);
   onDoubleClickRow?: (row: FeatResource) => void;
   onSelect?: RowSelectionOnSelect<FeatResourceTableData>;
   onSelectAll?: RowSelectionOnSelectAll<FeatResourceTableData>;
@@ -60,6 +62,7 @@ export function MenuDataTable({
 
   return (
     <DataTable
+      title={title}
       data={menus}
       dataToTableData={(data) => featResourceToDataSource(data)}
       columns={columns}

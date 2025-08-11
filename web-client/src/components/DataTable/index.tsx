@@ -44,6 +44,7 @@ export interface DataTableProps<
   emptyTitle?: ReactNode;
   emptyMessage?: ReactNode;
   defaultPageSize?: number;
+  title?: ReactNode | ((pageData?: TableDataType[]) => ReactNode);
 }
 
 export function DataTable<
@@ -99,6 +100,7 @@ export function DataTable<
 
   return (
     <Table
+      title={props.title}
       className={`semi-color-bg-1 semi-border-color border border-solid ${props.className ?? ""}`}
       size={props.size}
       dataSource={tableData}

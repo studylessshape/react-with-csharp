@@ -7,18 +7,20 @@ import type {
   RowSelectionOnSelect,
   RowSelectionOnSelectAll,
 } from "@douyinfe/semi-ui/lib/es/table";
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { DataTable, type PaginationData } from "@/components/DataTable";
 
 export function PermissionTable({
   parentId,
   refresh,
+  title,
   onSelect,
   onSelectAll,
   actionRender,
 }: {
   parentId?: number;
   refresh?: any;
+  title?: ReactNode | ((pageData?: FeatResourceTableData[]) => ReactNode);
   onSelect?: RowSelectionOnSelect<FeatResourceTableData>;
   onSelectAll?: RowSelectionOnSelectAll<FeatResourceTableData>;
   actionRender?: ColumnRender<FeatResourceTableData>;
@@ -41,7 +43,7 @@ export function PermissionTable({
       const result = await getMenuPermissions(
         page?.currentPage ?? 1,
         page?.pageSize ?? 10,
-        parentId,
+        parentId
       );
       if (result.success) {
         return result.data;
@@ -55,10 +57,11 @@ export function PermissionTable({
   return (
     <div className="w-full">
       <DataTable
+        title={title}
         loadData={loadPermissions}
         dataToTableData={(data) =>
           data.content.map(
-            (f) => ({ key: f.id, ...f }) as FeatResourceTableData,
+            (f) => ({ key: f.id, ...f }) as FeatResourceTableData
           )
         }
         size="small"

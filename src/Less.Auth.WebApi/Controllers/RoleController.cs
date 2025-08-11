@@ -36,7 +36,7 @@ namespace Less.Auth.WebApi.Controllers
             return Resp.Ok(await claimRepo.PaginateAsync(req.Page,
                                                          req.PageSize,
                                                          ClaimEntityDto.FromDataExpr,
-                                                         query => query.Where(c => c.ClaimType == ClaimTypes.Role)));
+                                                         query => query.Where(c => c.ClaimType == ClaimTypes.Role).OrderBy(c => c.Id)));
         }
 
         /// <summary>

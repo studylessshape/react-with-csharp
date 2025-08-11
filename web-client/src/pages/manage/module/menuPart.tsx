@@ -1,4 +1,4 @@
-import { Button, Space, Toast } from "@douyinfe/semi-ui";
+import { Button, Space, Toast, Typography } from "@douyinfe/semi-ui";
 import {
   createMenu,
   deleteManyResource,
@@ -31,16 +31,16 @@ export function MenuPart({
 }) {
   const [menus, setMenus] = useState(undefined as FeatResource[] | undefined);
   const [editMenu, setEditMenu] = useState(
-    undefined as FeatResource | undefined,
+    undefined as FeatResource | undefined
   );
   const [loading, setLoading] = useState(false);
   const [selectedMenus, setSelectedMenus] = useState(
-    undefined as FeatResource[] | undefined,
+    undefined as FeatResource[] | undefined
   );
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [dialogVisible, setDialogVisiable] = useState(false);
   const [doubleMenu, setDoubleMenu] = useState(
-    undefined as FeatResource | undefined,
+    undefined as FeatResource | undefined
   );
 
   function setDouble(row: FeatResource | undefined) {
@@ -101,7 +101,7 @@ export function MenuPart({
                       }
                       if (selectedMenus?.some((f) => f.id == row.id) == true) {
                         setSelectedMenus(
-                          selectedMenus.filter((f) => f.id != row.id),
+                          selectedMenus.filter((f) => f.id != row.id)
                         );
                       }
                     },
@@ -120,65 +120,73 @@ export function MenuPart({
 
   return (
     <>
-      <div className="w-full h-full flex flex-col">
-        <Space className="m-y-2">
-          <PermissionButton
-            permissions={[PermissionAdd]}
-            theme="solid"
-            icon={<IconPlus />}
-            disabled={selectedMenus != undefined && selectedMenus.length > 1}
-            onClick={() =>
-              openDialog(
-                selectedMenus == undefined || selectedMenus.length == 0
-                  ? undefined
-                  : selectedMenus[0],
-                "add",
-              )
-            }
-          >
-            添加菜单
-          </PermissionButton>
-          <DeleteButton
-            title="是否删除选定菜单？"
-            permissions={[PermissionDelete]}
-            icon={<IconDeleteStroked />}
-            children="删除选中菜单"
-            disabled={selectedMenus == undefined || selectedMenus.length == 0}
-            onConfirm={() => {
-              if (selectedMenus) {
-                handleResp(deleteManyResource(selectedMenus.map((m) => m.id)), {
-                  handleOk: (count) => {
-                    Toast.success(`成功删除 ${count} 个菜单项`);
-                    loadMenus();
-                    if (
-                      doubleMenu &&
-                      selectedMenus.some((f) => f.id == doubleMenu.id)
-                    ) {
-                      setDouble(undefined);
-                    }
-                    setSelectedMenus(undefined);
-                  },
-                });
-              }
-            }}
-          />
-        </Space>
-        <div className="overflow-auto flex-1 flex">
-          <MenuDataTable
-            menus={menus}
-            loading={loading}
-            onSelect={(_row, _selected, selectedRows) => {
-              setSelectedMenus(selectedRows);
-            }}
-            onSelectAll={(_selected, selectedRows) => {
-              setSelectedMenus(selectedRows);
-            }}
-            onDoubleClickRow={(row) => {
-              setDouble(row);
-            }}
-            actionRender={actionRender}
-          />
-        </div>
+      <div className="w-full h-full">
+        <MenuDataTable
+          title={
+            <Space>
+              <Typography.Title heading={4}>菜单列表</Typography.Title>
+              <PermissionButton
+                permissions={[PermissionAdd]}
+                theme="solid"
+                icon={<IconPlus />}
+                disabled={
+                  selectedMenus != undefined && selectedMenus.length > 1
+                }
+                onClick={() =>
+                  openDialog(
+                    selectedMenus == undefined || selectedMenus.length == 0
+                      ? undefined
+                      : selectedMenus[0],
+                    "add"
+                  )
+                }
+              >
+                添加菜单
+              </PermissionButton>
+              <DeleteButton
+                title="是否删除选定菜单？"
+                permissions={[PermissionDelete]}
+                icon={<IconDeleteStroked />}
+                children="删除选中菜单"
+                disabled={
+                  selectedMenus == undefined || selectedMenus.length == 0
+                }
+                onConfirm={() => {
+                  if (selectedMenus) {
+                    handleResp(
+                      deleteManyResource(selectedMenus.map((m) => m.id)),
+                      {
+                        handleOk: (count) => {
+                          Toast.success(`成功删除 ${count} 个菜单项`);
+                          loadMenus();
+                          if (
+                            doubleMenu &&
+                            selectedMenus.some((f) => f.id == doubleMenu.id)
+                          ) {
+                            setDouble(undefined);
+                          }
+                          setSelectedMenus(undefined);
+                        },
+                      }
+                    );
+                  }
+                }}
+              />
+            </Space>
+          }
+          menus={menus}
+          loading={loading}
+          onSelect={(_row, _selected, selectedRows) => {
+            setSelectedMenus(selectedRows);
+          }}
+          onSelectAll={(_selected, selectedRows) => {
+            setSelectedMenus(selectedRows);
+          }}
+          onDoubleClickRow={(row) => {
+            setDouble(row);
+          }}
+          actionRender={actionRender}
+        />
       </div>
       <FeatResourceEditor
         visible={dialogVisible}
