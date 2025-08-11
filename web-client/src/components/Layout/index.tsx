@@ -49,7 +49,7 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
   const headerPosition = props.headerPosition ?? "navbar";
 
   const header = (
-    <Header className="semi-color-bg-1 semi-border-color border border-solid">
+    <Header className="semi-border-color border border-solid semi-always-dark">
       <Nav
         mode="horizontal"
         header={headerPosition == "navbar" ? props.header : undefined}

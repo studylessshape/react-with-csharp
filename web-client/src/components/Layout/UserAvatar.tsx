@@ -1,5 +1,5 @@
 import { IconExit, IconUser } from "@douyinfe/semi-icons";
-import { Avatar, Dropdown, Toast } from "@douyinfe/semi-ui";
+import { Avatar, Card, Dropdown, Toast, Typography } from "@douyinfe/semi-ui";
 import { useMenuState, useUserState } from "../../stores";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -33,7 +33,15 @@ export function UserAvatar(props: UserAvatarProps) {
         position={props.dropdownPosition ?? "bottomRight"}
         render={
           <Dropdown.Menu>
-            <Dropdown.Title>用户: {user?.name}</Dropdown.Title>
+            <Dropdown.Title>
+              <div className="flex items-center">
+                <Avatar size="default">{user?.name}</Avatar>
+                <div className="m-l-2">
+                  <Typography.Text className="font-bold">{user?.name}</Typography.Text>
+                  <div>Account: {user?.account}</div>
+                </div>
+              </div>
+            </Dropdown.Title>
             <Dropdown.Item onClick={onUserCenterClick}>
               <IconUser />
               个人中心

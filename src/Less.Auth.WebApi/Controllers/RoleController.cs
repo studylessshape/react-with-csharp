@@ -31,12 +31,12 @@ namespace Less.Auth.WebApi.Controllers
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Resp<PagedList<ClaimEntityDto>>> GetRoles([FromQuery] RolePageReq req)
+        public async Task<Resp<PagedList<ClaimEntity>>> GetRoles([FromQuery] RolePageReq req)
         {
             return Resp.Ok(await claimRepo.PaginateAsync(req.Page,
                                                          req.PageSize,
-                                                         ClaimEntityDto.FromDataExpr,
-                                                         query => query.Where(c => c.ClaimType == ClaimTypes.Role).OrderBy(c => c.Id)));
+                                                         query => query.Where(c => c.ClaimType == ClaimTypes.Role)
+                                                                       .OrderBy(c => c.Id)));
         }
 
         /// <summary>
