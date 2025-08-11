@@ -26,8 +26,8 @@ export interface DataTableProps<
     pageData?: PaginationData
   ) => Promise<LoadingDataType | undefined>;
   data?: LoadingDataType;
-  dataToTableData: (data: LoadingDataType) => TableDataType[];
-  columns: ColumnProps[];
+  dataToTableData?: (data: LoadingDataType) => TableDataType[];
+  columns?: ColumnProps[];
   total?: (data: LoadingDataType) => number;
   pageSizeOpts?: Array<number>;
   onDoubleClickRow?: (row: RecordType) => void;
@@ -66,7 +66,7 @@ export function DataTable<
       props
         .loadData(page)
         .then((value) => {
-          if (value) {
+          if (value && props.dataToTableData) {
             setTableData(props.dataToTableData(value));
             if (props.total) {
               setPageData({ ...page, total: props.total(value) });
@@ -88,7 +88,7 @@ export function DataTable<
   }, [props.changingForResetPage]);
 
   useEffect(() => {
-    if (props.data) {
+    if (props.data && props.dataToTableData) {
       setTableData(props.dataToTableData(props.data));
       if (props.total) {
         setPageData({ ...pageData, total: props.total(props.data) });
