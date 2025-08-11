@@ -76,7 +76,7 @@ export function MenuDataTable({
         onSelectAll: onSelectAll,
       }}
       scroll={{ x: 400, y: 500 }}
-      style={{ height: 500 }}
+      style={{ height: 600 }}
     />
   );
 }

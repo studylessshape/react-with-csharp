@@ -4,13 +4,7 @@ import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import { RouteGuard } from "@/components/RouteGuard";
 import type { ClaimEntity } from "@/services";
 import { getRoles } from "@/services/role";
-import {
-  IconDeleteStroked,
-  IconLayers,
-  IconModalStroked,
-  IconPlus,
-  IconStackBarChartStroked,
-} from "@douyinfe/semi-icons";
+import { IconDeleteStroked, IconLayers, IconPlus } from "@douyinfe/semi-icons";
 import { Space, Toast, Typography } from "@douyinfe/semi-ui";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
 import { createFileRoute } from "@tanstack/react-router";
@@ -49,7 +43,7 @@ function RouteContent() {
             <PermissionButton
               theme="borderless"
               style={{
-                color: "#4ade80",
+                color: "green",
               }}
               icon={<IconLayers />}
               permissions={["role_manage:edit"]}
@@ -67,9 +61,10 @@ function RouteContent() {
     },
   ];
   return (
-    <div>
+    <div className="h-full">
       <DataTable
         scroll={{ x: 500 }}
+        tableClassName="h-full"
         title={
           <div className="flex justify-between">
             <Space>

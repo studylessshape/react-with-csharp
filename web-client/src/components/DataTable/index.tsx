@@ -2,50 +2,16 @@ import {
   IllustrationNoResult,
   IllustrationNoResultDark,
 } from "@douyinfe/semi-illustrations";
-import { Empty, Table } from "@douyinfe/semi-ui";
-import type {
-  ColumnProps,
-  Scroll,
-  RowSelection,
-  Size,
-} from "@douyinfe/semi-ui/lib/es/table";
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { Empty, Pagination, Table } from "@douyinfe/semi-ui";
+import type { PaginationProps } from "@douyinfe/semi-ui/lib/es/pagination";
+import { useEffect, useMemo, useState } from "react";
+import {
+  formatPaginationData,
+  type DataTableProps,
+  type PaginationData,
+} from "./types";
 
-export interface PaginationData {
-  currentPage?: number;
-  pageSize?: number;
-  total?: number;
-}
-
-export interface DataTableProps<
-  TableDataType extends { children?: TableDataType[] } & RecordType,
-  LoadingDataType extends object,
-  RecordType = Record<string, any>,
-> {
-  loadData?: (
-    pageData?: PaginationData
-  ) => Promise<LoadingDataType | undefined>;
-  data?: LoadingDataType;
-  dataToTableData?: (data: LoadingDataType) => TableDataType[];
-  columns?: ColumnProps[];
-  total?: (data: LoadingDataType) => number;
-  pageSizeOpts?: Array<number>;
-  onDoubleClickRow?: (row: RecordType) => void;
-  rowSelection?: RowSelection<TableDataType> | undefined;
-  size?: Size;
-  scroll?: Scroll;
-  defaultExpandedRowKeys?: (string | number)[];
-  style?: CSSProperties;
-  className?: string;
-  loading?: boolean;
-  changing?: any;
-  changingForResetPage?: any;
-  resizable?: boolean;
-  emptyTitle?: ReactNode;
-  emptyMessage?: ReactNode;
-  defaultPageSize?: number;
-  title?: ReactNode | ((pageData?: TableDataType[]) => ReactNode);
-}
+export * from "./types";
 
 export function DataTable<
   TableDataType extends { children?: TableDataType[] } & RecordType,
@@ -60,6 +26,45 @@ export function DataTable<
     currentPage: 1,
     pageSize: props.defaultPageSize ?? 10,
   } as PaginationData);
+  const pagination: PaginationProps | undefined = useMemo(
+    () =>
+      props.total == undefined
+        ? undefined
+        : {
+            pageSizeOpts: props.pageSizeOpts,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: true,
+            onPageChange: (currentPage) => {
+              setPageData({ ...pageData, currentPage: currentPage });
+              loadData({ ...pageData, currentPage: currentPage });
+            },
+            onPageSizeChange: (newPageSize) => {
+              const total = pageData.total ?? 0;
+              var currentPage = pageData.currentPage ?? 1;
+              const newTotalPage = Math.ceil(total / newPageSize);
+
+              if (currentPage > 1 && newTotalPage < currentPage) {
+                currentPage = newTotalPage;
+              }
+
+              if (currentPage <= 0) {
+                currentPage = 1;
+              }
+              setPageData({
+                currentPage: currentPage,
+                total: pageData.total,
+                pageSize: newPageSize,
+              });
+              loadData({
+                pageSize: newPageSize,
+                currentPage: currentPage,
+                total: total,
+              });
+            },
+          },
+    [props.total]
+  );
 
   function loadData(page?: PaginationData) {
     if (!loading && props.loadData) {
@@ -99,59 +104,56 @@ export function DataTable<
   }, [props.data]);
 
   return (
-    <Table
-      title={props.title}
-      className={`semi-color-bg-1 semi-border-color border border-solid ${props.className ?? ""}`}
-      size={props.size}
-      dataSource={tableData}
-      columns={props.columns}
-      loading={props.loading ?? loading}
-      defaultExpandedRowKeys={props.defaultExpandedRowKeys}
-      sticky={props.scroll != undefined}
-      bordered
-      resizable={props.resizable}
-      scroll={props.scroll}
+    <div
+      className={`semi-color-bg-1 semi-border-color border border-solid flex flex-col ${props.className ?? ""}`}
       style={props.style}
-      rowSelection={props.rowSelection}
-      pagination={
-        props.total
-          ? {
-              ...pageData,
-              pageSizeOpts: props.pageSizeOpts,
-              showSizeChanger: true,
-              showQuickJumper: true,
-              onPageChange: (currentPage) => {
-                setPageData({ ...pageData, currentPage: currentPage });
-                loadData({ ...pageData, currentPage: currentPage });
-              },
-              onPageSizeChange: (newPageSize) => {
-                setPageData({ ...pageData, pageSize: newPageSize });
-                loadData({
-                  ...pageData,
-                  pageSize: newPageSize,
-                  currentPage: 1,
-                });
-              },
-            }
-          : false
-      }
-      onRow={(record) => {
-        const row = record as RecordType;
-        return {
-          onDoubleClick: () => {
-            if (props.onDoubleClickRow) props.onDoubleClickRow(row);
-          },
-        };
-      }}
-      empty={
-        <Empty
-          image={<IllustrationNoResult />}
-          darkModeImage={<IllustrationNoResultDark />}
-          title={props.emptyTitle}
-        >
-          {props.emptyMessage ?? "没有数据"}
-        </Empty>
-      }
-    ></Table>
+    >
+      <Table
+        title={props.title}
+        className={`flex-1 ${props.tableClassName ?? ""}`}
+        size={props.size}
+        dataSource={tableData}
+        columns={props.columns}
+        loading={props.loading ?? loading}
+        defaultExpandedRowKeys={props.defaultExpandedRowKeys}
+        sticky={props.scroll != undefined}
+        bordered
+        resizable={props.resizable}
+        scroll={props.scroll}
+        style={props.tableStyle}
+        rowSelection={props.rowSelection}
+        pagination={false}
+        onRow={(record) => {
+          const row = record as RecordType;
+          return {
+            onDoubleClick: () => {
+              if (props.onDoubleClickRow) props.onDoubleClickRow(row);
+            },
+          };
+        }}
+        empty={
+          <Empty
+            image={<IllustrationNoResult />}
+            darkModeImage={<IllustrationNoResultDark />}
+            title={props.emptyTitle}
+          >
+            {props.emptyMessage ?? "没有数据"}
+          </Empty>
+        }
+      ></Table>
+      {pagination == undefined || pageData.total == 0 ? undefined : (
+        <div className="flex justify-between items-center p-3.5">
+          <div className="semi-color-text-2 font-size-3.5">
+            {formatPaginationData(pageData)}
+          </div>
+          <Pagination
+            {...pageData}
+            {...pagination}
+            popoverPosition={props.popoverPosition}
+            disabled={loading}
+          ></Pagination>
+        </div>
+      )}
+    </div>
   );
 }

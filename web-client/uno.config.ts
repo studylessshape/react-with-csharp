@@ -10,5 +10,6 @@ export default defineConfig({
     ["semi-shadow-elevated", { "box-shadow": "var(--semi-shadow-elevated)" }],
     ["semi-color-bg-1", { "background-color": "var(--semi-color-bg-1)" }],
     ["scrollbar-gutter-stable", { "scrollbar-gutter": "stable" }],
+    ["semi-color-text-2", { color: "var(--semi-color-text-2)" }],
   ],
 });

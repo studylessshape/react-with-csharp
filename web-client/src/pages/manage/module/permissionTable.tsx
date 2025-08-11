@@ -55,28 +55,27 @@ export function PermissionTable({
   }
 
   return (
-    <div className="w-full">
-      <DataTable
-        title={title}
-        loadData={loadPermissions}
-        dataToTableData={(data) =>
-          data.content.map(
-            (f) => ({ key: f.id, ...f }) as FeatResourceTableData
-          )
-        }
-        size="small"
-        total={(data) => data.total}
-        pageSizeOpts={[10, 20, 40, 80, 100]}
-        columns={columns}
-        scroll={{ x: 400, y: 500 }}
-        rowSelection={{
-          fixed: true,
-          onSelect: onSelect,
-          onSelectAll: onSelectAll,
-        }}
-        changingForResetPage={parentId}
-        changing={refresh}
-      ></DataTable>
-    </div>
+    <DataTable
+      className="h-full"
+      title={title}
+      loadData={loadPermissions}
+      dataToTableData={(data) =>
+        data.content.map((f) => ({ key: f.id, ...f }) as FeatResourceTableData)
+      }
+      size="small"
+      total={(data) => data.total}
+      pageSizeOpts={[10, 20, 40, 80, 100]}
+      columns={columns}
+      scroll={{ x: 400, y: 420 }}
+      style={{ height: 580 }}
+      rowSelection={{
+        fixed: true,
+        onSelect: onSelect,
+        onSelectAll: onSelectAll,
+      }}
+      changingForResetPage={parentId}
+      changing={refresh}
+      popoverPosition="top"
+    ></DataTable>
   );
 }
