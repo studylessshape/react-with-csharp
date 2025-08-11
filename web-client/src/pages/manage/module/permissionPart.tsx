@@ -6,7 +6,7 @@ import {
   type FeatResource,
 } from "@/services";
 import { PermissionTable } from "./permissionTable";
-import { Space, Toast, Tooltip } from "@douyinfe/semi-ui";
+import { Highlight, Space, Toast, Tooltip } from "@douyinfe/semi-ui";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import { IconDeleteStroked, IconEdit, IconPlus } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
@@ -36,11 +36,22 @@ export interface PageInfo {
 }
 
 export function CurrentMenu({ menu }: { menu?: FeatResource }) {
+  const hightString =
+    menu == undefined
+      ? undefined
+      : [`${menu.description ?? menu.name}(${menu.id})`];
   return (
     <Tooltip content="双击上方菜单条目查看">
-      <span>
-        当前菜单项：{menu?.description ?? menu?.name} - {menu?.id}
-      </span>
+      <Highlight
+        sourceString={`当前菜单项: ${hightString == undefined ? "" : hightString[0]}`}
+        searchWords={hightString}
+        highlightStyle={{
+          backgroundColor: "var(--semi-color-primary)",
+          color: "rgba(var(--semi-white), 1)",
+          padding: 1,
+          borderRadius: 4,
+        }}
+      ></Highlight>
     </Tooltip>
   );
 }
@@ -49,10 +60,10 @@ export function PermissionPart(props: PermissionPartProps) {
   const [dialogMode, setDialogMode] = useState("add" as DialogMode);
   const [dialogVisible, setDialogVisiable] = useState(false);
   const [selectedRows, setSelectedRows] = useState(
-    undefined as FeatResource[] | undefined,
+    undefined as FeatResource[] | undefined
   );
   const [editFeat, setEditFeat] = useState(
-    undefined as FeatResource | undefined,
+    undefined as FeatResource | undefined
   );
   const [refreshTable, setRefreshTable] = useState(false);
 
