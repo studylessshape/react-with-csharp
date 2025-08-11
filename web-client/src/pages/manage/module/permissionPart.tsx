@@ -17,17 +17,13 @@ import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import { IconDeleteStroked, IconEdit, IconPlus } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
 import { useEffect, useState, type CSSProperties } from "react";
-import {
-  PermissionAdd,
-  PermissionDelete,
-  PermissionEdit,
-  type DialogMode,
-} from "./types";
 import { handleResp } from "@/utils/respFlow";
 import { type FeatResourceTableData } from "@/utils/featToDataSource";
 import { PermissionButton } from "@/components/PermissionButton";
 import type { ColumnRender } from "@douyinfe/semi-ui/lib/es/table";
 import { useAuth } from "@/hooks/useAuth";
+import type { DialogMode } from "../interface";
+import { ModuleAdd, ModuleDelete, ModuleEdit } from "@/permissions";
 
 export interface PermissionPartProps {
   parent?: FeatResource;
@@ -74,13 +70,13 @@ export function PermissionPart(props: PermissionPartProps) {
   const [refreshTable, setRefreshTable] = useState(false);
 
   const actionRender: ColumnRender<FeatResourceTableData> | undefined =
-    !useAuth({ permissions: [PermissionEdit, PermissionDelete] })
+    !useAuth({ permissions: [ModuleEdit, ModuleDelete] })
       ? undefined
       : (_text, record) => {
           return (
             <Space>
               <PermissionButton
-                permissions={[PermissionEdit]}
+                permissions={[ModuleEdit]}
                 icon={<IconEdit />}
                 theme="borderless"
                 size="small"
@@ -92,7 +88,7 @@ export function PermissionPart(props: PermissionPartProps) {
                 编辑
               </PermissionButton>
               <DeleteButton
-                permissions={[PermissionDelete]}
+                permissions={[ModuleDelete]}
                 position="bottomRight"
                 icon={<IconDeleteStroked />}
                 theme="borderless"
@@ -131,7 +127,7 @@ export function PermissionPart(props: PermissionPartProps) {
             <Space>
               <Typography.Title heading={4}>许可列表</Typography.Title>
               <PermissionButton
-                permissions={[PermissionAdd]}
+                permissions={[ModuleAdd]}
                 icon={<IconPlus />}
                 theme="solid"
                 onClick={() => {
@@ -143,7 +139,7 @@ export function PermissionPart(props: PermissionPartProps) {
                 添加许可
               </PermissionButton>
               <DeleteButton
-                permissions={[PermissionDelete]}
+                permissions={[ModuleDelete]}
                 icon={<IconDeleteStroked />}
                 disabled={selectedRows == undefined || selectedRows.length == 0}
                 onConfirm={() => {

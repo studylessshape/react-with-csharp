@@ -6,11 +6,11 @@ import { Form } from "@douyinfe/semi-ui";
 
 export interface FormModalProps {
   /**
-   * `chidlren` will not efficient
+   * `form.chidlren` will not efficient
    */
   form?: BaseFormProps;
   /**
-   * `onOk` will not efficient. Use `form.onSubmit` to replace
+   * `modal.onOk` will not efficient. Use `form.onSubmit` to replace
    */
   modal?: ModalReactProps;
 }

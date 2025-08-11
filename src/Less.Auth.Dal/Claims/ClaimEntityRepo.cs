@@ -1,6 +1,7 @@
 ﻿using Less.Api.Core;
 using Less.Auth.Claims;
 using Less.DalCore.Repository;
+using Less.EntityFramework.Plus;
 using Less.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -37,10 +38,23 @@ namespace Less.Auth.Dal.Claims
             return await AddClaimAsync(ClaimTypes.Role, role);
         }
 
-        public async Task<Result<None, string>> DeleteClaimAsync(int id)
+        public async Task<Result<None, string>> DeleteClaimsAsync(int[] ids)
         {
-            var count = await DeleteAsync(q => q.Where(c => c.Id == id && c.CanBeDeleted));
-            return count >= 1 ? None.New().ToOk<string>() : "删除失败".ToErr<None, string>();
+            if (ids.Length == 0)
+            {
+                return "需要指定删除的 Id".ToErr<None, string>();
+            }
+
+            var transaction = dbContext.Database.BeginTransaction();
+            var count = await DeleteAsync(q => q.Where(c => c.CanBeDeleted).WhereAnyContains(ids, c => c.Id));
+            if (count != ids.Length)
+            {
+                transaction.Rollback();
+                return "删除失败".ToErr<None, string>();
+            }
+            transaction.Commit();
+
+            return None.New().ToOk<string>();
         }
 
         public async Task<Result<None, string>> UpdateClaimAsync(int id, string newType, string newValue)

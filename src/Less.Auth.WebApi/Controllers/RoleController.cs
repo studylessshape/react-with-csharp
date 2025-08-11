@@ -45,9 +45,9 @@ namespace Less.Auth.WebApi.Controllers
         /// <param name="detail"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<Resp<ClaimEntityDto>> CreateRole(RoleDetail detail)
+        public async Task<Resp<ClaimEntity>> CreateRole(RoleDetail detail)
         {
-            return Resp.FromResult((await claimRepo.AddRoleAsync(detail.Role)).WrapOk(ClaimEntityDto.FromData));
+            return Resp.FromResult((await claimRepo.AddRoleAsync(detail.Role)));
         }
 
         /// <summary>
@@ -61,14 +61,14 @@ namespace Less.Auth.WebApi.Controllers
         }
 
         /// <summary>
-        /// delete role by id
+        /// delete role by ids
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<Resp<None>> DeleteRole([Required][Range(1, int.MaxValue)] int id)
+        public async Task<Resp<None>> DeleteRoles([Required] int[] ids)
         {
-            return Resp.FromResult(await claimRepo.DeleteClaimAsync(id));
+            return Resp.FromResult(await claimRepo.DeleteClaimsAsync(ids));
         }
 
         /// <summary>

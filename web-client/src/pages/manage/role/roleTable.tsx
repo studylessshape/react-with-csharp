@@ -2,6 +2,7 @@ import { DataTable, type PaginationData } from "@/components/DataTable";
 import { PermissionButton } from "@/components/PermissionButton";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import { useAuth } from "@/hooks/useAuth";
+import { RoleAdd, RoleDelete, RoleEdit } from "@/permissions";
 import type { ClaimEntity } from "@/services";
 import { getRoles } from "@/services/role";
 import {
@@ -12,16 +13,7 @@ import {
 } from "@douyinfe/semi-icons";
 import { Space, Toast, Typography } from "@douyinfe/semi-ui";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
-import { useMemo, useState } from "react";
-
-async function loadRoles(page?: PaginationData) {
-  const response = await getRoles(page?.currentPage ?? 1, page?.pageSize ?? 10);
-  if (response.success) {
-    return response.data;
-  }
-  Toast.error(response.message ?? "获取角色失败");
-  return undefined;
-}
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export interface RoleTableProps {
   assignModuleCallback?: (entity: ClaimEntity) => Promise<void> | void;
@@ -52,8 +44,13 @@ export function RoleTable(props: RoleTableProps) {
             <Space>
               <PermissionButton
                 theme="borderless"
-                permissions={["role_manage:edit"]}
+                permissions={[RoleEdit]}
                 icon={<IconEdit />}
+                onClick={() => {
+                  if (props.editRoleCallback) {
+                    props.editRoleCallback(record);
+                  }
+                }}
               >
                 编辑
               </PermissionButton>
@@ -63,7 +60,7 @@ export function RoleTable(props: RoleTableProps) {
                   color: "green",
                 }}
                 icon={<IconLayers />}
-                permissions={["role_manage:edit"]}
+                permissions={[RoleEdit]}
                 onClick={() => {
                   if (props.assignModuleCallback) {
                     props.assignModuleCallback(record);
@@ -76,7 +73,7 @@ export function RoleTable(props: RoleTableProps) {
                 theme="borderless"
                 icon={<IconDeleteStroked />}
                 position="bottomRight"
-                permissions={["role_manage:delete"]}
+                permissions={[RoleDelete]}
                 onConfirm={() => {
                   if (props.deleteRoleCallback) {
                     props.deleteRoleCallback(record);
@@ -93,12 +90,46 @@ export function RoleTable(props: RoleTableProps) {
   const [selectedRows, setSelectedRows] = useState(
     undefined as ClaimEntity[] | undefined
   );
+  const divRef = useRef(null as HTMLDivElement | null);
+  const [scrollY, setScrollY] = useState(590 as string | number);
+
+  function setTableScroll() {
+    if (divRef.current) {
+      const divElement = divRef.current;
+      setScrollY(divElement.clientHeight - 170);
+    }
+  }
+
+  function resizeHandler(this: Window, ev: UIEvent) {
+    setTableScroll();
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", resizeHandler);
+    setTableScroll();
+
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
+
+  async function loadRoles(page?: PaginationData) {
+    const response = await getRoles(
+      page?.currentPage ?? 1,
+      page?.pageSize ?? 10
+    );
+    if (response.success) {
+      return response.data;
+    }
+    Toast.error(response.message ?? "获取角色失败");
+    return undefined;
+  }
 
   return (
-    <div className="h-full flex flex-col">
+    <div ref={divRef} className="h-full flex flex-col">
       <DataTable
         className="h-full"
-        scroll={{ x: 500, y: 590 }}
+        scroll={{ x: 500, y: scrollY }}
         changing={props.refresh}
         title={
           <div className="flex justify-between">
@@ -107,7 +138,7 @@ export function RoleTable(props: RoleTableProps) {
               <PermissionButton
                 icon={<IconPlus />}
                 theme="solid"
-                permissions={["role_manage:add"]}
+                permissions={[RoleAdd]}
                 onClick={() => {
                   if (props.createRoleCallback) {
                     props.createRoleCallback();
@@ -118,7 +149,7 @@ export function RoleTable(props: RoleTableProps) {
               </PermissionButton>
               <DeleteButton
                 icon={<IconDeleteStroked />}
-                permissions={["role_manage:delete"]}
+                permissions={[RoleDelete]}
                 disabled={selectedRows == undefined || selectedRows.length == 0}
                 onConfirm={() => {
                   if (

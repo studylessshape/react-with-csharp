@@ -11,6 +11,6 @@ namespace Less.Auth.Claims
         public Task<Result<ClaimEntity, string>> AddRoleAsync(string role);
         public Task<Result<None, string>> UpdateClaimAsync(int id, string newType, string newValue);
         public Task<Result<None, string>> UpdateRoleAsync(int id, string role);
-        public Task<Result<None, string>> DeleteClaimAsync(int id);
+        public Task<Result<None, string>> DeleteClaimsAsync(int[] id);
     }
 }

@@ -23,8 +23,8 @@ export function updateRole(entity: ClaimEntity) {
   return api<None, NormalError>("/api/Role/UpdateRole", "POST", entity);
 }
 
-export function deleteRole(id: number) {
-  return api<None, NormalError>(`/api/Role/DeleteRole?id=${id}`, "DELETE");
+export function deleteRoles(ids: number[]) {
+  return api<None, NormalError>("/api/Role/DeleteRoles", "DELETE", ids);
 }
 
 export function assignResources(req: AssignResourceRequest) {

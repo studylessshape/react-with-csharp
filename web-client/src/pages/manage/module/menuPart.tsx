@@ -11,18 +11,14 @@ import { useEffect, useState } from "react";
 import { handleResp } from "@/utils/respFlow";
 import { type FeatResourceTableData } from "@/utils/featToDataSource";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
-import {
-  PermissionAdd,
-  PermissionDelete,
-  PermissionEdit,
-  type DialogMode,
-} from "./types";
 import { MenuDataTable } from "./menuTable";
 import { IconDeleteStroked, IconEdit, IconPlus } from "@douyinfe/semi-icons";
 import { FeatResourceEditor } from "./featResourceEditor";
 import { PermissionButton } from "@/components/PermissionButton";
 import { useAuth } from "@/hooks/useAuth";
 import type { ColumnRender } from "@douyinfe/semi-ui/lib/es/table";
+import type { DialogMode } from "../interface";
+import { ModuleAdd, ModuleDelete, ModuleEdit } from "@/permissions";
 
 export function MenuPart({
   onDoubleClickRow,
@@ -68,7 +64,7 @@ export function MenuPart({
 
   const actionRender: ColumnRender<FeatResourceTableData> | undefined =
     !useAuth({
-      permissions: [PermissionEdit, PermissionDelete],
+      permissions: [ModuleEdit, ModuleDelete],
     })
       ? undefined
       : (_t, record) => {
@@ -78,7 +74,7 @@ export function MenuPart({
             <Space>
               <PermissionButton
                 theme="borderless"
-                permissions={[PermissionEdit]}
+                permissions={[ModuleEdit]}
                 size="small"
                 icon={<IconEdit />}
                 onClick={() => openDialog(record, "edit")}
@@ -89,7 +85,7 @@ export function MenuPart({
                 position="bottomRight"
                 theme="borderless"
                 size="small"
-                permissions={[PermissionDelete]}
+                permissions={[ModuleDelete]}
                 icon={<IconDeleteStroked />}
                 onConfirm={() => {
                   handleResp(deleteResource(row.id), {
@@ -126,7 +122,7 @@ export function MenuPart({
             <Space>
               <Typography.Title heading={4}>菜单列表</Typography.Title>
               <PermissionButton
-                permissions={[PermissionAdd]}
+                permissions={[ModuleAdd]}
                 theme="solid"
                 icon={<IconPlus />}
                 disabled={
@@ -145,7 +141,7 @@ export function MenuPart({
               </PermissionButton>
               <DeleteButton
                 title="是否删除选定菜单？"
-                permissions={[PermissionDelete]}
+                permissions={[ModuleDelete]}
                 icon={<IconDeleteStroked />}
                 children="删除选中菜单"
                 disabled={

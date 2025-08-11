@@ -66,8 +66,11 @@ export function DataTable<
     [props.total]
   );
 
+  var renderLoopLoading = false;
+
   function loadData(page?: PaginationData) {
-    if (!loading && props.loadData) {
+    if (!renderLoopLoading && props.loadData) {
+      renderLoopLoading = true;
       setLoading(true);
       props
         .loadData(page)
@@ -81,6 +84,7 @@ export function DataTable<
         })
         .finally(() => {
           setLoading(false);
+          renderLoopLoading = false;
         });
     }
   }
