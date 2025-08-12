@@ -3,8 +3,6 @@ using Less.Auth.Claims;
 using Less.Auth.Dal.Claims;
 using Less.Auth.Role;
 using Less.Auth.WebApi.Models;
-using Less.Auth.WebApi.Models.ClaimEntities;
-using Less.Auth.WebApi.Models.Role;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

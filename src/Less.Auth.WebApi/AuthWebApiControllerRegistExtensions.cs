@@ -12,7 +12,7 @@ namespace Less.Auth.WebApi
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddLessAuthControllerWithCookies(this IMvcBuilder builder)
+        public static IMvcBuilder AddLessAuthServices(this IMvcBuilder builder)
         {
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(opts =>

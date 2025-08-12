@@ -1,7 +1,7 @@
 ﻿using Less.Auth.Claims;
 using System.Linq.Expressions;
 
-namespace Less.Auth.WebApi.Models.ClaimEntities
+namespace Less.Auth.WebApi.Models
 {
     public class ClaimEntityDto
     {

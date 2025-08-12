@@ -96,42 +96,6 @@ namespace Less.Auth.Users
             return user.ToOk<User, string>();
         }
 
-        public async Task<Result<None, string>> DisableUserAsync(string accout)
-        {
-            var result = from user in FindUserAsync(accout)
-                         from disabled in DisableUserAsync(user)
-                         select disabled;
-            return await result;
-        }
-
-        private async Task<Result<None, string>> DisableUserAsync(User user)
-        {
-            if (user.Status == User.DISABLE_STATUS) return None.Ok<string>();
-
-            user.Status = User.DISABLE_STATUS;
-            await userRepo.SaveChangesAsync();
-
-            return None.Ok<string>();
-        }
-
-        public async Task<Result<None, string>> EnableUserAsync(string accout)
-        {
-            var result = from user in FindUserAsync(accout)
-                         from enabled in EnableUserAsync(user)
-                         select enabled;
-            return await result;
-        }
-
-        private async Task<Result<None, string>> EnableUserAsync(User user)
-        {
-            if (user.Status == User.ENABLE_STATUS) return None.Ok<string>();
-
-            user.Status = User.ENABLE_STATUS;
-            await userRepo.SaveChangesAsync();
-
-            return None.Ok<string>();
-        }
-
         public async Task<IList<Claim>> LoadClaimsAsync(string account)
         {
             var user = await userRepo.FirstByAccountAsync(account, includeClaims: true);
@@ -217,6 +181,12 @@ namespace Less.Auth.Users
                          where user.Password == passHash
                          select user;
             return (await result).WrapErr(_ => "用户不存在或密码错误");
+        }
+
+        public async Task<Result<None, string>> ChangeUserStateAsync(string accout, int status)
+        {
+            await userRepo.UpdateAsync(q => q.Where(u => u.Account == accout), u => new User() { Status = status });
+            return None.Ok<string>();
         }
     }
 }

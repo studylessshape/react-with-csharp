@@ -27,7 +27,6 @@ namespace Less.Auth.Users
         Task<Result<User, string>> CreateUserAsync(string accout, string password, string name, string code, string? role);
         Task<Result<User, string>> UpdateUserProfileAsync(UpdateUserProfileInput updateInput);
         Task<Result<None, string>> ChangePasswordAsync(string account, string newPassword);
-        Task<Result<None, string>> EnableUserAsync(string accout);
-        Task<Result<None, string>> DisableUserAsync(string accout);
+        Task<Result<None, string>> ChangeUserStateAsync(string accout, int status);
     }
 }

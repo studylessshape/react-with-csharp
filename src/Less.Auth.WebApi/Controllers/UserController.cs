@@ -39,7 +39,7 @@ namespace Less.Auth.WebApi.Controllers
             [Required] string account,
             [Required] bool enable)
         {
-            var res = enable ? await userManager.EnableUserAsync(account) : await userManager.DisableUserAsync(account);
+            var res = await userManager.ChangeUserStateAsync(account, enable ? Users.User.ENABLE_STATUS : Users.User.DISABLE_STATUS);
             return Resp.FromResult(res);
         }
 

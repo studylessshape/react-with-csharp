@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Less.Auth.WebApi.Models.Base
+namespace Less.Auth.WebApi.Models
 {
     public class PageReq
     {

@@ -1,6 +1,5 @@
 ﻿using Less.Api.Core;
 using Less.Auth.Dal.Claims;
-using Less.Auth.FeatResourceClaims;
 using Less.Auth.FeatResources;
 using Less.Auth.WebApi.Models;
 using Less.EntityFramework.Plus;
@@ -15,13 +14,10 @@ namespace Less.Auth.WebApi.Controllers
     public class FeatResourceController : ControllerBase
     {
         private readonly IFeatResourceRepo resourceRepo;
-        private readonly IFeatResourceClaimRepo featResourceClaimRepo;
 
-        public FeatResourceController(IFeatResourceRepo resourceRepo,
-                                      IFeatResourceClaimRepo featResourceClaimRepo)
+        public FeatResourceController(IFeatResourceRepo resourceRepo)
         {
             this.resourceRepo = resourceRepo;
-            this.featResourceClaimRepo = featResourceClaimRepo;
         }
 
         /// <summary>

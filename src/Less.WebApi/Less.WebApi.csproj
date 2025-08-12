@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="TestDb\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -31,6 +30,12 @@
     <Content Update="wwwroot\.gitkeep">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestDb\.gitkeep">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
