@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.Auth.ControlFlow", "Le
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auths", "Auths", "{6C0733C6-2B68-4731-9C4D-1BDA2035FF7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Less.Api.Services", "Less.Api.Services\Less.Api.Services.csproj", "{915F6173-7E0F-4539-9FB5-C4586BD468CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{15104107-7BCF-4727-A8F0-21953FE6A161}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15104107-7BCF-4727-A8F0-21953FE6A161}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15104107-7BCF-4727-A8F0-21953FE6A161}.Release|Any CPU.Build.0 = Release|Any CPU
+		{915F6173-7E0F-4539-9FB5-C4586BD468CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{915F6173-7E0F-4539-9FB5-C4586BD468CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{915F6173-7E0F-4539-9FB5-C4586BD468CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{915F6173-7E0F-4539-9FB5-C4586BD468CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{C093540F-39A3-245A-4C07-C097EB3A2834} = {6C0733C6-2B68-4731-9C4D-1BDA2035FF7F}
 		{0E88C4B8-71E9-4BC4-B118-029BC39A6479} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{15104107-7BCF-4727-A8F0-21953FE6A161} = {6C0733C6-2B68-4731-9C4D-1BDA2035FF7F}
+		{915F6173-7E0F-4539-9FB5-C4586BD468CB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F44E65B-A2D7-4119-9468-9C25E69B3EB3}

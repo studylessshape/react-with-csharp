@@ -68,7 +68,7 @@ namespace Less.EntityFramework.Plus
             return whereOr.Build();
         }
 
-        #region don't support translate to sql
+        #region can't be translated to sql
         /// <summary>
         /// <para>Same as <see cref="WhereAnyContains{T}(IQueryable{T}, IEnumerable{T})"/>, but use <paramref name="predicate"/> to be the condition.</para>
         /// <para><b>WARN: </b> Through test, expression built by this method can't be translated to sql.</para>
