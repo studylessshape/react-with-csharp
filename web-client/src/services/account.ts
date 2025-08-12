@@ -19,6 +19,6 @@ export function getLoginState() {
   return api<UserState, NormalError>("/api/auth/GetLoginState", "GET");
 }
 
-export function getAccessMenu() {
-  return api<FeatResource[], NormalError>("/api/auth/GetAccessMenu", "GET");
+export function getAccessResources() {
+  return api<FeatResource[], NormalError>("/api/auth/GetAccessResources", "GET");
 }

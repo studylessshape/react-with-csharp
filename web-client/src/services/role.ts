@@ -6,6 +6,7 @@ import type {
   RoleDetail,
   None,
   AssignResourceRequest,
+  FeatResource
 } from "./types";
 
 export function getRoles(page: number, pageSize: number) {
@@ -29,4 +30,10 @@ export function deleteRoles(ids: number[]) {
 
 export function assignResources(req: AssignResourceRequest) {
   return api<None, NormalError>("/api/Role/AssignResources", "POST", req);
+}
+
+export function getRoleModules(roleId: number) {
+  return get<FeatResource[], NormalError>("/api/Role/GetRoleModules", {
+    roleId: roleId.toString(),
+  });
 }

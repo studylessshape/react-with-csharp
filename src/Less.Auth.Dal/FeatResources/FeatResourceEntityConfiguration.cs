@@ -79,7 +79,7 @@ namespace Less.Auth.Dal.FeatResources
             builder.HasOne(f => f.Parent).WithMany().HasForeignKey(f => f.ParentId).OnDelete(DeleteBehavior.Cascade);
             builder.HasData(InitFeatResources);
             int id = InitFeatResources.Last().Id + 1;
-            builder.HasData(InitFeatResources.Skip(1).Select(f =>
+            builder.HasData(InitFeatResources.Skip(2).Select(f =>
             {
                 return new FeatResource[]
                 {

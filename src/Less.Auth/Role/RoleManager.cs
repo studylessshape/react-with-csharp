@@ -1,8 +1,11 @@
 ﻿using Less.Api.Core;
 using Less.Auth.Claims;
 using Less.Auth.FeatResourceClaims;
+using Less.Auth.FeatResources;
 using Less.EntityFramework.Plus;
 using Less.Utils;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,21 +32,34 @@ namespace Less.Auth.Role
             }
 
             var featClaimIds = await featResourceClaimRepo.ListAsync(query => query.Where(fc => fc.ClaimEntityId == roleId), fc => fc.FeatResourceId);
-            var needDeletedIds = featClaimIds.Except(featResourcesIds);
-            var needAddedIds = featResourcesIds.Except(featClaimIds);
+            var needDeletedIds = featClaimIds.Except(featResourcesIds).ToArray();
+            var needAddedIds = featResourcesIds.Except(featClaimIds).ToArray();
 
-            // delete not exist in given feats' ids
-            await featResourceClaimRepo.DeleteAsync(q => q.Where(fc => fc.ClaimEntityId == roleId)
-                                                          .WhereAnyContains(needDeletedIds, fc => fc.FeatResourceId)
-                                                    , false);
-            // add all not exist feats relation
-            await featResourceClaimRepo.AddRangeAsync(needAddedIds.Select(fid => new FeatResourceClaim()
+            if (needDeletedIds.Length > 0)
             {
-                ClaimEntityId = roleId,
-                FeatResourceId = fid,
-            }));
+                // delete not exist in given feats' ids
+                await featResourceClaimRepo.DeleteAsync(q => q.Where(fc => fc.ClaimEntityId == roleId)
+                                                              .WhereAnyContains(needDeletedIds, fc => fc.FeatResourceId)
+                                                        , false);
+            }
+            if (needAddedIds.Length > 0)
+            {
+                // add all not exist feats relation
+                await featResourceClaimRepo.AddRangeAsync(needAddedIds.Select(fid => new FeatResourceClaim()
+                {
+                    ClaimEntityId = roleId,
+                    FeatResourceId = fid,
+                }), false);
+            }
+
+            await featResourceClaimRepo.SaveChangesAsync();
 
             return None.New().ToOk<string>();
+        }
+
+        public async Task<IList<FeatResource>> GetRoleModules(int roleId)
+        {
+            return await featResourceClaimRepo.ListAsync(query => query.Where(fc => fc.ClaimEntityId == roleId).Include(fc => fc.FeatResource), fc => fc.FeatResource!);
         }
     }
 }

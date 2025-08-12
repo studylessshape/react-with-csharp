@@ -2,6 +2,7 @@
 using Less.Auth.Claims;
 using Less.Auth.Dal.Claims;
 using Less.Auth.Role;
+using Less.Auth.WebApi.Models;
 using Less.Auth.WebApi.Models.ClaimEntities;
 using Less.Auth.WebApi.Models.Role;
 using Microsoft.AspNetCore.Authorization;
@@ -81,6 +82,18 @@ namespace Less.Auth.WebApi.Controllers
         {
             var result = await roleManager.AssignFeatResources(request.RoleId, request.FeatResourceIds);
             return Resp.FromResult(result);
+        }
+
+        /// <summary>
+        /// get target role can access modules
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<Resp<IList<FeatResourceDto>>> GetRoleModules([Required] int roleId)
+        {
+            IList<FeatResourceDto> dtos = (await roleManager.GetRoleModules(roleId)).Select(FeatResourceDto.FromData).ToList();
+            return Resp.Ok(dtos);
         }
     }
 }

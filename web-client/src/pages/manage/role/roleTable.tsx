@@ -13,7 +13,13 @@ import {
 } from "@douyinfe/semi-icons";
 import { Space, Toast, Typography } from "@douyinfe/semi-ui";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 export interface RoleTableProps {
   assignModuleCallback?: (entity: ClaimEntity) => Promise<void> | void;
@@ -23,6 +29,8 @@ export interface RoleTableProps {
   deleteRolesCallback?: (entities: ClaimEntity[]) => Promise<void> | void;
   onRowSelected?: (entity?: ClaimEntity) => void;
   refresh?: any;
+  className?: string;
+  style?: CSSProperties;
 }
 
 export function RoleTable(props: RoleTableProps) {
@@ -126,10 +134,14 @@ export function RoleTable(props: RoleTableProps) {
   }
 
   return (
-    <div ref={divRef} className="h-full flex flex-col">
+    <div
+      ref={divRef}
+      className={`flex flex-col ${props.className ?? ""}`}
+      style={props.style}
+    >
       <DataTable
         className="h-full"
-        scroll={{ x: 500, y: scrollY }}
+        scroll={{ x: 1000, y: scrollY }}
         changing={props.refresh}
         title={
           <div className="flex justify-between">

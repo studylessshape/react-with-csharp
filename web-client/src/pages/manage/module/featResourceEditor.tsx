@@ -1,5 +1,5 @@
 import type { FeatResource, FeatResourceDetail } from "@/services";
-import type { DialogFrom, DialogMode } from "./types";
+import type { DialogFrom } from "./types";
 import type { TreeNodeData } from "@douyinfe/semi-ui/lib/es/tree";
 import { featResourceToTreeData } from "@/utils/featsToTree";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { Col, Form, Row, Typography } from "@douyinfe/semi-ui";
 import { FormModal } from "@/components/FormModal";
 import { FormIconSelect } from "@/components/CustomFormItem";
 import type { FormApi } from "@douyinfe/semi-ui/lib/es/form";
+import type { DialogMode } from "../interface";
 
 export function FeatResourceEditor({
   mode,
@@ -31,6 +32,7 @@ export function FeatResourceEditor({
   const treeDataProps: TreeNodeData[] | undefined = featResourceToTreeData(
     datas,
     mode == "add" ? undefined : (data) => data.id == feat?.id,
+    (data) => data.kind == 0
   );
   const initValues =
     mode == "add"

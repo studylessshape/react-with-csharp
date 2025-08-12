@@ -18,7 +18,7 @@ import { NotFound } from "@/components/NotFoundPage";
 import { featResourceToMenuProps } from "@/utils/featsToMenu";
 import { useEffect, useMemo, useState } from "react";
 import { handleResp } from "@/utils/respFlow";
-import { getAccessMenu } from "@/services";
+import { getAccessResources } from "@/services";
 import { LoadingFallback } from "@/components/LoadingFallback";
 
 export interface RouteContext {
@@ -66,7 +66,7 @@ function RootComponent() {
             );
           });
       } else if (!menu.menus) {
-        handleResp(getAccessMenu(), {
+        handleResp(getAccessResources(), {
           handleOk: (data) => menu.setMenus(data),
           handleErr(code, _err, message) {
             Toast.error(message ?? "获取菜单失败");

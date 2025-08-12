@@ -32,11 +32,10 @@ namespace Less.Auth.Dal.FeatResourceClaims
             return query.Select(predicate).Distinct();
         }
 
-        public async Task<IList<FeatResource>> GetAccessMenu(IList<Claim> claims)
+        public async Task<IList<FeatResource>> GetAccessResources(IList<Claim> claims)
         {
             var query = EntitySet.Include(fc => fc.ClaimEntity)
-                                 .Include(fc => fc.FeatResource)
-                                 .Where(fc => fc.FeatResource!.Kind == FeatResource.MENU_KIND);
+                                 .Include(fc => fc.FeatResource);
             return await MapQuery(query, claims, fc => fc.FeatResource!).OrderBy(f => f.Id).ToListAsync();
         }
 

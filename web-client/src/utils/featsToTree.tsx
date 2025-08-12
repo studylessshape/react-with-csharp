@@ -29,13 +29,19 @@ export function featResourceLabel(node: FeatResource) {
 export function featResourceToTreeData(
   featResources: FeatResource[] | undefined,
   needDisabled?: (data: FeatResource) => boolean,
+  filter?: (data: FeatResource) => boolean
 ) {
   var filterResources = featResources;
   if (featResources) {
     filterResources = featResources
-      .filter((fr) => fr.kind == 0)
+      .filter((value) => {
+        if (filter) {
+          return filter(value);
+        }
+        return true;
+      })
       .sort((a, b) =>
-        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1,
+        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1
       );
   }
   return buildTree<FeatResource, TreeNodeData>(
@@ -47,7 +53,7 @@ export function featResourceToTreeData(
       icon: <SemiIcon name={node.icon} />,
       data: node,
       disabled: needDisabled == undefined ? undefined : needDisabled(node),
-    }),
+    })
   );
 }
 

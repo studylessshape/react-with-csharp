@@ -31,14 +31,16 @@ export function RoleEditor(props: RoleEditorProps) {
       };
       formApi.setValues(initValues);
     }
-  }, [props.visible]);
+  }, [props.visible, formApi]);
 
   return (
     <FormModal
       form={{
         onSubmit: (values) => {
           if (props.onSubmit) {
-            const entity = values as ClaimEntity;
+            const entity = props.entity
+              ? { ...props.entity, ...values }
+              : (values as ClaimEntity);
             props.onSubmit(entity);
           }
         },
@@ -56,7 +58,7 @@ export function RoleEditor(props: RoleEditorProps) {
         keepDOM: true,
       }}
     >
-      <Form.Slot label="Id">
+      <Form.Slot label="Id" className="flex items-center">
         <Typography.Text>{props.entity?.id}</Typography.Text>
       </Form.Slot>
       <Form.Input

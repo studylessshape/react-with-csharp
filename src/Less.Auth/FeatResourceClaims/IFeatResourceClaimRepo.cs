@@ -9,7 +9,7 @@ namespace Less.Auth.FeatResourceClaims
 {
     public interface IFeatResourceClaimRepo : IRepository<FeatResourceClaim, Guid>
     {
-        Task<IList<FeatResource>> GetAccessMenu(IList<Claim> claims);
+        Task<IList<FeatResource>> GetAccessResources(IList<Claim> claims);
         Task<IList<FeatResource>> GetPermissions(IList<Claim> claims);
     }
 }

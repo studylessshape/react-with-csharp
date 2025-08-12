@@ -1,11 +1,19 @@
 import { RouteGuard } from "@/components/RouteGuard";
 import type { DialogMode } from "@/pages/manage/interface";
+import { AssignModal } from "@/pages/manage/role/assignEditor";
 import { RoleEditor } from "@/pages/manage/role/roleEditor";
 import { RoleTable } from "@/pages/manage/role/roleTable";
 import type { ClaimEntity } from "@/services";
-import { createRole, deleteRoles, updateRole } from "@/services/role";
+import {
+  assignResources,
+  createRole,
+  deleteRoles,
+  getRoleModules,
+  updateRole,
+} from "@/services/role";
+import { useMenuState, useUserState } from "@/stores";
 import { handleResp } from "@/utils/respFlow";
-import { Toast } from "@douyinfe/semi-ui";
+import { Spin, Toast } from "@douyinfe/semi-ui";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
@@ -27,12 +35,21 @@ function RouteContent() {
     undefined as ClaimEntity | undefined
   );
   const [refresh, setRefresh] = useState(false);
+  const [assignVisible, setAssignVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedKeys, setSelectedKeys] = useState(
+    undefined as string[] | undefined
+  );
+
+  function refreshTable() {
+    setRefresh(!refresh);
+  }
 
   function deleteRolesCallback(ids: number[]) {
     handleResp(deleteRoles(ids), {
       handleOk: () => {
         Toast.success({ content: "删除成功", theme: "light" });
-        setRefresh(!refresh);
+        refreshTable();
       },
     });
   }
@@ -43,17 +60,38 @@ function RouteContent() {
     setEditorVisible(true);
   }
 
+  function showAssignModal(entity: ClaimEntity) {
+    setLoading(true);
+    setEditEntity(entity);
+    handleResp(getRoleModules(entity.id), {
+      handleOk: (data) => {
+        setSelectedKeys(data.map((f) => f.id.toString()));
+        setAssignVisible(true);
+      },
+    }).finally(() => setLoading(false));
+  }
+
   return (
     <>
-      <RoleTable
-        deleteRoleCallback={(entity) => deleteRolesCallback([entity.id])}
-        deleteRolesCallback={(entities) =>
-          deleteRolesCallback(entities.map((e) => e.id))
-        }
-        refresh={refresh}
-        createRoleCallback={() => showEditor(undefined, "add")}
-        editRoleCallback={(entity) => showEditor(entity, "edit")}
-      />
+      <Spin
+        spinning={loading}
+        tip="加载角色模块中..."
+        size="large"
+        style={{ height: "100%" }}
+        childStyle={{ height: "calc(100% - 1rem)" }}
+      >
+        <RoleTable
+          className="p-2 h-full"
+          deleteRoleCallback={(entity) => deleteRolesCallback([entity.id])}
+          deleteRolesCallback={(entities) =>
+            deleteRolesCallback(entities.map((e) => e.id))
+          }
+          refresh={refresh}
+          createRoleCallback={() => showEditor(undefined, "add")}
+          editRoleCallback={(entity) => showEditor(entity, "edit")}
+          assignModuleCallback={showAssignModal}
+        ></RoleTable>
+      </Spin>
       <RoleEditor
         visible={editorVisible}
         mode={editMode}
@@ -64,7 +102,7 @@ function RouteContent() {
             handleResp(createRole({ role: entity.claimValue }), {
               handleOk: () => {
                 Toast.success("添加成功");
-                setRefresh(!refresh);
+                refreshTable();
                 setEditorVisible(false);
               },
             });
@@ -72,13 +110,32 @@ function RouteContent() {
             handleResp(updateRole(entity), {
               handleOk: () => {
                 Toast.success("修改成功");
-                setRefresh(!refresh);
+                refreshTable();
                 setEditorVisible(false);
               },
             });
           }
         }}
-      />
+      ></RoleEditor>
+      <AssignModal
+        visible={assignVisible}
+        onCancel={() => setAssignVisible(false)}
+        selectedKeys={selectedKeys}
+        onConfirm={async (ids) => {
+          if (editEntity) {
+            handleResp(
+              assignResources({ roleId: editEntity.id, featResourceIds: ids }),
+              {
+                handleOk: () => {
+                  Toast.success("分配成功");
+                  setAssignVisible(false);
+                  refreshTable();
+                },
+              }
+            );
+          }
+        }}
+      ></AssignModal>
     </>
   );
 }
