@@ -29,9 +29,9 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Resp<IList<FeatResource>>> GetMenus()
+        public async Task<Resp<IList<FeatResourceDto>>> GetMenus()
         {
-            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.MENU_KIND));
+            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.MENU_KIND), FeatResourceDto.FromDataExpr);
             return Resp.Ok(list);
         }
 
@@ -40,9 +40,9 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Resp<IList<FeatResource>>> GetPermissions()
+        public async Task<Resp<IList<FeatResourceDto>>> GetPermissions()
         {
-            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.PERMISSION_KIND));
+            var list = await resourceRepo.ListAsync(query => query.Where(f => f.Kind == FeatResource.PERMISSION_KIND), FeatResourceDto.FromDataExpr);
             return Resp.Ok(list);
         }
 

@@ -40,9 +40,7 @@ export function featResourceToTreeData(
         }
         return true;
       })
-      .sort((a, b) =>
-        a.order == b.order ? a.id - b.id : a.order < b.order ? -1 : 1
-      );
+      .sort((a, b) => (a.order == b.order ? a.id - b.id : a.order - b.order));
   }
   return buildTree<FeatResource, TreeNodeData>(
     filterResources,

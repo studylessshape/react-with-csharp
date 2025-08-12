@@ -4,8 +4,8 @@ export interface FeatResourceDetail {
   parentId?: number;
   tag: string;
   url: string;
-  order: number;
   icon?: string;
+  order: number;
 }
 
 export interface FeatResource extends FeatResourceDetail {

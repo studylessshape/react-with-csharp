@@ -14,6 +14,7 @@ namespace Less.Auth.WebApi.Models
         public string Tag { get; set; } = "";
         public string Url { get; set; } = "";
         public string? Icon { get; set; }
+        public int Order { get; set; }
 
         public FeatResource ToData()
         {
@@ -27,6 +28,7 @@ namespace Less.Auth.WebApi.Models
                 Tag = Tag,
                 Url = Url,
                 Icon = Icon,
+                Order = Order,
             };
         }
 
@@ -42,6 +44,7 @@ namespace Less.Auth.WebApi.Models
                 Tag = featResource.Tag,
                 Url = featResource.Url,
                 Icon = featResource.Icon,
+                Order = featResource.Order,
             };
         }
 
@@ -55,6 +58,7 @@ namespace Less.Auth.WebApi.Models
             Tag = featResource.Tag,
             Url = featResource.Url,
             Icon = featResource.Icon,
+            Order = featResource.Order,
         };
     }
 }

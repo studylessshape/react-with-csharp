@@ -1,6 +1,7 @@
 /**
  * @param node current node
  * @param data data from datas
+ * @returns If `data` is `node` children
  */
 type ChildrenFilter<T> = (node: T, data: T) => boolean;
 
@@ -9,41 +10,63 @@ type ChildrenFilter<T> = (node: T, data: T) => boolean;
  */
 type TypeToTreeNode<T, R> = (data: T) => R;
 
-function buildTreeIter<T, R extends { children?: R[] }>(
-  node: T,
-  childrenFilter: ChildrenFilter<T>,
-  dataToR: TypeToTreeNode<T, R>,
-  datas: T[]
-) {
-  var children = datas.filter((data) => childrenFilter(node, data));
-  var r: R = dataToR(node);
-  if (children.length > 0) {
-    r.children = [];
-    children.forEach((n) => {
-      datas.splice(datas.indexOf(n), 1);
-      r.children?.push(buildTreeIter(n, childrenFilter, dataToR, datas));
-    });
+class TreeIter<T, R extends { children?: R[] }> {
+  dataNodes: { data: T; node: R }[];
+  childrenFilter: ChildrenFilter<T>;
+  constructor(
+    datas: T[] | undefined,
+    dataToR: TypeToTreeNode<T, R>,
+    childrenFilter: ChildrenFilter<T>
+  ) {
+    this.dataNodes = datas?.map((v) => ({ data: v, node: dataToR(v) })) ?? [];
+    this.childrenFilter = childrenFilter;
   }
 
-  return r;
+  buildTree(): R[] {
+    for (var index = 0; index < this.dataNodes.length; index++) {
+      var node = this.dataNodes[index];
+      this.buildChildren(this.dataNodes[index]);
+      var currentIndex = this.dataNodes.findIndex((dn) => dn.data == node.data);
+      if (currentIndex >= 0) {
+        index = currentIndex;
+      }
+    }
+    return this.dataNodes.map((n) => n.node);
+  }
+
+  buildChildren(node: { data: T; node: R }) {
+    var children = this.dataNodes.filter((n) =>
+      this.childrenFilter(node.data, n.data)
+    );
+
+    this.dataNodes = this.dataNodes.filter(
+      (n) => !children.some((v) => v == n)
+    );
+    for (var child of children) {
+      child = this.buildChildren(child);
+      if (node.node.children) {
+        node.node.children.push(child.node);
+      } else {
+        node.node.children = [child.node];
+      }
+    }
+    return node;
+  }
 }
 
+/**
+ *
+ * @param datas
+ * @param childrenFilter @inheritdoc
+ * @param dataToR
+ * @returns
+ */
 export function buildTree<T, R extends { children?: R[] }>(
   datas: T[] | undefined,
   childrenFilter: ChildrenFilter<T>,
   dataToR: TypeToTreeNode<T, R>
 ) {
-  var nodes = [] as R[];
-  var innerDatas = datas?.map((d) => d);
-  if (innerDatas && innerDatas.length > 0) {
-    while (innerDatas.length > 0) {
-      var data = innerDatas.shift();
-      if (data) {
-        nodes.push(buildTreeIter(data, childrenFilter, dataToR, innerDatas));
-      }
-    }
-  }
-  return nodes;
+  return new TreeIter(datas, dataToR, childrenFilter).buildTree();
 }
 
 export function findNode<T extends { children?: T[] }>(
