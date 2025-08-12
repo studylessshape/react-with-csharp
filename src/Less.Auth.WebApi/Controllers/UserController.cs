@@ -2,6 +2,7 @@
 using Less.Auth.Dal.Claims;
 using Less.Auth.Users;
 using Less.Auth.WebApi.Models;
+using Less.Auth.WebApi.Models.UserModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -60,14 +61,16 @@ namespace Less.Auth.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get all users
+        /// Get paged users
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Resp<IList<User>>> GetAllAsync()
+        public async Task<Resp<PagedList<User>>> GetUsers([FromQuery] UserPagedReq pageReq)
         {
-            return Resp.Ok(await userRepo.ListAsync());
+            return Resp.Ok(await userRepo.PaginateAsync(pageReq.Page, pageReq.PageSize));
         }
+
+
 
         /// <summary>
         /// delete user
