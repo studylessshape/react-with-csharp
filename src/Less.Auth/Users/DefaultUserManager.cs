@@ -58,29 +58,37 @@ namespace Less.Auth.Users
             return None.Ok<string>();
         }
 
-        public async Task<Result<User, string>> CreateUserAsync(string accout, string password, string name, string code, string? role)
+        public async Task<Result<User, string>> CreateUserAsync(CreateUserInput input)
         {
-            if (await userRepo.AnyAsync(u => u.Account == accout || u.Code == code))
+            if (string.IsNullOrEmpty(input.Account))
+            {
+                return "不能输入空账户".ToErr<User, string>();
+            }
+
+            if (await userRepo.AnyAsync(u => u.Account == input.Account || (!string.IsNullOrEmpty(input.Code) && u.Code == input.Code)))
             {
                 return "账户或用户代码已存在！".ToErr<User, string>();
             }
+
             int? claimEntityId = null;
-            if (role != null)
+            if (!string.IsNullOrEmpty(input.Role))
             {
-                claimEntityId = (await claimRepo.FirstOrDefaultAsync(c => c.ClaimType == ClaimTypes.Role && c.ClaimValue == role))?.Id;
+                claimEntityId = (await claimRepo.FirstOrDefaultAsync(c => c.ClaimType == ClaimTypes.Role && c.ClaimValue == input.Role))?.Id;
                 if (claimEntityId == null)
                     return "指定角色不存在！".ToErr<User, string>();
             }
 
-            var hashPass = passwordHasher.GetPasswordHash(password);
+            var hashPass = passwordHasher.GetPasswordHash(input.Password);
 
             var user = await userRepo.AddAsync(new User()
             {
-                Account = accout,
+                Account = input.Account,
                 Password = hashPass.Password,
                 Salt = hashPass.Salt,
-                Code = code,
-                Name = name,
+                Code = input.Code,
+                Name = input.Name ?? input.Account,
+                Sex = input.Sex,
+                Status = input.Status,
             }, false);
 
             if (claimEntityId != null)
@@ -117,7 +125,7 @@ namespace Less.Auth.Users
 
         public async Task<Result<User, string>> UpdateUserProfileAsync(UpdateUserProfileInput updateInput)
         {
-            var result = from user in FindUserAsync(updateInput.Accout)
+            var result = from user in FindUserAsync(updateInput.Account)
                          from _ in UpdateUserProfileAsync(user, updateInput)
                          select user;
             return await result;
@@ -156,6 +164,14 @@ namespace Less.Auth.Users
             if (updateInput.Remark != null)
             {
                 user.Remark = updateInput.Remark;
+            }
+            if (updateInput.Sex != null)
+            {
+                user.Sex = updateInput.Sex.Value;
+            }
+            if (updateInput.Status != null)
+            {
+                user.Status = updateInput.Status.Value;
             }
 
             await userRepo.SaveChangesAsync();
