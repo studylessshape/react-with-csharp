@@ -1,4 +1,5 @@
-﻿using Less.Auth.WebApi;
+﻿using Less.Api.Services;
+using Less.Auth.WebApi;
 using Less.Auth.WebApi.Controllers;
 using Less.DalCore;
 using Less.WebApi.Dal;
@@ -57,9 +58,10 @@ namespace Less.WebApi
             services.AddCoreDal(configuration);
         }
 
-        public static void PrepareService(IServiceProvider services)
+        public static async Task PrepareService(IServiceProvider services)
         {
-            services.EnsureDbContextCreate<CoreDbContext>();
+            await services.EnsureDbContextCreateAsync<CoreDbContext>();
+            await PrepareRunner.RunPrepare(services);
         }
 
         public static void ConfigApp<TApp>(TApp app, IWebHostEnvironment environment)

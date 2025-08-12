@@ -9,7 +9,7 @@ try
     Startup.ConfigService(builder.Services, builder.Configuration);
 
     var app = builder.Build();
-    Startup.PrepareService(app.Services);
+    await Startup.PrepareService(app.Services);
     Startup.ConfigApp(app, app.Environment);
 
     app.Run();

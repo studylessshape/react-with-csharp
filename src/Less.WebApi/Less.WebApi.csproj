@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Less.Api.Services\Less.Api.Services.csproj" />
     <ProjectReference Include="..\Less.Auth.Dal\Less.Auth.Dal.csproj" />
     <ProjectReference Include="..\Less.Auth.WebApi\Less.Auth.WebApi.csproj" />
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
