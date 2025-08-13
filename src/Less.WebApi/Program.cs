@@ -10,6 +10,7 @@ try
 
     var app = builder.Build();
     await Startup.PrepareService(app.Services);
+
     Startup.ConfigApp(app, app.Environment);
 
     app.Run();
@@ -22,7 +23,3 @@ finally
 {
     Log.CloseAndFlush();
 }
-
-
-
-

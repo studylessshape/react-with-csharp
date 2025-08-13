@@ -2,6 +2,7 @@
 using Less.Auth.WebApi;
 using Less.Auth.WebApi.Controllers;
 using Less.DalCore;
+using Less.Fallback;
 using Less.WebApi.Dal;
 using Less.WebApi.Filters;
 using Microsoft.OpenApi.Models;
@@ -10,7 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace Less.WebApi
 {
-    public static class Startup
+    public class Startup
     {
         public static void ConfigService(IServiceCollection services, IConfiguration configuration)
         {
@@ -53,6 +54,7 @@ namespace Less.WebApi
             });
 
             services.AddResponseCaching();
+            services.AddFallbackToDefault(configuration);
             #endregion
 
             services.AddCoreDal(configuration);
@@ -73,15 +75,14 @@ namespace Less.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            //app.UseHttpsRedirection();
             app.UseResponseCaching();
             app.UseCors(builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 
-            //app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthentication();
@@ -92,7 +93,7 @@ namespace Less.WebApi
             app.UseSwagger();
             app.UseSwaggerUI(AspNetCore.Swagger.Themes.ModernStyle.Dark);
 
-            app.MapFallbackToFile("index.html");
+            app.UseFallbackToDefault();
         }
     }
 }

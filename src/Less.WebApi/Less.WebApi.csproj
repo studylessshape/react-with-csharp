@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Less.Auth.Dal\Less.Auth.Dal.csproj" />
     <ProjectReference Include="..\Less.Auth.WebApi\Less.Auth.WebApi.csproj" />
     <ProjectReference Include="..\Less.DalCore\Less.DalCore.csproj" />
+    <ProjectReference Include="..\Less.Fallback\Less.Fallback.csproj" />
   </ItemGroup>
 
   <ItemGroup>
