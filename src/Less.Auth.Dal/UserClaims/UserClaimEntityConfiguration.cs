@@ -11,22 +11,24 @@ namespace Less.Auth.Dal.UserClaims
         public void Configure(EntityTypeBuilder<UserClaim> builder)
         {
             builder.ToTable("less_user_claims");
+            builder.Property(fc => fc.UserId)
+                .HasConversion<UUIDToDatabaseConverter>();
             builder.HasData(new UserClaim()
             {
                 Id = Guid.NewGuid(),
-                UserId = UserDefines.SYSTEM_GUID.ToGuid(),
+                UserId = UserDefines.SYSTEM_GUID.ToUUID(),
                 ClaimEntityId = 2
             },
             new UserClaim()
             {
                 Id = Guid.NewGuid(),
-                UserId = UserDefines.ADMIN_GUID.ToGuid(),
+                UserId = UserDefines.ADMIN_GUID.ToUUID(),
                 ClaimEntityId = 3
             },
             new UserClaim()
             {
                 Id = Guid.NewGuid(),
-                UserId = UserDefines.OPERATOR_GUID.ToGuid(),
+                UserId = UserDefines.OPERATOR_GUID.ToUUID(),
                 ClaimEntityId = 4
             });
         }

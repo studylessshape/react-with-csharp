@@ -10,6 +10,8 @@ namespace Less.Auth.Users
     public class UpdateUserProfileInput
     {
         public string Account { get; set; } = "";
+        [MinLength(6)]
+        public string? Password { get; set; }
         public string? Name { get; set; }
         public string? Code { get; set; }
         [EmailAddress]

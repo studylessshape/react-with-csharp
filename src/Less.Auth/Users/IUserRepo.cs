@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Less.Auth.Users
 {
-    public interface IUserRepo : IRepository<User, Guid>
+    public interface IUserRepo : IRepository<User, UUID>
     {
         Task<User?> FirstByAccountAsync(string account, bool includeDisableUser = false, bool includeClaims = false);
         Task<User?> FirstByAccountAsync(string account, string password, bool includeDisableUser = false);

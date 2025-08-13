@@ -9,7 +9,7 @@ namespace Less.Auth.Users
         public const int ENABLE_STATUS = 0;
         public const int DISABLE_STATUS = -1;
 
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public UUID Id { get; set; } = UUID.New();
         /// <summary>
         /// 账号
         /// </summary>

@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ADMIN_GUID" xml:space="preserve">
-    <value>cf4b9218-434a-49ae-823e-3d30c07613eb</value>
+    <value>0198A2AA6CF17000853931CDB4FCF37F</value>
   </data>
   <data name="OPERATOR_GUID" xml:space="preserve">
-    <value>ac1d3610-4e5b-47b1-b49a-5bef36896f0d</value>
+    <value>0198A2AA6CF170018E15FCD31EC551D3</value>
   </data>
   <data name="SYSTEM_GUID" xml:space="preserve">
-    <value>cc28ef74-6268-4512-aff4-2adcec70ee08</value>
+    <value>0198A2AA6CEE70008FEE5D47828DEDED</value>
   </data>
 </root>

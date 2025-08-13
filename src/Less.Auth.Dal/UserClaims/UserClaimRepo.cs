@@ -16,7 +16,7 @@ namespace Less.Auth.Dal.UserClaims
         {
         }
 
-        public async Task<IList<UserClaim>> GetUserCliamsAsync(Guid userId, bool includeUser = false, bool includeClaim = false)
+        public async Task<IList<UserClaim>> GetUserCliamsAsync(UUID userId, bool includeUser = false, bool includeClaim = false)
         {
             return await ListAsync(query =>
             {

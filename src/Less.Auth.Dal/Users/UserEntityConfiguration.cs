@@ -9,11 +9,13 @@ namespace Less.Auth.Dal.Users
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("less_users");
+            builder.Property(u => u.Id)
+                .HasConversion<UUIDToDatabaseConverter>();
             builder.HasIndex(u => u.Account).IsUnique();
             builder.HasIndex(u => u.Code).IsUnique();
             builder.HasData(new User()
             {
-                Id = UserDefines.SYSTEM_GUID.ToGuid(),
+                Id = UserDefines.SYSTEM_GUID.ToUUID(),
                 Name = "系统管理员",
                 Code = "systemcode",
                 Account = "system",
@@ -22,7 +24,7 @@ namespace Less.Auth.Dal.Users
             },
             new User()
             {
-                Id = UserDefines.ADMIN_GUID.ToGuid(),
+                Id = UserDefines.ADMIN_GUID.ToUUID(),
                 Name = "管理员",
                 Code = "admincode",
                 Account = "admin",
@@ -31,7 +33,7 @@ namespace Less.Auth.Dal.Users
             },
             new User()
             {
-                Id = UserDefines.OPERATOR_GUID.ToGuid(),
+                Id = UserDefines.OPERATOR_GUID.ToUUID(),
                 Name = "操作员",
                 Code = "operatorcode",
                 Account = "operator",

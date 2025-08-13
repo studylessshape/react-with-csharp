@@ -61,7 +61,7 @@ namespace Less.Auth.Dal.Users {
         }
         
         /// <summary>
-        ///   查找类似 cf4b9218-434a-49ae-823e-3d30c07613eb 的本地化字符串。
+        ///   查找类似 0198A2AA6CF17000853931CDB4FCF37F 的本地化字符串。
         /// </summary>
         internal static string ADMIN_GUID {
             get {
@@ -70,7 +70,7 @@ namespace Less.Auth.Dal.Users {
         }
         
         /// <summary>
-        ///   查找类似 ac1d3610-4e5b-47b1-b49a-5bef36896f0d 的本地化字符串。
+        ///   查找类似 0198A2AA6CF170018E15FCD31EC551D3 的本地化字符串。
         /// </summary>
         internal static string OPERATOR_GUID {
             get {
@@ -79,7 +79,7 @@ namespace Less.Auth.Dal.Users {
         }
         
         /// <summary>
-        ///   查找类似 cc28ef74-6268-4512-aff4-2adcec70ee08 的本地化字符串。
+        ///   查找类似 0198A2AA6CEE70008FEE5D47828DEDED 的本地化字符串。
         /// </summary>
         internal static string SYSTEM_GUID {
             get {

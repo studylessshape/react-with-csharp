@@ -10,7 +10,7 @@ namespace Less.Auth.UserClaims
     public class UserClaim
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public Guid UserId { get; set; }
+        public UUID UserId { get; set; }
         public User? User { get; set; }
         public int ClaimEntityId { get; set; }
         public ClaimEntity? ClaimEntity { get; set; }

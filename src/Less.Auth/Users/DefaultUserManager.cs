@@ -133,7 +133,7 @@ namespace Less.Auth.Users
 
         private async Task<Result<User, string>> UpdateUserProfileAsync(User user, UpdateUserProfileInput updateInput)
         {
-            if (updateInput.Code != null)
+            if (updateInput.Code != null && updateInput.Code != user.Code)
             {
                 if (await userRepo.AnyAsync(u => u.Code != user.Code && u.Code == updateInput.Code))
                 {
@@ -141,7 +141,7 @@ namespace Less.Auth.Users
                 }
                 user.Code = updateInput.Code;
             }
-            if (updateInput.Email != null)
+            if (updateInput.Email != null && updateInput.Email != user.Email)
             {
                 if (await userRepo.AnyAsync(u => u.Email != user.Email && u.Email == updateInput.Email))
                 {
@@ -149,7 +149,7 @@ namespace Less.Auth.Users
                 }
                 user.Email = updateInput.Email;
             }
-            if (updateInput.PhoneNum != null)
+            if (updateInput.PhoneNum != null && updateInput.PhoneNum != user.PhoneNum)
             {
                 if (await userRepo.AnyAsync(u => u.PhoneNum != user.PhoneNum && u.PhoneNum == updateInput.PhoneNum))
                 {
@@ -157,21 +157,31 @@ namespace Less.Auth.Users
                 }
                 user.PhoneNum = updateInput.PhoneNum;
             }
-            if (updateInput.Name != null)
+            if (updateInput.Name != null && updateInput.Name != user.Name)
             {
                 user.Name = updateInput.Name;
             }
-            if (updateInput.Remark != null)
+            if (updateInput.Remark != user.Remark)
             {
                 user.Remark = updateInput.Remark;
             }
-            if (updateInput.Sex != null)
+            if (updateInput.Sex != null && updateInput.Sex != user.Sex)
             {
                 user.Sex = updateInput.Sex.Value;
             }
-            if (updateInput.Status != null)
+            if (updateInput.Status != null && updateInput.Status != user.Status)
             {
                 user.Status = updateInput.Status.Value;
+            }
+            if (updateInput.Password != null)
+            {
+                var newPasswordHasher = passwordHasher.GetPasswordHash(updateInput.Password, user.Salt);
+                if (newPasswordHasher != user.Password)
+                {
+                    var newPassword = passwordHasher.GetPasswordHash(updateInput.Password);
+                    user.Password = newPassword.Password;
+                    user.Salt = newPassword.Salt;
+                }
             }
 
             await userRepo.SaveChangesAsync();

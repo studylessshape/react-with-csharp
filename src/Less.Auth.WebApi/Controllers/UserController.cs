@@ -49,7 +49,7 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public async Task<Resp<UserProfile>> CreateUser([FromBody] CreateUserInput request)
+        public async Task<Resp<UserDetails>> CreateUser(CreateUserInput request)
         {
             if (request.Role == null)
             {
@@ -57,7 +57,17 @@ namespace Less.Auth.WebApi.Controllers
             }
 
             var user = await userManager.CreateUserAsync(request);
-            return Resp.FromResult(user.WrapOk<UserProfile>(u => u));
+            return Resp.FromResult(user.WrapOk<UserDetails>(u => u));
+        }
+
+        /// <summary>
+        /// update user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<Resp<UserDetails>> UpdateUser(UpdateUserProfileInput request)
+        {
+            return Resp.FromResult((await userManager.UpdateUserProfileAsync(request)).WrapOk<UserDetails>(u => u));
         }
 
         /// <summary>
@@ -65,12 +75,10 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Resp<PagedList<User>>> GetUsers([FromQuery] UserPagedReq pageReq)
+        public async Task<Resp<PagedList<UserDetails>>> GetUsers([FromQuery] UserPagedReq pageReq)
         {
-            return Resp.Ok(await userRepo.PaginateAsync(pageReq.Page, pageReq.PageSize));
+            return Resp.Ok(await userRepo.PaginateAsync(pageReq.Page, pageReq.PageSize, UserDetails.FromDataExpr, mapQuery: query => query.OrderBy(u => u.Id)));
         }
-
-
 
         /// <summary>
         /// delete user
@@ -78,9 +86,25 @@ namespace Less.Auth.WebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<Resp<None>> DeleteUser(Guid id)
+        public async Task<Resp<None>> DeleteUser([Required] UUID id)
         {
             var deleted = await userRepo.DeleteAsync(q => q.Where(u => u.Id == id));
+            if (deleted <= 0)
+            {
+                return Resp.Err<None>("删除失败");
+            }
+            return Resp.Ok(None.New());
+        }
+
+        /// <summary>
+        /// delete user
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<Resp<None>> DeleteUserByAccount([Required][MinLength(3)] string account)
+        {
+            var deleted = await userRepo.DeleteAsync(q => q.Where(u => u.Account == account));
             if (deleted <= 0)
             {
                 return Resp.Err<None>("删除失败");

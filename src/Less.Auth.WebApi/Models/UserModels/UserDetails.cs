@@ -5,7 +5,7 @@ namespace Less.Auth.WebApi.Models
 {
     public class UserDetails : UserProfile
     {
-        public Guid Id { get; set; }
+        public UUID Id { get; set; }
 
         public static Expression<Func<User, UserDetails>> FromDataExpr { get; } = user => new UserDetails
         {
@@ -19,5 +19,10 @@ namespace Less.Auth.WebApi.Models
             Status = user.Status,
             Remark = user.Remark,
         };
+
+        public static implicit operator UserDetails(User user)
+        {
+            return FromDataExpr.Compile().Invoke(user);
+        }
     }
 }

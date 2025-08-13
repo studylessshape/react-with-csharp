@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Less.Auth.Dal.Users
 {
-    internal class UserRepo<TDbContext> : BaseRepository<TDbContext, User, Guid>, IUserRepo
+    internal class UserRepo<TDbContext> : BaseRepository<TDbContext, User, UUID>, IUserRepo
         where TDbContext : DbContext
     {
         public UserRepo(TDbContext dbContext) : base(dbContext)
