@@ -13,13 +13,18 @@ export interface PaginationData {
   total?: number;
 }
 
+export interface PaginationDataRequest {
+  currentPage: number;
+  pageSize: number;
+}
+
 export interface DataTableProps<
   TableDataType extends { children?: TableDataType[] } & RecordType,
   LoadingDataType extends object,
   RecordType = Record<string, any>,
 > {
   loadData?: (
-    pageData?: PaginationData
+    pageData: PaginationDataRequest
   ) => Promise<LoadingDataType | undefined>;
   data?: LoadingDataType;
   dataToTableData?: (data: LoadingDataType) => TableDataType[];

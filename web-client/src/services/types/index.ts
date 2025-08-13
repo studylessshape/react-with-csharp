@@ -4,3 +4,4 @@ export * from "./login";
 export * from "./featResource";
 export * from "./role";
 export * from "./claimEntity";
+export * from "./user";

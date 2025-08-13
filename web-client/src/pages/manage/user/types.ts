@@ -1,0 +1,1 @@
+export const USER_STATUS_ENABLE = 0;

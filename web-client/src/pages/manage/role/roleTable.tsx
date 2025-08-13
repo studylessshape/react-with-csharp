@@ -1,4 +1,4 @@
-import { DataTable, type PaginationData } from "@/components/DataTable";
+import { DataTable, type PaginationDataRequest } from "@/components/DataTable";
 import { PermissionButton } from "@/components/PermissionButton";
 import { DeleteButton } from "@/components/PermissionButton/DeleteButton";
 import { useAuth } from "@/hooks/useAuth";
@@ -34,16 +34,16 @@ export interface RoleTableProps {
 }
 
 export function RoleTable(props: RoleTableProps) {
-  const hasEditDeletePermission = useAuth({
-    permissions: ["role_manage:edit", "role_manage:delete"],
-    allPermission: true,
+  const hasEditOrDeletePermission = useAuth({
+    permissions: [RoleEdit, RoleDelete],
   });
+
   const columns: ColumnProps<ClaimEntity>[] = useMemo(() => {
     var cols: ColumnProps<ClaimEntity>[] = [
       { title: "Id", dataIndex: "id" },
       { title: "角色名", dataIndex: "claimValue" },
     ];
-    if (hasEditDeletePermission) {
+    if (hasEditOrDeletePermission) {
       cols.push({
         title: "操作",
         fixed: true,
@@ -94,7 +94,8 @@ export function RoleTable(props: RoleTableProps) {
       });
     }
     return cols;
-  }, [hasEditDeletePermission]);
+  }, [hasEditOrDeletePermission]);
+
   const [selectedRows, setSelectedRows] = useState(
     undefined as ClaimEntity[] | undefined
   );
@@ -121,11 +122,8 @@ export function RoleTable(props: RoleTableProps) {
     };
   }, []);
 
-  async function loadRoles(page?: PaginationData) {
-    const response = await getRoles(
-      page?.currentPage ?? 1,
-      page?.pageSize ?? 10
-    );
+  async function loadRoles(page: PaginationDataRequest) {
+    const response = await getRoles(page.currentPage, page.pageSize);
     if (response.success) {
       return response.data;
     }

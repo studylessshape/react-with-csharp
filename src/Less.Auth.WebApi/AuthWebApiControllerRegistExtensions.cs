@@ -2,6 +2,7 @@
 using Less.Auth.WebApi.Controllers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.OpenApi.Models;
 
 namespace Less.Auth.WebApi
 {
@@ -32,6 +33,19 @@ namespace Less.Auth.WebApi
                     };
                 });
             builder.Services.AddAuthorization();
+            builder.AddJsonOptions(opts =>
+            {
+                opts.JsonSerializerOptions.Converters.Add(new UUIDConverter());
+            });
+            builder.Services.AddSwaggerGen(opts =>
+            {
+                opts.SchemaGeneratorOptions.CustomTypeMappings.Add(typeof(UUID), () =>
+                {
+                    OpenApiSchema schema = new OpenApiSchema();
+                    schema.Description = "UUID";
+                    return schema;
+                });
+            });
             builder.AddApplicationPart(typeof(UserController).Assembly);
             return builder;
         }

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RouteGuard } from "@/components/RouteGuard";
+import { UserTable } from "@/pages/manage/user/userTable";
 
 export const Route = createFileRoute("/manage/user")({
   component: RouteComponent,
@@ -14,5 +15,5 @@ function RouteComponent() {
 }
 
 function RouteContent() {
-  return <div>Hello "/manage/user"!</div>;
+  return <UserTable></UserTable>;
 }

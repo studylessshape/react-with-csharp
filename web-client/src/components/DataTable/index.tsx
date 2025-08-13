@@ -73,7 +73,10 @@ export function DataTable<
       renderLoopLoading = true;
       setLoading(true);
       props
-        .loadData(page)
+        .loadData({
+          currentPage: page?.currentPage ?? 1,
+          pageSize: page?.pageSize ?? 10,
+        })
         .then((value) => {
           if (value && props.dataToTableData) {
             setTableData(props.dataToTableData(value));
