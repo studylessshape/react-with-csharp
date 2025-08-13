@@ -51,8 +51,16 @@ export default defineConfig({
   },
   performance: {
     chunkSplit: {
-      forceSplitting: {
-        "semi-design": /node_modules[\\/]@douyinfe/,
+      override: {
+        cacheGroups: {
+          semi: {
+            test: /node_modules[\\/]@douyinfe/,
+          },
+          routes: {
+            test: /src[\\/]routes[\\/]/,
+            name: "routes",
+          },
+        },
       },
     },
   },

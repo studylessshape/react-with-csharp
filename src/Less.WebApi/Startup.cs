@@ -81,6 +81,7 @@ namespace Less.WebApi
             //app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -90,6 +91,8 @@ namespace Less.WebApi
 
             app.UseSwagger();
             app.UseSwaggerUI(AspNetCore.Swagger.Themes.ModernStyle.Dark);
+
+            app.MapFallbackToFile("index.html");
         }
     }
 }
