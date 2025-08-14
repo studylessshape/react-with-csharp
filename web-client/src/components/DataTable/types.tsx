@@ -49,6 +49,10 @@ export interface DataTableProps<
   defaultPageSize?: number;
   title?: ReactNode | ((pageData?: TableDataType[]) => ReactNode);
   popoverPosition?: PopoverPosition;
+  /**
+   * Auto set `scroll.y` refence the parent size
+   */
+  full?: { widthReduce?: number; heightReduce?: number };
 }
 
 export function formatPaginationData(pageData: PaginationData) {

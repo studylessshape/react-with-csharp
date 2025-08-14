@@ -100,27 +100,6 @@ export function RoleTable(props: RoleTableProps) {
     undefined as ClaimEntity[] | undefined
   );
   const divRef = useRef(null as HTMLDivElement | null);
-  const [scrollY, setScrollY] = useState(590 as string | number);
-
-  function setTableScroll() {
-    if (divRef.current) {
-      const divElement = divRef.current;
-      setScrollY(divElement.clientHeight - 170);
-    }
-  }
-
-  function resizeHandler(this: Window, ev: UIEvent) {
-    setTableScroll();
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", resizeHandler);
-    setTableScroll();
-
-    return () => {
-      window.removeEventListener("resize", resizeHandler);
-    };
-  }, []);
 
   async function loadRoles(page: PaginationDataRequest) {
     const response = await getRoles(page.currentPage, page.pageSize);
@@ -138,43 +117,42 @@ export function RoleTable(props: RoleTableProps) {
       style={props.style}
     >
       <DataTable
-        className="h-full"
-        scroll={{ x: 1000, y: scrollY }}
+        className="h-full flex flex-col"
+        scroll={{ x: 1000 }}
+        full={{ heightReduce: 172 }}
         changing={props.refresh}
         title={
-          <div className="flex justify-between">
-            <Space>
-              <Typography.Title heading={4}>角色列表</Typography.Title>
-              <PermissionButton
-                icon={<IconPlus />}
-                theme="solid"
-                permissions={[RoleAdd]}
-                onClick={() => {
-                  if (props.createRoleCallback) {
-                    props.createRoleCallback();
-                  }
-                }}
-              >
-                添加角色
-              </PermissionButton>
-              <DeleteButton
-                icon={<IconDeleteStroked />}
-                permissions={[RoleDelete]}
-                disabled={selectedRows == undefined || selectedRows.length == 0}
-                onConfirm={() => {
-                  if (
-                    props.deleteRolesCallback &&
-                    selectedRows &&
-                    selectedRows.length > 0
-                  ) {
-                    props.deleteRolesCallback(selectedRows);
-                  }
-                }}
-              >
-                删除已选角色
-              </DeleteButton>
-            </Space>
-          </div>
+          <Space>
+            <Typography.Title heading={4}>角色列表</Typography.Title>
+            <PermissionButton
+              icon={<IconPlus />}
+              theme="solid"
+              permissions={[RoleAdd]}
+              onClick={() => {
+                if (props.createRoleCallback) {
+                  props.createRoleCallback();
+                }
+              }}
+            >
+              添加角色
+            </PermissionButton>
+            <DeleteButton
+              icon={<IconDeleteStroked />}
+              permissions={[RoleDelete]}
+              disabled={selectedRows == undefined || selectedRows.length == 0}
+              onConfirm={() => {
+                if (
+                  props.deleteRolesCallback &&
+                  selectedRows &&
+                  selectedRows.length > 0
+                ) {
+                  props.deleteRolesCallback(selectedRows);
+                }
+              }}
+            >
+              删除已选角色
+            </DeleteButton>
+          </Space>
         }
         loadData={loadRoles}
         dataToTableData={(data) =>

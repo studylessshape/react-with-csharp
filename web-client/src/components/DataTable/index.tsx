@@ -4,12 +4,13 @@ import {
 } from "@douyinfe/semi-illustrations";
 import { Empty, Pagination, Table } from "@douyinfe/semi-ui";
 import type { PaginationProps } from "@douyinfe/semi-ui/lib/es/pagination";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   formatPaginationData,
   type DataTableProps,
   type PaginationData,
 } from "./types";
+import type { Scroll } from "@douyinfe/semi-ui/lib/es/table";
 
 export * from "./types";
 
@@ -26,6 +27,9 @@ export function DataTable<
     currentPage: 1,
     pageSize: props.defaultPageSize ?? 10,
   } as PaginationData);
+  const [scroll, setScroll] = useState(undefined as Scroll | undefined);
+  const divRef = useRef(null as HTMLDivElement | null);
+
   const pagination: PaginationProps | undefined = useMemo(
     () =>
       props.total == undefined
@@ -92,6 +96,25 @@ export function DataTable<
     }
   }
 
+  function setTableScroll() {
+    if (divRef.current && props.full) {
+      const element = divRef.current;
+      const x =
+        props.full.widthReduce == undefined
+          ? props.scroll?.x
+          : element.clientWidth - props.full.widthReduce;
+      const y =
+        props.full.heightReduce == undefined
+          ? props.scroll?.y
+          : element.clientHeight - props.full.heightReduce;
+      setScroll({ x: x, y: y });
+    }
+  }
+
+  function resizeHandler(this: Window, ev: UIEvent) {
+    setTableScroll();
+  }
+
   useEffect(() => {
     loadData(pageData);
   }, [props.changing]);
@@ -110,8 +133,18 @@ export function DataTable<
     }
   }, [props.data]);
 
+  useEffect(() => {
+    setTableScroll();
+    window.addEventListener("resize", resizeHandler);
+
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, [divRef]);
+
   return (
     <div
+      ref={divRef}
       className={`semi-color-bg-1 semi-border-color border border-solid flex flex-col ${props.className ?? ""}`}
       style={props.style}
     >
@@ -123,10 +156,10 @@ export function DataTable<
         columns={props.columns}
         loading={props.loading ?? loading}
         defaultExpandedRowKeys={props.defaultExpandedRowKeys}
-        sticky={props.scroll != undefined}
+        sticky={props.scroll != undefined || scroll != undefined}
         bordered
         resizable={props.resizable}
-        scroll={props.scroll}
+        scroll={scroll ?? props.scroll}
         style={props.tableStyle}
         rowSelection={props.rowSelection}
         pagination={false}
@@ -150,12 +183,13 @@ export function DataTable<
       ></Table>
       {pagination == undefined || pageData.total == 0 ? undefined : (
         <div className="flex justify-between items-center p-3.5">
-          <div className="semi-color-text-2 font-size-3.5">
+          <div className="semi-color-text-2 font-size-3.5 text-nowrap">
             {formatPaginationData(pageData)}
           </div>
           <Pagination
             {...pageData}
             {...pagination}
+            className="text-nowrap"
             popoverPosition={props.popoverPosition}
             disabled={loading}
           ></Pagination>
