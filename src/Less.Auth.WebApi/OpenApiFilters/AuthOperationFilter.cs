@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text.Json;
 
-namespace Less.Auth.WebApi
+namespace Less.Auth.WebApi.OpenApiFilters
 {
     public class AuthOperationFilter : IOperationFilter
     {
@@ -21,7 +21,7 @@ namespace Less.Auth.WebApi
 
             var methodAuthAttrs = context.MethodInfo.GetCustomAttributes<AuthorizeAttribute>();
             var classAuthAttrs = context.MethodInfo.ReflectedType?.GetCustomAttributes<AuthorizeAttribute>();
-            if (methodAuthAttrs.Any() || (classAuthAttrs != null && classAuthAttrs.Any()))
+            if (methodAuthAttrs.Any() || classAuthAttrs != null && classAuthAttrs.Any())
             {
                 var schema = context.SchemaGenerator.GenerateSchema(typeof(Resp<None>), context.SchemaRepository);
                 if (!operation.Responses.ContainsKey("401"))

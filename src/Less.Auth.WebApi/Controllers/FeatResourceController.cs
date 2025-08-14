@@ -5,6 +5,7 @@ using Less.Auth.WebApi.Models;
 using Less.EntityFramework.Plus;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Less.Auth.WebApi.Controllers
 {
@@ -99,7 +100,7 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<Resp<None>> DeleteResource(int id)
+        public async Task<Resp<None>> DeleteResource([Required] int id)
         {
             if (id == 1)
             {
@@ -119,7 +120,7 @@ namespace Less.Auth.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<Resp<int>> DeleteManyResource(int[] ids)
+        public async Task<Resp<int>> DeleteManyResource([Required][MinLength(1)] int[] ids)
         {
             if (ids.Contains(1))
             {

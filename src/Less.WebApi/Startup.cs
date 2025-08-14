@@ -1,6 +1,7 @@
 ﻿using Less.Api.Services;
 using Less.Auth.WebApi;
 using Less.Auth.WebApi.Controllers;
+using Less.Auth.WebApi.OpenApiFilters;
 using Less.DalCore;
 using Less.Fallback;
 using Less.WebApi.Dal;

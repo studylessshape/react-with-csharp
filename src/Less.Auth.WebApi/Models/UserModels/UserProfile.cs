@@ -1,4 +1,5 @@
 ﻿using Less.Auth.Users;
+using System.ComponentModel.DataAnnotations;
 
 namespace Less.Auth.WebApi.Models
 {
@@ -7,7 +8,9 @@ namespace Less.Auth.WebApi.Models
         public string Account { get; set; } = "";
         public string Code { get; set; } = "";
         public string Name { get; set; } = "";
+        [EmailAddress]
         public string? Email { get; set; }
+        [Phone]
         public string? PhoneNum { get; set; }
         public int Sex { get; set; }
         public int Status { get; set; }

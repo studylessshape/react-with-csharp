@@ -1,5 +1,6 @@
 ﻿using Less.Api.Core;
 using Less.Auth.WebApi.Controllers;
+using Less.Auth.WebApi.OpenApiFilters;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.OpenApi.Models;
@@ -39,12 +40,18 @@ namespace Less.Auth.WebApi
             });
             builder.Services.AddSwaggerGen(opts =>
             {
-                opts.SchemaGeneratorOptions.CustomTypeMappings.Add(typeof(UUID), () =>
+                opts.MapType<UUID>(() =>
                 {
-                    OpenApiSchema schema = new OpenApiSchema();
-                    schema.Description = "UUID";
+                    var schema = new OpenApiSchema
+                    {
+                        Title = "UUID",
+                        Type = "string",
+                        Format = "uuid",
+                    };
                     return schema;
                 });
+                opts.AddSchemaFilterInstance(new UUIDSchemaFilter());
+                opts.AddParameterFilterInstance(new UUIDParameterFilter());
             });
             builder.AddApplicationPart(typeof(UserController).Assembly);
             return builder;

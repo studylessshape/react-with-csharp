@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Less.Auth.WebApi.Models
 {
@@ -9,6 +10,7 @@ namespace Less.Auth.WebApi.Models
         public string Account { get; set; } = "";
         [Required]
         [MinLength(6)]
+        [PasswordPropertyText]
         public string Password { get; set; } = "";
     }
 }
