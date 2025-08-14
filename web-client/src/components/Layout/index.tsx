@@ -64,7 +64,7 @@ export default function AppLayout(props: PropsWithChildren<LayoutProps>) {
     </Header>
   );
   const sidebar = (
-    <Sider className="overflow-y-auto overflow-x-hidden flex flex-col">
+    <Sider className="overflow-y-auto overflow-x-hidden flex flex-col shrink-0">
       <NavMenu
         className="h-full"
         menu={props.menu}

@@ -48,7 +48,7 @@ export function MenuDataTable({
       },
       { title: "描述", dataIndex: "description" },
       { title: "地址", dataIndex: "url" },
-      { title: "排序", dataIndex: "order" },
+      { title: "排序", dataIndex: "order", width: 80 },
       {
         title: "操作",
         fixed: true,
@@ -76,7 +76,7 @@ export function MenuDataTable({
         onSelect: onSelect,
         onSelectAll: onSelectAll,
       }}
-      scroll={{ x: 1200, y: 500 }}
+      scroll={{ x: 1100, y: 500 }}
       style={{ height: 600 }}
     />
   );

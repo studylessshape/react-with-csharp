@@ -182,14 +182,14 @@ export function DataTable<
         }
       ></Table>
       {pagination == undefined || pageData.total == 0 ? undefined : (
-        <div className="flex justify-between items-center p-3.5">
+        <div className="flex justify-between items-center p-3.5 flex-wrap xl:flex-nowrap">
           <div className="semi-color-text-2 font-size-3.5 text-nowrap">
             {formatPaginationData(pageData)}
           </div>
           <Pagination
             {...pageData}
             {...pagination}
-            className="text-nowrap"
+            className="text-nowrap flex-wrap xl:flex-nowrap"
             popoverPosition={props.popoverPosition}
             disabled={loading}
           ></Pagination>
