@@ -9,9 +9,7 @@ import type {
 } from "./types";
 
 export function changeUserState(account: string, enable: boolean) {
-  return get<None, NormalError>(`/api/auth/User/ChangeUserState/${account}`, {
-    enable: enable.toString(),
-  });
+  return api<None, NormalError>(`/api/auth/User/ChangeUserState/${account}?enable=${enable}`, "POST");
 }
 
 export function createUser(input: CreateUserInput) {

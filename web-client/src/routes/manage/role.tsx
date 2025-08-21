@@ -78,10 +78,10 @@ function RouteContent() {
         tip="加载角色模块中..."
         size="large"
         style={{ height: "100%" }}
-        childStyle={{ height: "calc(100% - 1rem)" }}
+        childStyle={{ height: "100%" }}
       >
         <RoleTable
-          className="p-2 h-full"
+          className="p-2 h-[calc(100%-1rem)]"
           deleteRoleCallback={(entity) => deleteRolesCallback([entity.id])}
           deleteRolesCallback={(entities) =>
             deleteRolesCallback(entities.map((e) => e.id))

@@ -1,5 +1,5 @@
 export interface CreateUserInput {
-  accout: string;
+  account: string;
   password: string;
   name?: string;
   code: string;
@@ -11,7 +11,7 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
-  accout: string;
+  account: string;
   password?: string;
   name?: string;
   code: string;

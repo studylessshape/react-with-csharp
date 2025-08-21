@@ -34,9 +34,9 @@ export async function handleResp<T, TError>(
     } else if (res.message || handle.defaultMessage) {
       Toast.error({
         content: `${res.code}: ${res.message ?? handle.defaultMessage}`,
-        theme: "light",
       });
     }
+    return res;
   } catch (err) {
     console.log(err);
   }

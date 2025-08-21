@@ -1,4 +1,4 @@
-import { defineConfig, presetMini } from "unocss";
+import { defineConfig, presetMini, presetWind4 } from "unocss";
 
 export default defineConfig({
   content: {
@@ -11,5 +11,12 @@ export default defineConfig({
     ["semi-color-bg-1", { "background-color": "var(--semi-color-bg-1)" }],
     ["scrollbar-gutter-stable", { "scrollbar-gutter": "stable" }],
     ["semi-color-text-2", { color: "var(--semi-color-text-2)" }],
+    [
+      /(?<=h-\[)([^\s\]]+)/,
+      ([, match]) => {
+        match = match.replace(/[-\+/\*]/, (str) => ` ${str} `);
+        return { height: match };
+      },
+    ],
   ],
 });

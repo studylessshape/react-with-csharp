@@ -15,5 +15,9 @@ function RouteComponent() {
 }
 
 function RouteContent() {
-  return <UserTable></UserTable>;
+  return (
+    <UserTable
+      className="p-2 h-[calc(100%-1rem)]"
+    ></UserTable>
+  );
 }

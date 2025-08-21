@@ -211,7 +211,11 @@ namespace Less.Auth.Users
 
         public async Task<Result<None, string>> ChangeUserStateAsync(string accout, int status)
         {
-            await userRepo.UpdateAsync(q => q.Where(u => u.Account == accout), u => new User() { Status = status });
+            var count = await userRepo.UpdateAsync(q => q.Where(u => u.Account == accout), u => new User() { Status = status });
+            if (count <= 0)
+            {
+                return "修改失败，不存在该用户".ToErr<None, string>();
+            }
             return None.Ok<string>();
         }
     }
