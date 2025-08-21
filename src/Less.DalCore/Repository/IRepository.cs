@@ -133,5 +133,12 @@ namespace Less.DalCore.Repository
         /// </summary>
         /// <returns></returns>
         Task SaveChangesAsync();
+
+        /// <summary>
+        /// auto commit or rollback process. If return false, will rollback, or commit.
+        /// </summary>
+        /// <param name="proc"></param>
+        /// <returns></returns>
+        Task Execute(Func<Task<bool>> proc);
     }
 }

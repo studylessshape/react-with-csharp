@@ -3,6 +3,7 @@ using Less.Auth.Dal.Claims;
 using Less.Auth.Users;
 using Less.Auth.WebApi.Models;
 using Less.Auth.WebApi.Models.UserModels;
+using Less.EntityFramework.Plus;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -94,6 +95,28 @@ namespace Less.Auth.WebApi.Controllers
                 return Resp.Err<None>("删除失败");
             }
             return Resp.Ok(None.New());
+        }
+
+        /// <summary>
+        /// delete users
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<Resp<None>> DeleteUsers([Required][MinLength(1)] UUID[] ids)
+        {
+            var deleted = 0;
+            await userRepo.Execute(async () =>
+            {
+                deleted = await userRepo.DeleteAsync(q => q.WhereAnyContains(ids, u => u.Id));
+                return deleted == ids.Length;
+            });
+
+            if (deleted == ids.Length)
+            {
+                return Resp.Ok(None.New());
+            }
+            return Resp.Err<None>("删除失败");
         }
 
         /// <summary>

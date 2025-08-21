@@ -11,7 +11,8 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
-  account: string;
+  id: string;
+  account?: string;
   password?: string;
   name?: string;
   code: string;

@@ -16,6 +16,10 @@ export function getRoles(page: number, pageSize: number) {
   });
 }
 
+export function getAllRoles() {
+  return get<ClaimEntity[], NormalError>("/api/Role/GetAllRoles");
+}
+
 export function createRole(detail: RoleDetail) {
   return api<ClaimEntity, NormalError>("/api/Role/CreateRole", "PUT", detail);
 }

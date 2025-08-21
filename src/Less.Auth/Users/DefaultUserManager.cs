@@ -4,6 +4,7 @@ using Less.Auth.UserClaims;
 using Less.Utils;
 using Less.Utils.ResultExtensions;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -32,6 +33,17 @@ namespace Less.Auth.Users
         private async Task<Result<User, string>> FindUserAsync(string account)
         {
             var user = await userRepo.FirstByAccountAsync(account);
+            if (user == null)
+            {
+                return "用户不存在！".ToErr<User, string>();
+            }
+
+            return user.ToOk<User, string>();
+        }
+
+        private async Task<Result<User, string>> FindUserAsync(UUID id)
+        {
+            var user = await userRepo.FindAsync(id);
             if (user == null)
             {
                 return "用户不存在！".ToErr<User, string>();
@@ -125,7 +137,7 @@ namespace Less.Auth.Users
 
         public async Task<Result<User, string>> UpdateUserProfileAsync(UpdateUserProfileInput updateInput)
         {
-            var result = from user in FindUserAsync(updateInput.Account)
+            var result = from user in FindUserAsync(updateInput.Id)
                          from _ in UpdateUserProfileAsync(user, updateInput)
                          select user;
             return await result;
@@ -133,6 +145,14 @@ namespace Less.Auth.Users
 
         private async Task<Result<User, string>> UpdateUserProfileAsync(User user, UpdateUserProfileInput updateInput)
         {
+            if (updateInput.Account != null && updateInput.Account != user.Account)
+            {
+                if (await userRepo.AnyAsync(u => u.Account != user.Account && u.Account == updateInput.Account))
+                {
+                    return "指定的账户名已存在！".ToErr<User, string>();
+                }
+                user.Account = updateInput.Account;
+            }
             if (updateInput.Code != null && updateInput.Code != user.Code)
             {
                 if (await userRepo.AnyAsync(u => u.Code != user.Code && u.Code == updateInput.Code))

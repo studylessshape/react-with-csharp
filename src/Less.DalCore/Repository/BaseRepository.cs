@@ -202,5 +202,28 @@ namespace Less.DalCore.Repository
         {
             return EntitySet.AllAsync(condition);
         }
+
+        public async Task Execute(Func<Task<bool>> proc)
+        {
+            var transaction = dbContext.Database.BeginTransaction();
+            bool result = false;
+            try
+            {
+                result = await proc();
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+
+            if (result)
+            {
+                transaction.Commit();
+            }
+            else
+            {
+                transaction.Rollback();
+            }
+        }
     }
 }

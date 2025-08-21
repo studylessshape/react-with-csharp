@@ -39,6 +39,17 @@ namespace Less.Auth.WebApi.Controllers
         }
 
         /// <summary>
+        /// Get all roles
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<Resp<IList<ClaimEntity>>> GetAllRoles()
+        {
+            var list = await claimRepo.ListAsync(q => q.Where(c => c.ClaimType == ClaimTypes.Role).OrderBy(c => c.Id));
+            return Resp.Ok(list);
+        }
+
+        /// <summary>
         /// create role
         /// </summary>
         /// <param name="detail"></param>

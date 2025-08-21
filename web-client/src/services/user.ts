@@ -9,7 +9,10 @@ import type {
 } from "./types";
 
 export function changeUserState(account: string, enable: boolean) {
-  return api<None, NormalError>(`/api/auth/User/ChangeUserState/${account}?enable=${enable}`, "POST");
+  return api<None, NormalError>(
+    `/api/auth/User/ChangeUserState/${account}?enable=${enable}`,
+    "POST"
+  );
 }
 
 export function createUser(input: CreateUserInput) {
@@ -37,6 +40,10 @@ export function getUsers(page: number, pageSize: number) {
 
 export function deleteUserById(id: string) {
   return api<None, NormalError>(`/api/auth/User/DeleteUser?id=${id}`, "DELETE");
+}
+
+export function deleteUsersByIds(ids: string[]) {
+  return api<None, NormalError>(`/api/auth/User/DeleteUsers`, "DELETE", ids);
 }
 
 export function deleteUserByAccount(account: string) {

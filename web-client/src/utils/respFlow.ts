@@ -15,7 +15,7 @@ export type HandleErrAsyncHandler<TError> = (
 ) => Promise<any>;
 
 export interface HandleRespProps<T, TError> {
-  handleOk: HandleOkHandler<T> | HandleOkAsyncHandler<T>;
+  handleOk?: HandleOkHandler<T> | HandleOkAsyncHandler<T>;
   handleErr?: HandleErrHandler<TError> | HandleErrAsyncHandler<TError>;
   defaultMessage?: string;
   showErrorStatusCode?: boolean;
@@ -27,7 +27,7 @@ export async function handleResp<T, TError>(
 ) {
   try {
     const res = await resp;
-    if (res.success && res.data) {
+    if (res.success && res.data && handle.handleOk) {
       await Promise.resolve(handle.handleOk(res.data));
     } else if (handle.handleErr) {
       await Promise.resolve(handle.handleErr(res.code, res.error, res.message));

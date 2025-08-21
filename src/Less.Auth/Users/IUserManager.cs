@@ -1,5 +1,6 @@
 ﻿using Less.Api.Core;
 using Less.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -9,7 +10,10 @@ namespace Less.Auth.Users
 {
     public class UpdateUserProfileInput
     {
-        public string Account { get; set; } = "";
+        [Required]
+        public UUID Id { get; set; }
+        [MinLength(3)]
+        public string? Account { get; set; }
         [MinLength(6)]
         public string? Password { get; set; }
         public string? Name { get; set; }

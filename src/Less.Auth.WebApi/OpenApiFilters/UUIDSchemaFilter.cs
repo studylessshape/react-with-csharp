@@ -10,10 +10,7 @@ namespace Less.Auth.WebApi.OpenApiFilters
         {
             if (context.Type == typeof(UUID))
             {
-                if (context.MemberInfo?.ReflectedType != null)
-                {
-                    schema.Example = new OpenApiString(UUID.New().ToString());
-                }
+                schema.Example = new OpenApiString(UUID.New().ToString());
             }
         }
     }
