@@ -366,3 +366,4 @@ appsettings.*.json
 
 src/**/TestDb/
 src/**/wwwroot/
+mobile-client/src-tauri/gen/android/keystore.properties
