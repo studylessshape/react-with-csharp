@@ -5,5 +5,5 @@ export const Footer = forwardRef<
   HTMLDivElement,
   PropsWithChildren<FooterProps>
 >((props, ref) => {
-  return <div ref={ref}>{props.children}</div>;
+  return <div ref={ref} className="p-inset-5">{props.children}</div>;
 });

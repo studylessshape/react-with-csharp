@@ -32,10 +32,13 @@ export function NavMenu(props: NavMenuProps) {
   return (
     <Navbar>
       <NavbarGroup
-        align={props.align}
+        align={props.align == Alignment.CENTER ? undefined : props.align}
         className={
           props.align == Alignment.CENTER ? "justify-center" : undefined
         }
+        style={{
+          float: props.align == Alignment.CENTER ? "unset" : undefined,
+        }}
       >
         <Tabs
           id="footerNav"
@@ -49,6 +52,7 @@ export function NavMenu(props: NavMenuProps) {
         >
           {props.items?.map((item, index) => (
             <Tab
+              key={item.id ?? index}
               id={item.id ?? index}
               title={item.title}
               icon={item.icon}
