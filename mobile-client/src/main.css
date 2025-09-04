@@ -6,4 +6,12 @@
 
 * {
   --spacing: 0.25rem;
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+.shadow-1 {
+  box-shadow: 0 1px 1px 1px rgba(17, 20, 24, 0.2);
 }

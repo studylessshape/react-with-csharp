@@ -6,9 +6,11 @@ import {
   Tab,
   TabId,
   MaybeElement,
+  Icon,
+  Divider,
+  HTMLDivProps,
 } from "@blueprintjs/core";
-import { TabTitle } from "@blueprintjs/core/lib/esm/components/tabs/tabTitle";
-import { Home, IconName, InfoSign } from "@blueprintjs/icons";
+import { IconName } from "@blueprintjs/icons";
 import { ReactNode } from "react";
 
 export interface NavItemProps {
@@ -17,10 +19,10 @@ export interface NavItemProps {
   icon?: IconName | MaybeElement;
 }
 
-export interface NavMenuProps {
+export interface NavMenuProps extends HTMLDivProps {
   items?: NavItemProps[];
   align?: Alignment;
-  onChange?(
+  onItemChange?(
     newTabId: TabId,
     prevTabId: TabId | undefined,
     event: React.MouseEvent<HTMLElement>
@@ -29,37 +31,32 @@ export interface NavMenuProps {
 }
 
 export function NavMenu(props: NavMenuProps) {
+  const { items, align, onItemChange, activeId, className, ...divProps } =
+    props;
+
   return (
-    <Navbar>
-      <NavbarGroup
-        align={props.align == Alignment.CENTER ? undefined : props.align}
-        className={
-          props.align == Alignment.CENTER ? "justify-center" : undefined
-        }
-        style={{
-          float: props.align == Alignment.CENTER ? "unset" : undefined,
+    <div
+      className={`flex items-center justify-center p-t-2${className ? ` ${className}` : ""}`}
+      {...divProps}
+    >
+      <Tabs
+        id="footerNav"
+        selectedTabId={activeId}
+        onChange={(newTabId, preTabId, event) => {
+          if (onItemChange) {
+            onItemChange(newTabId, preTabId, event);
+          }
         }}
       >
-        <Tabs
-          id="footerNav"
-          size="large"
-          selectedTabId={props.activeId}
-          onChange={(newTabId, preTabId, event) => {
-            if (props.onChange) {
-              props.onChange(newTabId, preTabId, event);
-            }
-          }}
-        >
-          {props.items?.map((item, index) => (
-            <Tab
-              key={item.id ?? index}
-              id={item.id ?? index}
-              title={item.title}
-              icon={item.icon}
-            ></Tab>
-          ))}
-        </Tabs>
-      </NavbarGroup>
-    </Navbar>
+        {items?.map((item, index) => (
+          <Tab key={item.id ?? index} id={item.id ?? index}>
+            <div className="flex flex-col items-center min-w-20 p-x-2 p-t-2">
+              <Icon icon={item.icon}></Icon>
+              <div>{item.title}</div>
+            </div>
+          </Tab>
+        ))}
+      </Tabs>
+    </div>
   );
 }

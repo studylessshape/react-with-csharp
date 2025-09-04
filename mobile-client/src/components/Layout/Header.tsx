@@ -1,3 +1,4 @@
+import { HTMLDivProps } from "@blueprintjs/core";
 import {
   createRef,
   forwardRef,
@@ -6,11 +7,16 @@ import {
   RefObject,
 } from "react";
 
-export interface HeaderProps {}
+export interface HeaderProps extends HTMLDivProps {}
 
 export const Header = forwardRef<
   HTMLDivElement,
   PropsWithChildren<HeaderProps>
 >((props, ref) => {
-  return <div ref={ref}>{props.children}</div>;
+  const divProps = props as HTMLDivProps;
+  return (
+    <div ref={ref} {...divProps}>
+      {props.children}
+    </div>
+  );
 });

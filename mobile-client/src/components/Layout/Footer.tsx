@@ -1,9 +1,16 @@
+import { HTMLDivProps } from "@blueprintjs/core";
 import { forwardRef, LegacyRef, PropsWithChildren, Ref } from "react";
-export interface FooterProps {}
+export interface FooterProps extends HTMLDivProps {}
 
 export const Footer = forwardRef<
   HTMLDivElement,
   PropsWithChildren<FooterProps>
 >((props, ref) => {
-  return <div ref={ref} className="p-inset-5">{props.children}</div>;
+  const divProps = props as HTMLDivProps;
+
+  return (
+    <div ref={ref} {...divProps}>
+      {props.children}
+    </div>
+  );
 });
