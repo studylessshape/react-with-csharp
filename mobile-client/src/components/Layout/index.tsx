@@ -1,12 +1,14 @@
 import {
   PropsWithChildren,
   ReactNode,
+  TouchEvent,
   useEffect,
   useRef,
   useState,
 } from "react";
 import { platform } from "@tauri-apps/plugin-os";
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 
 export interface LayoutProps {
   header?: ReactNode;
@@ -21,6 +23,12 @@ export interface LayoutProps {
    * - `Android`/`IOS`: 24
    */
   bottomPadding?: number;
+  width?: number | string;
+  onTouchEnd?: (
+    movedX: number,
+    movedY: number,
+    event: TouchEvent<HTMLDivElement>
+  ) => void;
 }
 
 export function Layout(props: PropsWithChildren<LayoutProps>) {
@@ -76,11 +84,36 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
   }, [headerRef.current, contentRef.current, footerRef.current]);
 
   return (
-    <div className="h-screen w-screen">
+    <div
+      className={`h-screen${props.width ? "" : " w-screen"}`}
+      onTouchEnd={(event) => {
+        if (props.onTouchEnd) {
+          event.preventDefault();
+          const changed = event.changedTouches;
+          var movedX = 0;
+          var movedY = 0;
+          if (changed.length >= 1) {
+            var pre = changed[0];
+
+            if (pre) {
+              for (let index = 1; index < changed.length; index++) {
+                const element = changed[index];
+                if (element) {
+                  movedX += element.pageX - pre.pageX;
+                  movedY += element.pageY - pre.pageY;
+                  pre = element;
+                }
+              }
+            }
+          }
+          props.onTouchEnd(movedX, movedY, event);
+        }
+      }}
+    >
       {props.header ? (
         <Header
           ref={headerRef}
-          className="w-screen"
+          className={props.width ? undefined : "w-screen"}
           style={{ paddingTop: paddingTop }}
         >
           {props.header}
@@ -90,13 +123,13 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
         {props.children}
       </div>
       {props.footer ? (
-        <Header
+        <Footer
           ref={footerRef}
-          className="w-screen"
+          className={props.width ? undefined : "w-screen"}
           style={{ paddingBottom: paddingBottom }}
         >
           {props.footer}
-        </Header>
+        </Footer>
       ) : undefined}
     </div>
   );

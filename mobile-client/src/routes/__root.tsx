@@ -6,9 +6,14 @@ import { Layout } from "@/components/Layout";
 import {
   Alignment,
   Button,
+  Drawer,
+  DrawerSize,
+  Menu,
+  MenuItem,
   Navbar,
   NavbarGroup,
   NavbarHeading,
+  OverlaysProvider,
   Text,
 } from "@blueprintjs/core";
 import { NavMenu } from "@/components/Layout/NavMenu";
@@ -19,9 +24,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const navigate = useNavigate();
-  const [value, setValue] = useState(undefined);
   const [currentPath, setCurrentPath] = useState<RoutePath>("/");
-
   function to(link: RoutePath) {
     navigate({ to: link, replace: true });
     setCurrentPath(link);
@@ -31,16 +34,26 @@ function RootComponent() {
     <>
       <DefaultLayout
         title="Mobile Client"
+        activeId={currentPath}
         navItems={[
           { id: "/", title: "Home", icon: "home" },
           { id: "/about", title: "About", icon: "info-sign" },
+          { id: "/user", title: "User", icon: "user" },
         ]}
         onNavItemClick={(id) => to(id as RoutePath)}
-        navProps={{ className: "shadow-1" }}
+        navProps={{ className: "justify-center shadow-1" }}
       >
-        <Outlet />
+        <div
+          className="h-full w-full"
+          style={{
+            background:
+              "linear-gradient(to bottom, #007bff 0%, #007bff 50%, white 50%, white 100%)",
+          }}
+        >
+          <Outlet />
+        </div>
       </DefaultLayout>
-      <TanStackRouterDevtools position="bottom-left" />
+      {/* <TanStackRouterDevtools position="bottom-left" /> */}
     </>
   );
 }

@@ -36,7 +36,7 @@ export function NavMenu(props: NavMenuProps) {
 
   return (
     <div
-      className={`flex items-center justify-center p-t-2${className ? ` ${className}` : ""}`}
+      className={`flex items-center justify-center${className ? ` ${className}` : ""}`}
       {...divProps}
     >
       <Tabs
