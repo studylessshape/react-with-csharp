@@ -14,6 +14,7 @@
         "@tauri-apps/api": "^2.8.0",
         "@tauri-apps/plugin-log": "~2",
         "@tauri-apps/plugin-opener": "^2.5.0",
+        "@tauri-apps/plugin-os": "^2.3.1",
         "react": "^18",
         "react-dom": "^18",
         "yoga-layout": "^3.2.1",
@@ -360,6 +361,8 @@
     "@tauri-apps/plugin-log": ["@tauri-apps/plugin-log@2.7.0", "https://registry.npmmirror.com/@tauri-apps/plugin-log/-/plugin-log-2.7.0.tgz", { "dependencies": { "@tauri-apps/api": "^2.8.0" } }, "sha512-81XQ2f93x4vmIB5OY0XlYAxy60cHdYLs0Ki8Qp38tNATRiuBit+Orh3frpY3qfYQnqEvYVyRub7YRJWlmW2RRA=="],
 
     "@tauri-apps/plugin-opener": ["@tauri-apps/plugin-opener@2.5.0", "https://registry.npmmirror.com/@tauri-apps/plugin-opener/-/plugin-opener-2.5.0.tgz", { "dependencies": { "@tauri-apps/api": "^2.8.0" } }, "sha512-B0LShOYae4CZjN8leiNDbnfjSrTwoZakqKaWpfoH6nXiJwt6Rgj6RnVIffG3DoJiKsffRhMkjmBV9VeilSb4TA=="],
+
+    "@tauri-apps/plugin-os": ["@tauri-apps/plugin-os@2.3.1", "", { "dependencies": { "@tauri-apps/api": "^2.8.0" } }, "sha512-ty5V8XDUIFbSnrk3zsFoP3kzN+vAufYzalJSlmrVhQTImIZa1aL1a03bOaP2vuBvfR+WDRC6NgV2xBl8G07d+w=="],
 
     "@tybys/wasm-util": ["@tybys/wasm-util@0.10.0", "https://registry.npmmirror.com/@tybys/wasm-util/-/wasm-util-0.10.0.tgz", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-VyyPYFlOMNylG45GoAe0xDoLwWuowvf92F9kySqzYh8vmYm7D2u4iUJKa1tOUpS70Ku13ASrOkS4ScXFsTaCNQ=="],
 
