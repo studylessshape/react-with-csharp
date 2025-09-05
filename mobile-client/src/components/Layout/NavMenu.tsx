@@ -1,62 +1,41 @@
-import {
-  Navbar,
-  NavbarGroup,
-  Alignment,
-  Tabs,
-  Tab,
-  TabId,
-  MaybeElement,
-  Icon,
-  Divider,
-  HTMLDivProps,
-} from "@blueprintjs/core";
-import { IconName } from "@blueprintjs/icons";
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
+import { Divider, TabBar } from "antd-mobile";
 
 export interface NavItemProps {
-  id?: TabId;
+  id?: string;
   title?: ReactNode;
-  icon?: IconName | MaybeElement;
+  icon?: ReactNode;
 }
 
-export interface NavMenuProps extends HTMLDivProps {
+export interface NavMenuProps extends HTMLAttributes<HTMLDivElement> {
   items?: NavItemProps[];
-  align?: Alignment;
-  onItemChange?(
-    newTabId: TabId,
-    prevTabId: TabId | undefined,
-    event: React.MouseEvent<HTMLElement>
-  ): void;
-  activeId?: TabId;
+  onItemChange?(key: string): void;
+  activeId?: string;
 }
 
 export function NavMenu(props: NavMenuProps) {
-  const { items, align, onItemChange, activeId, className, ...divProps } =
-    props;
+  const { items, onItemChange, activeId, ...divProps } = props;
 
   return (
-    <div
-      className={`flex items-center justify-center${className ? ` ${className}` : ""}`}
-      {...divProps}
-    >
-      <Tabs
-        id="footerNav"
-        selectedTabId={activeId}
-        onChange={(newTabId, preTabId, event) => {
+    <div {...divProps}>
+      <TabBar
+        activeKey={activeId}
+        onChange={(key) => {
           if (onItemChange) {
-            onItemChange(newTabId, preTabId, event);
+            onItemChange(key);
           }
         }}
       >
         {items?.map((item, index) => (
-          <Tab key={item.id ?? index} id={item.id ?? index}>
-            <div className="flex flex-col items-center min-w-20 p-x-2 p-t-2">
-              <Icon icon={item.icon}></Icon>
-              <div>{item.title}</div>
-            </div>
-          </Tab>
+          <>
+            <TabBar.Item
+              key={item.id ?? index}
+              title={item.title}
+              icon={item.icon}
+            ></TabBar.Item>
+          </>
         ))}
-      </Tabs>
+      </TabBar>
     </div>
   );
 }

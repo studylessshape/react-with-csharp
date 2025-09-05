@@ -1,7 +1,6 @@
 import {
   PropsWithChildren,
   ReactNode,
-  TouchEvent,
   useEffect,
   useRef,
   useState,
@@ -24,11 +23,6 @@ export interface LayoutProps {
    */
   bottomPadding?: number;
   width?: number | string;
-  onTouchEnd?: (
-    movedX: number,
-    movedY: number,
-    event: TouchEvent<HTMLDivElement>
-  ) => void;
 }
 
 export function Layout(props: PropsWithChildren<LayoutProps>) {
@@ -40,7 +34,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
   const [footer, setFooter] = useState(footerRef.current);
   const os = platform();
   const paddingTop =
-    props.topPadding ?? (os == "android" || os == "ios" ? 40 : 0);
+    props.topPadding ?? (os == "android" || os == "ios" ? 34 : 0);
   const paddingBottom =
     props.bottomPadding ?? (os == "android" || os == "ios" ? 24 : 0);
 
@@ -81,56 +75,33 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
         footer.removeEventListener("resize", elementSizeChangedHandle);
       }
     };
-  }, [headerRef.current, contentRef.current, footerRef.current]);
+  }, [
+    headerRef.current,
+    contentRef.current,
+    footerRef.current,
+    props.header,
+    props.footer,
+  ]);
 
   return (
-    <div
-      className={`h-screen${props.width ? "" : " w-screen"}`}
-      onTouchEnd={(event) => {
-        if (props.onTouchEnd) {
-          event.preventDefault();
-          const changed = event.changedTouches;
-          var movedX = 0;
-          var movedY = 0;
-          if (changed.length >= 1) {
-            var pre = changed[0];
-
-            if (pre) {
-              for (let index = 1; index < changed.length; index++) {
-                const element = changed[index];
-                if (element) {
-                  movedX += element.pageX - pre.pageX;
-                  movedY += element.pageY - pre.pageY;
-                  pre = element;
-                }
-              }
-            }
-          }
-          props.onTouchEnd(movedX, movedY, event);
-        }
-      }}
-    >
-      {props.header ? (
-        <Header
-          ref={headerRef}
-          className={props.width ? undefined : "w-screen"}
-          style={{ paddingTop: paddingTop }}
-        >
-          {props.header}
-        </Header>
-      ) : undefined}
+    <div className={`h-screen${props.width ? "" : " w-screen"}`}>
+      <Header
+        ref={headerRef}
+        className={props.width ? undefined : "w-screen"}
+        style={{ paddingTop: paddingTop }}
+      >
+        {props.header}
+      </Header>
       <div ref={contentRef} className="overflow-auto">
         {props.children}
       </div>
-      {props.footer ? (
-        <Footer
-          ref={footerRef}
-          className={props.width ? undefined : "w-screen"}
-          style={{ paddingBottom: paddingBottom }}
-        >
-          {props.footer}
-        </Footer>
-      ) : undefined}
+      <Footer
+        ref={footerRef}
+        className={props.width ? undefined : "w-screen"}
+        style={{ paddingBottom: paddingBottom }}
+      >
+        {props.footer}
+      </Footer>
     </div>
   );
 }

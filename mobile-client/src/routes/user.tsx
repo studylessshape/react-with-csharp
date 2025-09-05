@@ -1,9 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/user')({
+export const Route = createFileRoute("/user")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/user"!</div>
+  return (
+    <div className="[view-transition-name:main-content]">Hello "/user"!</div>
+  );
 }

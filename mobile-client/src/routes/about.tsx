@@ -17,7 +17,7 @@ function RouteComponent() {
   const windowInnerHeight = window.innerHeight;
 
   return (
-    <div className="shadow-dark">
+    <div className="shadow-dark m-x-4 transition-transform [view-transition-name:main-content]">
       <p>Safe Area Inset Top: {sat}</p>
       <p>Safe Area Inset Right: {sar}</p>
       <p>Safe Area Inset Bottom: {sab}</p>

@@ -1,58 +1,60 @@
-import { PropsWithChildren, ReactNode, MouseEvent } from "react";
-import { NavItemProps, NavMenu } from "./NavMenu";
 import {
-  Alignment,
-  Button,
-  Divider,
-  HTMLDivProps,
-  Icon,
-  Navbar,
-  NavbarGroup,
-  NavbarHeading,
-  TabId,
-} from "@blueprintjs/core";
+  PropsWithChildren,
+  ReactNode,
+  MouseEvent,
+  HtmlHTMLAttributes,
+  useMemo,
+} from "react";
+import { NavItemProps, NavMenu } from "./NavMenu";
+import { NavBar } from "antd-mobile";
 import { Layout } from ".";
+import { useCanGoBack, useNavigate } from "@tanstack/react-router";
 
 export interface DefaultLayoutProps {
   title?: ReactNode;
   navItems?: NavItemProps[];
-  activeId?: TabId;
-  navProps?: HTMLDivProps;
-  onNavItemClick?: (id: TabId, event: MouseEvent<HTMLElement>) => any;
+  activeId?: string;
+  back?: ReactNode;
+  onBack?: () => void;
+  hideFooter?: boolean;
+  navProps?: HtmlHTMLAttributes<HTMLDivElement>;
+  onNavItemClick?: (id: string) => any;
   onMenuButtonClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 export function DefaultLayout(props: PropsWithChildren<DefaultLayoutProps>) {
+  const footer = useMemo(
+    () =>
+      props.navItems ? (
+        <NavMenu
+          activeId={props.activeId}
+          onItemChange={(id) => {
+            if (props.onNavItemClick) {
+              props.onNavItemClick(id);
+            }
+          }}
+          items={props.navItems}
+          {...props.navProps}
+        ></NavMenu>
+      ) : undefined,
+    [props.navItems]
+  );
+
   return (
     <Layout
       header={
         props.title ? (
-          <Navbar>
-            <NavbarGroup>
-              {props.onMenuButtonClick ? (
-                <>
-                  <Button
-                    icon="menu"
-                    size="large"
-                    variant="minimal"
-                    onClick={props.onMenuButtonClick}
-                  ></Button>
-                  <Divider></Divider>
-                </>
-              ) : undefined}
-
-              <NavbarHeading>{props.title}</NavbarHeading>
-            </NavbarGroup>
-          </Navbar>
+          <NavBar back={props.back} onBack={props.onBack}>
+            {props.title}
+          </NavBar>
         ) : undefined
       }
       footer={
-        props.navItems ? (
+        props.hideFooter == true ? undefined : props.navItems ? (
           <NavMenu
             activeId={props.activeId}
-            align={Alignment.CENTER}
-            onItemChange={(id, preId, event) => {
+            onItemChange={(id) => {
               if (props.onNavItemClick) {
-                props.onNavItemClick(id, event);
+                props.onNavItemClick(id);
               }
             }}
             items={props.navItems}

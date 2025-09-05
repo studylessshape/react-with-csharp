@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import UnoCSS from "unocss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import path from "node:path";
+import usePluginImport from "vite-plugin-importer";
 
 // process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
@@ -12,6 +13,16 @@ export default defineConfig(async () => ({
   plugins: [
     UnoCSS(),
     tanstackRouter({ target: "react", autoCodeSplitting: true }),
+    usePluginImport({
+      libraryName: "@arco-design/mobile-react",
+      libraryDirectory: "esm",
+      style: (path) => `${path}/style`,
+    }),
+    usePluginImport({
+      libraryName: "@arco-design/mobile-react/esm/icon",
+      libraryDirectory: "",
+      camel2DashComponentName: false,
+    }),
     react(),
   ],
 
