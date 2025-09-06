@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Grid, Swiper } from "antd-mobile";
-import { Card } from "@fluentui/react-components";
 import { AppstoreOutline } from "antd-mobile-icons";
 
 export const Route = createFileRoute("/")({
@@ -48,6 +47,47 @@ function RouteComponent() {
             <div className="font-size-4 m-t-1">功能测试4</div>
           </div>
         </Grid>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">功能测试4</div>
       </div>
     </>
   );

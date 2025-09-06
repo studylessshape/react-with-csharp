@@ -1,0 +1,32 @@
+{
+  "name": "@less/mdui-react",
+  "author": {
+    "name": "studylessshape"
+  },
+  "description": "mdui-react",
+  "version": "2.0.0",
+  "module": "./dist/index.mjs",
+  "scripts": {
+    "build": "unbuild",
+    "prepack": "unbuild"
+  },
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "mdui.css"
+  ],
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "typescript": "^5",
+    "unbuild": "^3.6.1"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "dependencies": {
+    "@lit/react": "^1.0.8",
+    "mdui": "^2.1.4"
+  }
+}

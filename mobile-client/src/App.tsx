@@ -1,7 +1,6 @@
 import "./App.css";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 
 // Create a new router instance
 const router = createRouter({
@@ -18,11 +17,7 @@ declare module "@tanstack/react-router" {
 }
 
 function App() {
-  return (
-    <FluentProvider theme={webLightTheme}>
-      <RouterProvider router={router} />
-    </FluentProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

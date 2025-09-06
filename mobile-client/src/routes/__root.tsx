@@ -1,21 +1,24 @@
 import {
-  Outlet,
   createRootRoute,
-  redirect,
+  Outlet,
   useCanGoBack,
   useLocation,
   useNavigate,
   useRouter,
 } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { RoutePath } from "@/types";
-import { useState } from "react";
-import { DefaultLayout } from "@/components/Layout/DefaultLayout";
 import {
-  AppOutline,
-  ExclamationShieldOutline,
-  UserOutline,
-} from "antd-mobile-icons";
-import { WaterMark } from "antd-mobile";
+  NavigationBar,
+  NavigationBarItem,
+  Layout,
+  LayoutItem,
+  LayoutMain,
+  TopAppBar,
+  TopAppBarTitle,
+  getValue,
+  NavigationBarType,
+} from "@less/mdui-react";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -33,7 +36,7 @@ function RootComponent() {
 
   return (
     <>
-      <DefaultLayout
+      {/* <DefaultLayout
         title={`Mobile Client - ${location.pathname}`}
         activeId={location.pathname}
         back={canGoBack ? undefined : null}
@@ -49,8 +52,36 @@ function RootComponent() {
         <div className="h-full w-full bg-[var(--adm-color-border)] flex">
           <Outlet />
         </div>
-      </DefaultLayout>
-      {/* <TanStackRouterDevtools position="bottom-left" /> */}
+      </DefaultLayout> */}
+      {/* <Layout></Layout> */}
+      <Layout>
+        <TopAppBar variant="center-aligned">
+          <TopAppBarTitle>MobileCilent</TopAppBarTitle>
+        </TopAppBar>
+        <LayoutMain>
+          <Outlet />
+        </LayoutMain>
+        <NavigationBar
+          onChange={(evt) => {
+            const value = (evt.target as NavigationBarType).value;
+
+            if (value) {
+              navigate({
+                to: (evt.target as NavigationBarType).value,
+                replace: true,
+              });
+            }
+          }}
+        >
+          <NavigationBarItem value="/" icon="home">
+            Home
+          </NavigationBarItem>
+          <NavigationBarItem value="/about" icon="info">
+            About
+          </NavigationBarItem>
+        </NavigationBar>
+      </Layout>
+      <TanStackRouterDevtools position="bottom-left" />
     </>
   );
 }

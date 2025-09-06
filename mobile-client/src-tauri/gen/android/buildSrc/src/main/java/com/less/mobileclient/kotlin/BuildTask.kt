@@ -17,7 +17,7 @@ open class BuildTask : DefaultTask() {
     @TaskAction
     fun assemble() {
         /* can change to npm, pnpm, yarn and so on... */
-        val executable = """bun""";
+        val executable = """pnpm""";
         try {
             runTauriCli(executable)
         } catch (e: Exception) {
