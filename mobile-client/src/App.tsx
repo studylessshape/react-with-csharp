@@ -6,7 +6,6 @@ import { routeTree } from "./routeTree.gen";
 const router = createRouter({
   routeTree,
   context: undefined!,
-  defaultViewTransition: { types: ["slide-right"] },
 });
 
 // Register the router instance for type safety

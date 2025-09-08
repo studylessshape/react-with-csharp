@@ -1,107 +1,100 @@
+import { RoutePath } from "@/types";
 import {
-  PropsWithChildren,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+  Layout,
+  TopAppBar,
+  TopAppBarTitle,
+  LayoutMain,
+  NavigationBar,
+  NavigationBarItem,
+  ButtonIcon,
+} from "@less/mdui-react";
+import {
+  Outlet,
+  useCanGoBack,
+  useLocation,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import { platform } from "@tauri-apps/plugin-os";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { ReactNode, useEffect, useState } from "react";
+
+export interface NavItem {
+  title?: ReactNode;
+  value: RoutePath;
+  icon: string;
+}
 
 export interface LayoutProps {
-  header?: ReactNode;
-  footer?: ReactNode;
-  /**
-   * - `Windows`: 0
-   * - `Android`/`IOS`: 40
-   */
-  topPadding?: number;
-  /**
-   * - `Windows`: 0
-   * - `Android`/`IOS`: 24
-   */
-  bottomPadding?: number;
-  width?: number | string;
+  title?: ReactNode;
+  hideBottom?: boolean;
+  autoHideBottom?: boolean;
+  navItems?: NavItem[];
 }
 
-export function Layout(props: PropsWithChildren<LayoutProps>) {
-  const headerRef = useRef<HTMLDivElement | null>(null);
-  const contentRef = useRef<HTMLDivElement | null>(null);
-  const footerRef = useRef<HTMLDivElement | null>(null);
-  const [header, setHeader] = useState(headerRef.current);
-  const [content, setContent] = useState(contentRef.current);
-  const [footer, setFooter] = useState(footerRef.current);
+function CustomLayout(props: LayoutProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const canGoBack = useCanGoBack();
+  const router = useRouter();
+  const [navigationBarHidden, setNavigationBarHidden] = useState(false);
+
   const os = platform();
-  const paddingTop =
-    props.topPadding ?? (os == "android" || os == "ios" ? 34 : 0);
-  const paddingBottom =
-    props.bottomPadding ?? (os == "android" || os == "ios" ? 24 : 0);
-
-  function setContentSize() {
-    if (content) {
-      content.style.height = `${window.innerHeight - (header?.offsetHeight ?? 0) - (footer?.offsetHeight ?? 0)}px`;
-      content.style.paddingTop = `${header ? 0 : paddingTop}px`;
-      content.style.paddingBottom = `${footer ? 0 : paddingBottom}px`;
-    }
-  }
-
-  function windowSizeChangedHandle(this: Window, evt: UIEvent) {
-    setContentSize();
-  }
-
-  function elementSizeChangedHandle(this: HTMLElement, evt: UIEvent) {
-    setContentSize();
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", windowSizeChangedHandle);
-    if (header) {
-      header.addEventListener("resize", elementSizeChangedHandle);
-    }
-    if (footer) {
-      footer.addEventListener("resize", elementSizeChangedHandle);
-    }
-    setContentSize();
-    setHeader(headerRef.current);
-    setContent(contentRef.current);
-    setFooter(footerRef.current);
-    return () => {
-      window.removeEventListener("resize", windowSizeChangedHandle);
-      if (header) {
-        header.removeEventListener("resize", elementSizeChangedHandle);
-      }
-      if (footer) {
-        footer.removeEventListener("resize", elementSizeChangedHandle);
-      }
-    };
-  }, [
-    headerRef.current,
-    contentRef.current,
-    footerRef.current,
-    props.header,
-    props.footer,
-  ]);
+  const isMobile = os == "android" || os == "ios";
+  const paddingTop = isMobile ? 36 : undefined;
+  const paddingBottom = isMobile ? 20 : undefined;
+  const showNavigationBar =
+    props.navItems &&
+    props.navItems.some((item) => item.value == location.pathname);
 
   return (
-    <div className={`h-screen${props.width ? "" : " w-screen"}`}>
-      <Header
-        ref={headerRef}
-        className={props.width ? undefined : "w-screen"}
-        style={{ paddingTop: paddingTop }}
+    <Layout
+      className="w-screen h-screen relative overflow-hidden"
+      style={navigationBarHidden ? { paddingBottom: paddingBottom } : undefined}
+    >
+      <TopAppBar
+        style={
+          paddingTop == undefined
+            ? undefined
+            : { height: 52 + paddingTop, paddingTop: paddingTop }
+        }
       >
-        {props.header}
-      </Header>
-      <div ref={contentRef} className="overflow-auto">
-        {props.children}
-      </div>
-      <Footer
-        ref={footerRef}
-        className={props.width ? undefined : "w-screen"}
-        style={{ paddingBottom: paddingBottom }}
+        <ButtonIcon
+          icon={canGoBack ? "arrow_back_ios_new" : "menu"}
+          onClick={() => {
+            router.history.back();
+            setNavigationBarHidden(false);
+          }}
+        ></ButtonIcon>
+        <TopAppBarTitle>MobileCilent</TopAppBarTitle>
+      </TopAppBar>
+      <LayoutMain>
+        <Outlet />
+      </LayoutMain>
+      <NavigationBar
+        onChange={(evt) => {
+          navigate({
+            to: evt.target.value,
+            replace: true,
+          });
+        }}
+        value={location.pathname}
+        style={
+          paddingBottom == undefined
+            ? undefined
+            : { height: 80 + paddingBottom, paddingBottom: paddingBottom }
+        }
+        hide={!showNavigationBar}
+        hidden={navigationBarHidden}
+        onHidden={() => setNavigationBarHidden(true)}
       >
-        {props.footer}
-      </Footer>
-    </div>
+        {props.navItems?.map((item) => (
+          <NavigationBarItem icon={item.icon} value={item.value}>
+            {item.title}
+          </NavigationBarItem>
+        ))}
+      </NavigationBar>
+    </Layout>
   );
 }
+
+export { CustomLayout as Layout };

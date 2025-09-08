@@ -11,7 +11,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="w-full [view-transition-name:main-content]">
+      <div className="w-full">
         <Swiper autoplay loop>
           <Swiper.Item>
             <div className="w-full h-200px bg-blue-5 flex justify-center items-center font-size-10 select-none">
@@ -87,7 +87,7 @@ function RouteComponent() {
         <div className="font-size-4 m-t-1">功能测试4</div>
         <div className="font-size-4 m-t-1">功能测试4</div>
         <div className="font-size-4 m-t-1">功能测试4</div>
-        <div className="font-size-4 m-t-1">功能测试4</div>
+        <div className="font-size-4 m-t-1">end</div>
       </div>
     </>
   );
