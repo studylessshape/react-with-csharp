@@ -1,0 +1,3 @@
+[submodule "mdui-react"]
+	path = mdui-react
+	url = https://github.com/studylessshape/mdui-react
