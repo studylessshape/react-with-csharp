@@ -7,7 +7,11 @@ import {
   NavigationBar,
   NavigationBarItem,
   ButtonIcon,
-} from "@less/mdui-react";
+  NavigationDrawer,
+  ConfigProvider,
+  Theme,
+  LayoutType,
+} from "@studylessshape/mdui-react";
 import {
   Outlet,
   useCanGoBack,
@@ -16,7 +20,7 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { platform } from "@tauri-apps/plugin-os";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 export interface NavItem {
   title?: ReactNode;
@@ -37,6 +41,7 @@ function CustomLayout(props: LayoutProps) {
   const canGoBack = useCanGoBack();
   const router = useRouter();
   const [navigationBarHidden, setNavigationBarHidden] = useState(false);
+  const [theme, setTheme] = useState<Theme>("light");
 
   const os = platform();
   const isMobile = os == "android" || os == "ios";
@@ -47,53 +52,75 @@ function CustomLayout(props: LayoutProps) {
     props.navItems.some((item) => item.value == location.pathname);
 
   return (
-    <Layout
-      className="w-screen h-screen relative overflow-hidden"
-      style={navigationBarHidden ? { paddingBottom: paddingBottom } : undefined}
-    >
-      <TopAppBar
+    <ConfigProvider theme={theme} color="#f9abff">
+      <Layout
+        className="w-screen h-screen relative overflow-hidden"
         style={
-          paddingTop == undefined
-            ? undefined
-            : { height: 52 + paddingTop, paddingTop: paddingTop }
+          navigationBarHidden ? { paddingBottom: paddingBottom } : undefined
         }
       >
-        <ButtonIcon
-          icon={canGoBack ? "arrow_back_ios_new" : "menu"}
-          onClick={() => {
-            router.history.back();
-            setNavigationBarHidden(false);
+        <TopAppBar
+          className="select-none"
+          style={
+            paddingTop == undefined
+              ? undefined
+              : { height: 52 + paddingTop, paddingTop: paddingTop }
+          }
+        >
+          <ButtonIcon
+            icon={canGoBack ? "arrow_back_ios_new" : "menu"}
+            onClick={() => {
+              router.history.back();
+              setNavigationBarHidden(false);
+            }}
+          ></ButtonIcon>
+          <TopAppBarTitle>MobileCilent</TopAppBarTitle>
+          <ButtonIcon
+            icon={
+              theme == "auto"
+                ? "brightness_medium"
+                : theme == "light"
+                ? "light_mode"
+                : "dark_mode"
+            }
+            onClick={() => {
+              if (theme == "light") {
+                setTheme("dark");
+              } else {
+                setTheme("light");
+              }
+            }}
+          ></ButtonIcon>
+        </TopAppBar>
+        <LayoutMain>
+          <Outlet />
+        </LayoutMain>
+        <NavigationBar
+          onChange={(evt) => {
+            navigate({
+              to: evt.target.value,
+              replace: true,
+            });
           }}
-        ></ButtonIcon>
-        <TopAppBarTitle>MobileCilent</TopAppBarTitle>
-      </TopAppBar>
-      <LayoutMain>
-        <Outlet />
-      </LayoutMain>
-      <NavigationBar
-        onChange={(evt) => {
-          navigate({
-            to: evt.target.value,
-            replace: true,
-          });
-        }}
-        value={location.pathname}
-        style={
-          paddingBottom == undefined
-            ? undefined
-            : { height: 80 + paddingBottom, paddingBottom: paddingBottom }
-        }
-        hide={!showNavigationBar}
-        hidden={navigationBarHidden}
-        onHidden={() => setNavigationBarHidden(true)}
-      >
-        {props.navItems?.map((item) => (
-          <NavigationBarItem icon={item.icon} value={item.value}>
-            {item.title}
-          </NavigationBarItem>
-        ))}
-      </NavigationBar>
-    </Layout>
+          value={location.pathname}
+          style={
+            paddingBottom == undefined
+              ? undefined
+              : { height: 80 + paddingBottom, paddingBottom: paddingBottom }
+          }
+          hide={!showNavigationBar}
+          hidden={navigationBarHidden}
+          onHidden={() => setNavigationBarHidden(true)}
+        >
+          {props.navItems?.map((item, index) => (
+            <NavigationBarItem key={index} icon={item.icon} value={item.value}>
+              {item.title}
+            </NavigationBarItem>
+          ))}
+        </NavigationBar>
+      </Layout>
+      <NavigationDrawer></NavigationDrawer>
+    </ConfigProvider>
   );
 }
 

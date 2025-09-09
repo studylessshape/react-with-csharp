@@ -1,14 +1,8 @@
 /* using Node.js-style package resolution in a CSS file: */
 @import "normalize.css";
-@import "@less/mdui-react/mdui.css";
+@import "@studylessshape/mdui-react/mdui.css";
 @import "material-icons/iconfont/material-icons.css";
 
 * {
   --spacing: 0.25rem;
-  --sat: env(safe-area-inset-top, 0px);
-  --sar: env(safe-area-inset-right, 0px);
-  --sab: env(safe-area-inset-bottom, 0px);
-  --sal: env(safe-area-inset-left, 0px);
-
-  /* user-select: none; */
 }

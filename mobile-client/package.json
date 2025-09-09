@@ -10,16 +10,14 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@less/mdui-react": "link:..\\mdui-react",
     "@lit/react": "^1.0.8",
+    "@studylessshape/mdui-react": "link:..\\mdui-react",
     "@tanstack/react-router": "^1.131.32",
     "@tanstack/react-router-devtools": "^1.131.32",
     "@tauri-apps/api": "^2.8.0",
     "@tauri-apps/plugin-log": "~2",
     "@tauri-apps/plugin-opener": "^2.5.0",
     "@tauri-apps/plugin-os": "^2.3.1",
-    "antd-mobile": "^5.41.0-alpha.3",
-    "antd-mobile-icons": "^0.3.0",
     "material-icons": "^1.13.14",
     "normalize.css": "^8.0.1",
     "react": "^18",
