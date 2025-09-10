@@ -1,4 +1,3 @@
-import { RoutePath } from "@/types";
 import {
   Layout,
   TopAppBar,
@@ -10,22 +9,20 @@ import {
   NavigationDrawer,
   ConfigProvider,
   Theme,
-  LayoutType,
+  List,
+  ListItem,
+  Divider,
+  Slot,
 } from "@studylessshape/mdui-react";
-import {
-  Outlet,
-  useCanGoBack,
-  useLocation,
-  useNavigate,
-  useRouter,
-} from "@tanstack/react-router";
+import { Outlet, useCanGoBack, useRouter } from "@tanstack/react-router";
 import { platform } from "@tauri-apps/plugin-os";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 
 export interface NavItem {
   title?: ReactNode;
-  value: RoutePath;
+  node?: ReactNode;
   icon: string;
+  key: string;
 }
 
 export interface LayoutProps {
@@ -36,23 +33,24 @@ export interface LayoutProps {
 }
 
 function CustomLayout(props: LayoutProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
   const canGoBack = useCanGoBack();
   const router = useRouter();
   const [navigationBarHidden, setNavigationBarHidden] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [navKey, setNavKey] = useState(
+    props.navItems && props.navItems.length > 0
+      ? props.navItems[0]?.key
+      : undefined
+  );
 
   const os = platform();
   const isMobile = os == "android" || os == "ios";
   const paddingTop = isMobile ? 36 : undefined;
   const paddingBottom = isMobile ? 20 : undefined;
-  const showNavigationBar =
-    props.navItems &&
-    props.navItems.some((item) => item.value == location.pathname);
 
   return (
-    <ConfigProvider theme={theme} color="#f9abff">
+    <ConfigProvider theme={theme}>
       <Layout
         className="w-screen h-screen relative overflow-hidden"
         style={
@@ -70,8 +68,12 @@ function CustomLayout(props: LayoutProps) {
           <ButtonIcon
             icon={canGoBack ? "arrow_back_ios_new" : "menu"}
             onClick={() => {
-              router.history.back();
-              setNavigationBarHidden(false);
+              if (canGoBack) {
+                router.history.back();
+                setNavigationBarHidden(false);
+              } else {
+                setIsDrawerOpen(true);
+              }
             }}
           ></ButtonIcon>
           <TopAppBarTitle>MobileCilent</TopAppBarTitle>
@@ -92,34 +94,49 @@ function CustomLayout(props: LayoutProps) {
             }}
           ></ButtonIcon>
         </TopAppBar>
-        <LayoutMain>
-          <Outlet />
+        <LayoutMain id="main-scrollable-area">
+          <Slot>{canGoBack ? <Outlet /> : undefined}</Slot>
+          {props.navItems?.map((v) => (
+            <div
+              key={v.key}
+              style={{
+                display: navKey == v.key && !canGoBack ? "contents" : "none",
+              }}
+            >
+              {v.node}
+            </div>
+          ))}
         </LayoutMain>
         <NavigationBar
-          onChange={(evt) => {
-            navigate({
-              to: evt.target.value,
-              replace: true,
-            });
-          }}
-          value={location.pathname}
-          style={
-            paddingBottom == undefined
+          value={navKey}
+          onChange={(evt) => setNavKey(evt.target.value)}
+          style={{
+            ...(paddingBottom == undefined
               ? undefined
-              : { height: 80 + paddingBottom, paddingBottom: paddingBottom }
-          }
-          hide={!showNavigationBar}
-          hidden={navigationBarHidden}
+              : { height: 80 + paddingBottom, paddingBottom: paddingBottom }),
+            display: navigationBarHidden ? "none" : undefined,
+          }}
+          hide={canGoBack}
           onHidden={() => setNavigationBarHidden(true)}
         >
-          {props.navItems?.map((item, index) => (
-            <NavigationBarItem key={index} icon={item.icon} value={item.value}>
+          {props.navItems?.map((item) => (
+            <NavigationBarItem key={item.key} icon={item.icon} value={item.key}>
               {item.title}
             </NavigationBarItem>
           ))}
         </NavigationBar>
+        <NavigationDrawer
+          open={isDrawerOpen}
+          onOverlayClick={() => setIsDrawerOpen(false)}
+        >
+          <h3 className="m-l-2 select-none">Header</h3>
+          <Divider></Divider>
+          <List>
+            <ListItem>Item 1</ListItem>
+            <ListItem>Item 2</ListItem>
+          </List>
+        </NavigationDrawer>
       </Layout>
-      <NavigationDrawer></NavigationDrawer>
     </ConfigProvider>
   );
 }

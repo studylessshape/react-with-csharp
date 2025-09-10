@@ -32,12 +32,12 @@ importers:
       '@tauri-apps/plugin-os':
         specifier: ^2.3.1
         version: 2.3.1
+      '@unocss/reset':
+        specifier: ^66.5.1
+        version: 66.5.1
       material-icons:
         specifier: ^1.13.14
         version: 1.13.14
-      normalize.css:
-        specifier: ^8.0.1
-        version: 8.0.1
       react:
         specifier: ^18
         version: 18.3.1
@@ -815,6 +815,9 @@ packages:
   '@unocss/reset@66.5.0':
     resolution: {integrity: sha512-Sf27NbbNUg3e4BShQB7EsMCS1GtA6IORBm08SitSpUZZYOZAj+LAypYsOJ4rttAFs/Hp1h0AxtNShesXWK66oA==}
 
+  '@unocss/reset@66.5.1':
+    resolution: {integrity: sha512-NXDjDUn3cjATkxr7bbPdVnKkUHzEq6wSC1IRpnO8ISAXCw6JGPjuk3WJVYxHhnAlszhDxdqxVBjWRZ+zzVmrZw==}
+
   '@unocss/rule-utils@66.5.0':
     resolution: {integrity: sha512-+yqGZP8fR/G/gOkjXSXjmgTXFr4zGCQR+rA3Ana4xVoLIttcmPk4qO1IWcUVRQTDDqFmUjW/XwWmChta+rdQsA==}
     engines: {node: '>=14'}
@@ -1132,9 +1135,6 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
-
-  normalize.css@8.0.1:
-    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
 
   ofetch@1.4.1:
     resolution: {integrity: sha512-QZj2DfGplQAr2oj9KzceK9Hwz6Whxazmn85yYeVuS3u9XTMOGMRx0kO95MQ+vLsj/S/NwBDMMLU5hpxvI6Tklw==}
@@ -2136,6 +2136,8 @@ snapshots:
 
   '@unocss/reset@66.5.0': {}
 
+  '@unocss/reset@66.5.1': {}
+
   '@unocss/rule-utils@66.5.0':
     dependencies:
       '@unocss/core': 66.5.0
@@ -2463,8 +2465,6 @@ snapshots:
   node-releases@2.0.20: {}
 
   normalize-path@3.0.0: {}
-
-  normalize.css@8.0.1: {}
 
   ofetch@1.4.1:
     dependencies:

@@ -1,14 +1,6 @@
-import {
-  getCssVariableValue,
-  getCssVariableValueAsNumber,
-} from "@/utils/getCssVariableValue";
-import { createFileRoute } from "@tanstack/react-router";
+import { getCssVariableValue } from "@/utils/getCssVariableValue";
 
-export const Route = createFileRoute("/about")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+export function About() {
   const sat = getCssVariableValue("--sat");
   const sar = getCssVariableValue("--sar");
   const sab = getCssVariableValue("--sab");

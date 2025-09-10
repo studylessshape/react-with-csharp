@@ -1,13 +1,9 @@
-import {
-  createRootRoute,
-  useCanGoBack,
-  useLocation,
-  useNavigate,
-  useRouter,
-} from "@tanstack/react-router";
+import { createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { RoutePath } from "@/types";
 import { Layout } from "@/components/Layout";
+import { About } from "@/pages/About";
+import { Home } from "@/pages/Home";
+import { User } from "@/pages/User";
 export const Route = createRootRoute({
   component: RootComponent,
 });
@@ -17,9 +13,9 @@ function RootComponent() {
     <>
       <Layout
         navItems={[
-          { icon: "home", value: "/", title: "Home" },
-          { icon: "info", value: "/about", title: "About" },
-          { icon: "account_circle", value: "/user", title: "User" },
+          { key: "home", icon: "home", title: "Home", node: <Home></Home> },
+          { key: "about", icon: "info", title: "About", node: <About></About> },
+          { key: "user", icon: "user", title: "User", node: <User></User> },
         ]}
       ></Layout>
       <TanStackRouterDevtools position="bottom-right" />

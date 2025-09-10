@@ -6,6 +6,9 @@ import { routeTree } from "./routeTree.gen";
 const router = createRouter({
   routeTree,
   context: undefined!,
+  scrollToTopSelectors: ["#main-scrollable-area"],
+  scrollRestoration: true,
+  scrollRestorationBehavior: "smooth",
 });
 
 // Register the router instance for type safety
